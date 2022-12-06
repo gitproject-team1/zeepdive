@@ -1,4 +1,4 @@
-let swiper = new Swiper(".mySwiper1", {
+export const swiper = new Swiper(".mySwiper1", {
   autoplay: {
     delay: 2500,
     disableOnInteraction: false,
@@ -13,4 +13,3 @@ let swiper = new Swiper(".mySwiper1", {
     prevEl: ".swiper-button-prev",
   },
 });
-export {swiper}
