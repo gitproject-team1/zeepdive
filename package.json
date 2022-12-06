@@ -1,0 +1,24 @@
+{
+  "name": "hyochofriend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitproject-team1/hyochoFriend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gitproject-team1/hyochoFriend/issues"
+  },
+  "homepage": "https://github.com/gitproject-team1/hyochoFriend#readme",
+  "devDependencies": {
+    "parcel": "^2.8.0"
+  }
+}
