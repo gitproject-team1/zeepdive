@@ -6,14 +6,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- reset css -->
+    <link rel="stylesheet" href="./reset.css">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Swiper CDN -->
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css"
+      href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
     />
     <!-- style -->
     <link rel="stylesheet" href="./style.scss" />
     <!-- main.js -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="module" defer src="./js/main.js"></script>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <h1><img src="https://cdn.ggumim.co.kr/storage/202204051459171AgPRwqnvh.png" alt="logo"></h1>
+          <ul class="nav-1depth">
+            <li>
+              <a href="javascript:void(0)"><i class="fa-solid fa-bars"></i>카테고리</a>
+              <div class="hover-box"></div>
+              <ul class="nav-2depth">
+                <li><a href="javascript:void(0)">cate1</a></li>
+                <li><a href="javascript:void(0)">cate2</a></li>
+                <li><a href="javascript:void(0)">cate3</a></li>
+                <li><a href="javascript:void(0)">cate4</a></li>
+              </ul>
+            </li>
+            <li>
+              <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" name="" id="search-main" placeholder="인테리어 상품 검색" />
+              </div><!-- /.search-box -->
+            </li>
+            <li><a href="javascript:void(0)"><img src="	https://cdn.ggumim.co.kr/storage/20220405154434B4uwWl2qr6.png" alt="cart-img"></a></li>
+            <li><button type="button" class="login">로그인/가입</button></li>
+            <li><a href="javascript:void(0)">고객센터</a></li>
+          </ul>
+        </nav>
+      </div><!-- /.container -->
+    </header>
+    <main>
+      <div class="swiper mySwiper1">
+        <ul class="swiper-wrapper">
+          <li class="swiper-slide"><img src="img/banner1.png" alt=""></li>
+          <li class="swiper-slide"><img src="img/banner2.png" alt=""></li>
+          <li class="swiper-slide"><img src="img/banner3.png" alt=""></li>
+          <li class="swiper-slide"><img src="img/banner4.png" alt=""></li>
+          <li class="swiper-slide"><img src="img/banner5.png" alt=""></li>
+          <li class="swiper-slide"><img src="img/banner6.png" alt=""></li>
+        </ul>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </main>
+    <footer>
+
+    </footer>
+    <div class="back-ground"></div>
+  </body>
 </html>
