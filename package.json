@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/gitproject-team1/hyochoFriend#readme",
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.0",
     "parcel": "^2.8.0"
-  }
+  },
+  "main": "index.js"
 }
