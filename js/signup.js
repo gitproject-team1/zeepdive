@@ -7,8 +7,10 @@ import {
   loginId,
   loginPw,
   loginBtnEl,
-  loginModal,
   test,
+  idboxEl,
+  pwboxEl,
+  loginErrorBox,
 } from "./main.js";
 
 const state = {
@@ -55,8 +57,6 @@ export async function createLoginEvent(event) {
   state.email = loginId.value;
   state.password = loginPw.value;
   await login(state.email, state.password);
-  location.reload();
-  console.log("done");
 }
 
 // 로그인
@@ -76,9 +76,18 @@ async function login(email, password) {
       }),
     }
   );
-  const json = await res.json();
-  console.log("Response:", json);
-  localStorage.setItem("token", json.accessToken);
+  if (res.ok) {
+    const json = await res.json();
+    console.log("Response:", json);
+    if (json.accessToken) {
+      localStorage.setItem("token", json.accessToken);
+      location.reload();
+    }
+  } else {
+    idboxEl.style.border = "2px solid red";
+    pwboxEl.style.border = "2px solid red";
+    loginErrorBox.innerHTML = "회원 정보가 올바르지 않습니다.";
+  }
 }
 
 // 인증 확인
@@ -100,8 +109,8 @@ export async function authLogin() {
   console.log("Response:", json);
   if (token) {
     loginBtnEl.textContent = "로그아웃";
-    loginBtnEl.addEventListener("click", () => {
-      signout();
+    loginBtnEl.addEventListener("click", async () => {
+      await signout();
     });
   } else {
     loginBtnEl.textContent = "로그인/가입";
@@ -129,5 +138,6 @@ async function signout() {
   const json = await res.json();
   console.log("Response:", json);
   window.localStorage.removeItem("token");
+  location.reload();
   loginBtnEl.textContent = "로그인/가입";
 }

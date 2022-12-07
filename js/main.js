@@ -2,10 +2,10 @@ import { swiper } from "./swiper.js";
 import { createSubmitEvent, createLoginEvent, authLogin } from "./signup.js";
 
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
-export const backGround = document.querySelector(".back-ground");
+const backGround = document.querySelector(".back-ground");
 export const loginBtnEl = document.querySelector(".login");
-export const loginModal = document.querySelector(".login-modal");
-export const signupModal = document.querySelector(".signup-modal");
+const loginModal = document.querySelector(".login-modal");
+const signupModal = document.querySelector(".signup-modal");
 
 // signup elements
 export const emailInputEl = document.getElementById("signup-email");
@@ -18,6 +18,9 @@ export const submitEl = document.getElementById("frm");
 export const loginId = document.querySelector(".login-id");
 export const loginPw = document.querySelector(".login-pw");
 export const loginBtn = document.querySelector(".login-btn");
+export const idboxEl = document.querySelector(".id-box");
+export const pwboxEl = document.querySelector(".pw-box");
+export const loginErrorBox = document.querySelector(".login-error-box");
 
 // console.log(firstNav.innerHTML)
 firstNav.addEventListener("mouseover", () => {
