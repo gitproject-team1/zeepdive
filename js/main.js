@@ -1,11 +1,11 @@
 import { swiper } from "./swiper.js";
-import { createSubmitEvent, createLoginEvent } from "./signup.js";
+import { createSubmitEvent, createLoginEvent, authLogin } from "./signup.js";
 
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
-const backGround = document.querySelector(".back-ground");
-const loginBtnEl = document.querySelector(".login");
-const loginModal = document.querySelector(".login-modal");
-const signupModal = document.querySelector(".signup-modal");
+export const backGround = document.querySelector(".back-ground");
+export const loginBtnEl = document.querySelector(".login");
+export const loginModal = document.querySelector(".login-modal");
+export const signupModal = document.querySelector(".signup-modal");
 
 // signup elements
 export const emailInputEl = document.getElementById("signup-email");
@@ -26,21 +26,24 @@ firstNav.addEventListener("mouseover", () => {
 firstNav.addEventListener("mouseout", () => {
   backGround.style.visibility = "hidden";
 });
+
 loginBtnEl.addEventListener("click", () => {
-  backGround.style.visibility = "visible";
-  loginModal.style.visibility = "visible";
-  document.querySelector(".close-login").addEventListener("click", () => {
-    backGround.style.visibility = "hidden";
-    loginModal.style.visibility = "hidden";
-  });
-  document.querySelector(".signup").addEventListener("click", () => {
-    signupModal.style.visibility = "visible";
-    loginModal.style.visibility = "hidden";
-    document.querySelector(".close-signup").addEventListener("click", () => {
+  if (loginBtnEl.textContent === "로그인/가입") {
+    backGround.style.visibility = "visible";
+    loginModal.style.visibility = "visible";
+    document.querySelector(".close-login").addEventListener("click", () => {
       backGround.style.visibility = "hidden";
-      signupModal.style.visibility = "hidden";
+      loginModal.style.visibility = "hidden";
     });
-  });
+    document.querySelector(".signup").addEventListener("click", () => {
+      signupModal.style.visibility = "visible";
+      loginModal.style.visibiliㅉty = "hidden";
+      document.querySelector(".close-signup").addEventListener("click", () => {
+        backGround.style.visibility = "hidden";
+        signupModal.style.visibility = "hidden";
+      });
+    });
+  }
 });
 
 // submitEl.addEventListener("submit", async () => {
@@ -52,3 +55,7 @@ loginBtnEl.addEventListener("click", () => {
 
 submitEl.addEventListener("submit", createSubmitEvent);
 loginBtn.addEventListener("click", createLoginEvent);
+
+(async () => {
+  await authLogin();
+})();

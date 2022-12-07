@@ -6,6 +6,9 @@ import {
   loginBtn,
   loginId,
   loginPw,
+  loginBtnEl,
+  loginModal,
+  test,
 } from "./main.js";
 
 const state = {
@@ -48,16 +51,6 @@ async function signup(email, password, displayName) {
   console.log("Response:", json);
 }
 
-// const loginId = document.querySelector(".login-id");
-// const loginPw = document.querySelector(".login-pw");
-// const loginBtn = document.querySelector(".login");
-
-// loginBtn.addEventListener("click", () => {
-//   state.email = loginId.value;
-//   state.password = loginPw.value;
-//   login(state.email, state.password);
-// });
-
 export async function createLoginEvent(event) {
   state.email = loginId.value;
   state.password = loginPw.value;
@@ -86,4 +79,55 @@ async function login(email, password) {
   const json = await res.json();
   console.log("Response:", json);
   localStorage.setItem("token", json.accessToken);
+}
+
+// 인증 확인
+export async function authLogin() {
+  const token = localStorage.getItem("token");
+  const res = await fetch(
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me",
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        apikey: "FcKdtJs202209",
+        username: "imyeji",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+  if (token) {
+    loginBtnEl.textContent = "로그아웃";
+    loginBtnEl.addEventListener("click", () => {
+      signout();
+    });
+  } else {
+    loginBtnEl.textContent = "로그인/가입";
+  }
+}
+
+// export const waitLoad = (timeToDelay) =>
+//   new Promise((resolve) => setTimeout(resolve, timeToDelay));
+
+// 로그아웃
+async function signout() {
+  const token = localStorage.getItem("token");
+  const res = await fetch(
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout",
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        apikey: "FcKdtJs202209",
+        username: "imyeji",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+  window.localStorage.removeItem("token");
+  loginBtnEl.textContent = "로그인/가입";
 }
