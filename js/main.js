@@ -62,3 +62,15 @@ loginBtn.addEventListener("click", createLoginEvent);
 (async () => {
   await authLogin();
 })();
+
+window.addEventListener("hashchange", router);
+
+async function router() {
+  const routePath = location.hash;
+  console.log(routePath);
+  // 초기화면
+  if (routePath === "") {
+  } else if (routePath.includes("#/user")) {
+    // 기존꺼 hide하고 갈기면됨
+  }
+}
