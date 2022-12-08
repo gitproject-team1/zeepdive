@@ -38,6 +38,8 @@ const searchInput = document.getElementById("search-main");
 // export const addItemEl = document.querySelectorAll(".add-item-name input");
 // console.log(addItemEl);
 const addItemBtn = document.querySelector(".submit-item");
+// user Info elements
+export const userInfoName = document.getElementById("user-info-name");
 
 firstNav.addEventListener("mouseover", () => {
   backGround.style.visibility = "visible";
@@ -121,3 +123,12 @@ async function router() {
     adminPgEl.style.display = "block";
   }
 }
+
+// token이 없을 때 회원정보를 클릭하면 로그인을 하라고 모달창
+const userInfoBtn = document.querySelector(".user-info-btn");
+userInfoBtn.addEventListener("click", () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    window.location = "#/user";
+  } else return;
+});

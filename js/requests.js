@@ -1,5 +1,11 @@
 import { setItemWithExpireTime } from "./signup.js";
-import { loginBtnEl, idboxEl, pwboxEl, loginErrorBox } from "./main.js";
+import {
+  loginBtnEl,
+  idboxEl,
+  pwboxEl,
+  loginErrorBox,
+  userInfoName,
+} from "./main.js";
 
 const API_KEY = `FcKdtJs202209`;
 const USER_NAME = `imyeji`;
@@ -76,6 +82,8 @@ export async function logout() {
   console.log("Response:", json);
   window.localStorage.removeItem("token");
   location.reload();
+  // 만약에 #/user에서 로그아웃을 하면 / 로 나오게 하기
+  window.location = "/";
   loginBtnEl.textContent = "로그인/가입";
 }
 
@@ -101,6 +109,8 @@ export async function authLogin() {
     loginBtnEl.addEventListener("click", async () => {
       await logout();
     });
+    // 로그인할 때 회원정보에 이름 들어가도록 만들기
+    userInfoName.value = json.displayName;
   }
 }
 
@@ -130,6 +140,31 @@ export async function addItem({
         tags: [tag],
         // thumbnailBase64: thumbnail,
         // photoBase64: img,
+      }),
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+}
+
+// 사용자 정보 수정 api
+export async function editUser(displayName, oldPassword, newPassword) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch(
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/user",
+    {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        displayName,
+        oldPassword,
+        newPassword,
       }),
     }
   );
