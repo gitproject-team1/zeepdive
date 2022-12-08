@@ -2,9 +2,9 @@ import { swiper } from "./swiper.js";
 import {
   createSubmitEvent,
   createLoginEvent,
-  authLogin,
   getItemWithExpireTime,
 } from "./signup.js";
+import { authLogin } from "./requests.js";
 
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const backGround = document.querySelector(".back-ground");
@@ -62,6 +62,7 @@ loginBtn.addEventListener("click", createLoginEvent);
 (async () => {
   const token = localStorage.getItem("token");
   if (token) {
+    loginBtnEl.textContent = "로그아웃";
     await authLogin();
   } else {
     loginBtnEl.textContent = "로그인/가입";
