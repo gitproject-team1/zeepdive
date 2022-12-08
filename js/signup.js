@@ -82,10 +82,9 @@ async function login(email, password) {
   if (res.ok) {
     const json = await res.json();
     console.log("Response:", json);
-    if (json.accessToken) {
-      localStorage.setItem("token", json.accessToken);
-      location.reload();
-    }
+    // locaStorage에 24시간 만료시간을 설정하고 데이터 저장
+    setItemWithExpireTime("token", json.accessToken, 86400000);
+    location.reload();
   } else {
     idboxEl.style.border = "2px solid red";
     pwboxEl.style.border = "2px solid red";
@@ -95,7 +94,8 @@ async function login(email, password) {
 
 // 인증 확인 api
 export async function authLogin() {
-  const token = localStorage.getItem("token");
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
   const res = await fetch(
     "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me",
     {
@@ -115,14 +115,13 @@ export async function authLogin() {
     loginBtnEl.addEventListener("click", async () => {
       await signout();
     });
-  } else {
-    loginBtnEl.textContent = "로그인/가입";
   }
 }
 
 // 로그아웃
 async function signout() {
-  const token = localStorage.getItem("token");
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
   const res = await fetch(
     "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout",
     {
@@ -140,4 +139,39 @@ async function signout() {
   window.localStorage.removeItem("token");
   location.reload();
   loginBtnEl.textContent = "로그인/가입";
+}
+
+// 만료 시간과 함께 데이터를 저장
+function setItemWithExpireTime(keyName, keyValue, tts) {
+  // localStorage에 저장할 객체
+  const obj = {
+    value: keyValue,
+    expire: Date.now() + tts,
+  };
+  // 객체를 JSON 문자열로 변환
+  const objString = JSON.stringify(obj);
+  // setItem
+  window.localStorage.setItem(keyName, objString);
+}
+
+// 만료 시간을 체크하며 데이터 읽기
+export function getItemWithExpireTime(keyName) {
+  // localStorage 값 읽기(문자열)
+  const objString = window.localStorage.getItem(keyName);
+  // null 체크
+  if (!objString) {
+    return null;
+  }
+  // 문자열을 객체로 변환
+  const obj = JSON.parse(objString);
+  // 현재시간과 localStorage의 expire 시간 비교
+  if (Date.now() > obj.expire) {
+    // 만료시간이 지난 item 삭제
+    window.localStorage.removeItem(keyName);
+    loginBtnEl.textContent = "로그인/가입";
+    // null 리턴
+    return null;
+  }
+  // 만료기간이 남아있는 경우, value 값 리턴
+  return obj.value;
 }
