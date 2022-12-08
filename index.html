@@ -77,6 +77,7 @@
       <!-- /.container -->
     </header>
     <main>
+      <article class="main-page">
       <div class="swiper mySwiper1">
         <ul class="swiper-wrapper">
           <li class="swiper-slide"><img src="img/banner1.png" alt="" /></li>
@@ -90,8 +91,52 @@
         <div class="swiper-button-prev"></div>
         <div class="swiper-pagination"></div>
       </div>
-    </main>
-    <div class="back-ground"></div>
+    </article><!-- /.main-page -->
+    <article class="user-page">
+      <div class="container">
+        <div class="user-info">
+          <h3>회원정보</h3>
+          <p class="user-info-name-box">
+            <label for="user-info-name">이름</label>
+            <input
+              type="text"
+              name="email"
+              id="user-info-name"
+            />
+            <button>변경</button>
+          </p><!-- user-info-name-box -->
+          <p class="user-info-pwd-box">
+            <label for="user-info-pwd">비밀번호</label>
+            <input
+              type="password"
+              name="email"
+              id="user-info-pwd"
+              placeholder="기존 비밀번호를 입력하세요"
+            />
+            <span class="change-pw-box">
+              <input type="password" class="user-info-new-pwd" placeholder="변경할 비밀번호를 입력하세요">
+              <button>변경</button>
+            </span><!-- /.change-pw-box -->
+          </p><!-- /.user-info-pwd-box -->
+        </div><!-- /.user-info -->
+        <div class="bank-info">
+          <h3>계좌 연결 / 해지</h3>
+          <div class="gnb">
+            <button class="bank-link">계좌 연결</button>
+            <button class="bank-delete">계좌 해지</button>
+          </div><!-- bank-link-section -->
+            <div class="bank-link-section">
+
+            </div><!-- bank-delete-section -->
+            <div class="bank-link-section">
+
+            </div><!-- bank-delete-section -->
+        </div><!-- /.bank-info -->
+      </div><!-- /.container -->
+    </article><!-- /.user-page -->
+  </main>
+
+    <div class="back-ground">배경 필터</div>
     <section class="login-modal">
       <h3>LOGIN</h3>
       <article class="login-box">
@@ -112,7 +157,7 @@
       <button class="close-login close">
         <i class="fa-solid fa-circle-xmark"></i>
       </button>
-    </section>
+    </section><!-- /.login-modal -->
     <section class="signup-modal">
       <h3>SIGN UP</h3>
       <form id="frm">
@@ -158,7 +203,7 @@
       <button class="close-signup close">
         <i class="fa-solid fa-circle-xmark"></i>
       </button>
-    </section>
+    </section><!-- /.signup-modal -->
     <!-- footer -->
     <footer>
       <div class="copyright-container">
