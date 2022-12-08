@@ -98,17 +98,19 @@
     <section class="login-modal">
       <h3>LOGIN</h3>
       <article class="login-box">
-        <div class="id-box">
-          <i class="fa-solid fa-user"></i>
-          <input type="text" class="login-id" placeholder="아이디" />
-        </div>
-        <div class="pw-box">
-          <i class="fa-solid fa-key"></i>
-          <input type="password" class="login-pw" placeholder="비밀번호" />
-        </div>
-        <div class="login-error-box"></div>
-        <button class="login-btn">로그인</button>
-        <button class="signup" type="button">회원가입</button>
+        <form id="login-form">
+          <div class="id-box">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" class="login-id" placeholder="아이디" />
+          </div>
+          <div class="pw-box">
+            <i class="fa-solid fa-key"></i>
+            <input type="password" class="login-pw" placeholder="비밀번호" />
+          </div>
+          <div class="login-error-box"></div>
+          <button type="submit" class="login-btn">로그인</button>
+          <button class="signup" type="button">회원가입</button>
+        </form>
       </article>
       <button class="close-login close">
         <i class="fa-solid fa-circle-xmark"></i>

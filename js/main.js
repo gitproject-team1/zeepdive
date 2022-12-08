@@ -22,7 +22,7 @@ export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
 export const loginErrorBox = document.querySelector(".login-error-box");
 
-// console.log(firstNav.innerHTML)
+// 카테고리 드롭다운 visibility 조정
 firstNav.addEventListener("mouseover", () => {
   backGround.style.visibility = "visible";
 });
@@ -30,6 +30,7 @@ firstNav.addEventListener("mouseout", () => {
   backGround.style.visibility = "hidden";
 });
 
+// 로그인/회원가입 모달 visibility 조정
 loginBtnEl.addEventListener("click", () => {
   if (loginBtnEl.textContent === "로그인/가입") {
     backGround.style.visibility = "visible";
@@ -40,7 +41,7 @@ loginBtnEl.addEventListener("click", () => {
     });
     document.querySelector(".signup").addEventListener("click", () => {
       signupModal.style.visibility = "visible";
-      loginModal.style.visibiliㅉty = "hidden";
+      loginModal.style.visibility = "hidden";
       document.querySelector(".close-signup").addEventListener("click", () => {
         backGround.style.visibility = "hidden";
         signupModal.style.visibility = "hidden";
@@ -49,25 +50,23 @@ loginBtnEl.addEventListener("click", () => {
   }
 });
 
-// submitEl.addEventListener("submit", async () => {
-//   await createSubmitEvent;
-// });
-// loginBtn.addEventListener("click", async () => {
-//   await createLoginEvent;
-// });
-
 submitEl.addEventListener("submit", createSubmitEvent);
 loginBtn.addEventListener("click", createLoginEvent);
 
+// 로컬에 로그인 데이터 있는지 확인.
 (async () => {
   await authLogin();
 })();
 
+// 초기화면(새로고침, 화면진입) 렌더
+router();
+
+// 이후로는 hashchange(페이지이동)때 렌더
 window.addEventListener("hashchange", router);
 
+// 라우팅
 async function router() {
   const routePath = location.hash;
-  console.log(routePath);
   // 초기화면
   if (routePath === "") {
   } else if (routePath.includes("#/user")) {
