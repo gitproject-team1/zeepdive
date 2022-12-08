@@ -1,6 +1,9 @@
 import { setItemWithExpireTime } from "./signup.js";
 import { loginBtnEl } from "./main.js";
 
+const API_KEY = `FcKdtJs202209`;
+const USER_NAME = `KDT3_imyeji`;
+
 // 회원가입 api
 export async function signup(email, password, displayName) {
   const res = await fetch(
@@ -9,8 +12,8 @@ export async function signup(email, password, displayName) {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        apikey: "FcKdtJs202209",
-        username: "imyeji",
+        apikey: API_KEY,
+        username: USER_NAME,
       },
       body: JSON.stringify({
         email: email,
@@ -31,8 +34,8 @@ export async function login(email, password) {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        apikey: "FcKdtJs202209",
-        username: "imyeji",
+        apikey: API_KEY,
+        username: USER_NAME,
       },
       body: JSON.stringify({
         email: email,
@@ -63,8 +66,8 @@ export async function logout() {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        apikey: "FcKdtJs202209",
-        username: "imyeji",
+        apikey: API_KEY,
+        username: USER_NAME,
         Authorization: `Bearer ${token}`,
       },
     }
@@ -86,8 +89,8 @@ export async function authLogin() {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        apikey: "FcKdtJs202209",
-        username: "imyeji",
+        apikey: API_KEY,
+        username: USER_NAME,
         Authorization: `Bearer ${token}`,
       },
     }
