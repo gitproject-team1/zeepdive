@@ -95,7 +95,9 @@ async function login(email, password) {
 // 인증 확인 api
 export async function authLogin() {
   const tokenValue = localStorage.getItem("token");
+  console.log(tokenValue);
   const token = JSON.parse(tokenValue).value;
+  console.log(token);
   const res = await fetch(
     "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me",
     {
