@@ -114,6 +114,39 @@ export async function authLogin() {
   }
 }
 
+// ========== 관리자 api ==========
+export async function addItem({
+  name,
+  price,
+  description,
+  tag,
+  thumbnail,
+  img,
+}) {
+  const res = await fetch(
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products",
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        masterKey: "true",
+      },
+      body: JSON.stringify({
+        title: name,
+        price: Number(price),
+        description: description,
+        tags: [tag],
+        // thumbnailBase64: thumbnail,
+        // photoBase64: img,
+      }),
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+}
+
 // 사용자 정보 수정 api
 export async function editUser(displayName, oldPassword, newPassword) {
   const tokenValue = localStorage.getItem("token");

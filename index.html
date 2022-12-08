@@ -29,7 +29,7 @@
   </head>
   <body>
     <header>
-      <div class="container">
+      <div class="header-container">
         <nav>
           <h1>
             <a href="/"
@@ -56,7 +56,7 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input
                   type="search"
-                  name=""
+                  name="search"
                   id="search-main"
                   placeholder="인테리어 정보, 상품 검색"
                 />
@@ -77,6 +77,7 @@
       <!-- /.container -->
     </header>
     <main>
+      <!-- 메인페이지 -->
       <article class="main-page">
         <div class="swiper mySwiper1">
           <ul class="swiper-wrapper">
@@ -92,34 +93,35 @@
           <div class="swiper-pagination"></div>
         </div>
       </article>
-      <!-- /.main-page -->
+      <!-- 회원정보 페이지 -->
       <article class="user-page">
-        <div class="container">
+        <div class="user-container">
           <div class="user-info">
-            <h3>회원정보</h3>
-            <p class="user-info-name-box">
-              <label for="user-info-name">이름</label>
-              <input type="text" name="email" id="user-info-name" />
-              <button class="name-change-btn">변경</button>
-            </p>
-            <!-- user-info-name-box -->
-            <p class="user-info-pwd-box">
-              <label for="user-info-pwd">비밀번호</label>
-              <input
-                type="password"
-                name="email"
-                id="user-info-pwd"
-                placeholder="기존 비밀번호를 입력하세요"
-              />
-              <span class="change-pw-box">
+            <form class="change-form">
+              <h3>회원정보</h3>
+              <p class="user-info-name-box">
+                <label for="user-info-name">이름</label>
+                <input type="text" name="name" id="user-info-name" />
+                <button>변경</button>
+              </p>
+              <!-- user-info-name-box -->
+              <p class="user-info-pwd-box">
+                <label for="user-info-pwd">비밀번호</label>
                 <input
                   type="password"
-                  id="user-info-new-pwd"
-                  placeholder="변경할 비밀번호를 입력하세요"
+                  id="user-info-pwd"
+                  placeholder="기존 비밀번호를 입력하세요"
                 />
-                <button class="pw-change-btn">변경</button> </span
-              ><!-- /.change-pw-box -->
-            </p>
+                <span class="change-pw-box">
+                  <input
+                    type="password"
+                    class="user-info-new-pwd"
+                    placeholder="변경할 비밀번호를 입력하세요"
+                  />
+                  <button>변경</button> </span
+                ><!-- /.change-pw-box -->
+              </p>
+            </form>
             <!-- /.user-info-pwd-box -->
           </div>
           <!-- /.user-info -->
@@ -140,6 +142,44 @@
         <!-- /.container -->
       </article>
       <!-- /.user-page -->
+
+      <!-- 관리자 페이지 -->
+      <article class="admin-page">
+        <div class="admin-container">
+          <form class="add-item">
+            <h3>제품 추가</h3>
+            <p class="add-item-name">
+              <label for="add-name">제품 이름</label>
+              <input type="text" name="name" id="admin-info-name" />
+            </p>
+            <p class="add-item-name">
+              <label for="add-price">제품 가격</label>
+              <input type="text" name="price" id="admin-info-price" />
+            </p>
+            <p class="add-item-name">
+              <label for="add-description">상세 설명</label>
+              <input
+                type="text"
+                name="description"
+                id="admin-info-description"
+              />
+            </p>
+            <p class="add-item-name">
+              <label for="add-tag">제품 태그</label>
+              <input type="text" name="tag" id="admin-info-tag" />
+            </p>
+            <p class="add-item-name">
+              <label for="add-thumbnail">썸네일</label>
+              <input type="text" name="thumbnail" id="admin-info-thumbnail" />
+            </p>
+            <p class="add-item-name">
+              <label for="add-img">대표 사진</label>
+              <input type="text" name="img" id="admin-info-img" />
+            </p>
+            <button class="submit-item" type="submit">추가</button>
+          </form>
+        </div>
+      </article>
     </main>
 
     <div class="back-ground">배경 필터</div>
@@ -149,7 +189,7 @@
         <form id="login-form">
           <div class="id-box">
             <i class="fa-solid fa-user"></i>
-            <input type="text" class="login-id" placeholder="아이디" />
+            <input type="email" class="login-id" placeholder="아이디" />
           </div>
           <div class="pw-box">
             <i class="fa-solid fa-key"></i>
@@ -171,7 +211,7 @@
         <p class="signup-email-box">
           <label for="signup-email">이메일</label>
           <input
-            type="text"
+            type="email"
             name="email"
             id="signup-email"
             placeholder="이메일을 적어주세요"

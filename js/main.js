@@ -5,6 +5,7 @@ import {
   getItemWithExpireTime,
 } from "./signup.js";
 import { authLogin } from "./requests.js";
+import { createItemEvent } from "./admin.js";
 
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const backGround = document.querySelector(".back-ground");
@@ -13,6 +14,7 @@ const loginModal = document.querySelector(".login-modal");
 const signupModal = document.querySelector(".signup-modal");
 const mainPgEl = document.querySelector(".main-page");
 const userPgEl = document.querySelector(".user-page");
+const adminPgEl = document.querySelector(".admin-page");
 
 // signup elements
 export const emailInputEl = document.getElementById("signup-email");
@@ -29,6 +31,13 @@ export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
 export const loginErrorBox = document.querySelector(".login-error-box");
 
+//search elements
+const searchInput = document.getElementById("search-main");
+
+// admin elements
+// export const addItemEl = document.querySelectorAll(".add-item-name input");
+// console.log(addItemEl);
+const addItemBtn = document.querySelector(".submit-item");
 // user Info elements
 export const userInfoName = document.getElementById("user-info-name");
 
@@ -75,6 +84,22 @@ loginBtn.addEventListener("click", createLoginEvent);
   getItemWithExpireTime("token");
 })();
 
+// ============ 관리자페이지 ============
+addItemBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
+  const addItemEl = document.querySelectorAll(".add-item-name input");
+  const state = {
+    name: addItemEl[0].value,
+    price: addItemEl[1].value,
+    description: addItemEl[2].value,
+    tag: addItemEl[3].value,
+    thumbnail: addItemEl[4].value,
+    img: addItemEl[5].value,
+  };
+  await createItemEvent(state);
+  alert("제품추가완료");
+});
+
 // 초기화면(새로고침, 화면진입) 렌더
 router();
 
@@ -92,6 +117,10 @@ async function router() {
     // 기존꺼 hide하고 갈기면됨
     mainPgEl.style.display = "none";
     userPgEl.style.display = "block";
+  } else if (routePath.includes("#/admin")) {
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "block";
   }
 }
 
