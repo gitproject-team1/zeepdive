@@ -29,6 +29,9 @@ export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
 export const loginErrorBox = document.querySelector(".login-error-box");
 
+// user Info elements
+export const userInfoName = document.getElementById("user-info-name");
+
 firstNav.addEventListener("mouseover", () => {
   backGround.style.visibility = "visible";
 });
