@@ -19,7 +19,7 @@ const state = {
   displayName: "",
 };
 
-//테스트
+// 회원가입 이벤트
 export async function createSubmitEvent(event) {
   event.preventDefault();
   state.email = emailInputEl.value;
@@ -30,7 +30,7 @@ export async function createSubmitEvent(event) {
   console.log("done");
 }
 
-// 회원가입
+// 회원가입 api
 async function signup(email, password, displayName) {
   const res = await fetch(
     "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup",
@@ -53,13 +53,16 @@ async function signup(email, password, displayName) {
   console.log("Response:", json);
 }
 
+// 로그인 이벤트
 export async function createLoginEvent(event) {
+  event.preventDefault();
   state.email = loginId.value;
   state.password = loginPw.value;
   await login(state.email, state.password);
+  location.reload();
 }
 
-// 로그인
+// 로그인 api
 async function login(email, password) {
   const res = await fetch(
     "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login",
@@ -90,7 +93,7 @@ async function login(email, password) {
   }
 }
 
-// 인증 확인
+// 인증 확인 api
 export async function authLogin() {
   const token = localStorage.getItem("token");
   const res = await fetch(
@@ -116,9 +119,6 @@ export async function authLogin() {
     loginBtnEl.textContent = "로그인/가입";
   }
 }
-
-// export const waitLoad = (timeToDelay) =>
-//   new Promise((resolve) => setTimeout(resolve, timeToDelay));
 
 // 로그아웃
 async function signout() {
