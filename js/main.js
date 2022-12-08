@@ -1,5 +1,10 @@
 import { swiper } from "./swiper.js";
-import { createSubmitEvent, createLoginEvent, authLogin } from "./signup.js";
+import {
+  createSubmitEvent,
+  createLoginEvent,
+  authLogin,
+  getItemWithExpireTime,
+} from "./signup.js";
 
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const backGround = document.querySelector(".back-ground");
@@ -56,6 +61,8 @@ loginBtn.addEventListener("click", createLoginEvent);
 // 로컬에 로그인 데이터 있는지 확인.
 (async () => {
   await authLogin();
+  // 만료시간 체크는 계속
+  getItemWithExpireTime("token");
 })();
 
 // 초기화면(새로고침, 화면진입) 렌더
