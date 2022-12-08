@@ -25,12 +25,11 @@ export async function createSubmitEvent(event) {
   event.preventDefault();
   // 이메일
   state.email = emailInputEl.value;
-  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-  if (!exptext.test(email)) {
-    signupEmailBox.style.border = "2px solid red";
-    signupEmailAlert.classList.add("show");
-  }
-
+  // const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  // if (!exptext.test(email)) {
+  //   signupEmailBox.style.border = "2px solid red";
+  //   signupEmailAlert.classList.add("show");
+  // }
   // 비밀번호
   state.password = passwordInputEl.value;
   // 사용자 이름
@@ -39,8 +38,6 @@ export async function createSubmitEvent(event) {
   location.reload();
   console.log("done");
 }
-
-// 회원가입 이메일 유효성 검사
 
 // 로그인 이벤트
 export async function createLoginEvent(event) {

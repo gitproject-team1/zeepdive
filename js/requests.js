@@ -1,5 +1,11 @@
 import { setItemWithExpireTime } from "./signup.js";
-import { loginBtnEl, idboxEl, pwboxEl, loginErrorBox } from "./main.js";
+import {
+  loginBtnEl,
+  idboxEl,
+  pwboxEl,
+  loginErrorBox,
+  userInfoName,
+} from "./main.js";
 
 const API_KEY = `FcKdtJs202209`;
 const USER_NAME = `imyeji`;
@@ -101,5 +107,36 @@ export async function authLogin() {
     loginBtnEl.addEventListener("click", async () => {
       await logout();
     });
+    userInfoName.value = json.displayName;
   }
 }
+
+// 사용자 정보 수정 api
+async function editUser() {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch(
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/user",
+    {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        apikey: "FcKdtJs202209",
+        username: "imyeji",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        displayName,
+        oldPassword,
+        newPassword,
+      }),
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+}
+
+// 이름이 이미 들어가 있게 만들까..
+// 로그인할 때 회원정보에 이름 들어가도록 만들기?
+// const userInfoName = document.getElementById("user-info-name");
+// userInfoName.innerHTML = json.displayName;
