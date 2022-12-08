@@ -60,7 +60,12 @@ loginBtn.addEventListener("click", createLoginEvent);
 
 // 로컬에 로그인 데이터 있는지 확인.
 (async () => {
-  await authLogin();
+  const token = localStorage.getItem("token");
+  if (token) {
+    await authLogin();
+  } else {
+    loginBtnEl.textContent = "로그인/가입";
+  }
   // 만료시간 체크는 계속
   getItemWithExpireTime("token");
 })();

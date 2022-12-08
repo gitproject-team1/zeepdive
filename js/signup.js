@@ -94,7 +94,8 @@ async function login(email, password) {
 
 // 인증 확인 api
 export async function authLogin() {
-  const token = localStorage.getItem("token");
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
   const res = await fetch(
     "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me",
     {
@@ -114,14 +115,13 @@ export async function authLogin() {
     loginBtnEl.addEventListener("click", async () => {
       await signout();
     });
-  } else {
-    loginBtnEl.textContent = "로그인/가입";
   }
 }
 
 // 로그아웃
 async function signout() {
-  const token = localStorage.getItem("token");
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
   const res = await fetch(
     "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout",
     {
