@@ -6,6 +6,8 @@ const backGround = document.querySelector(".back-ground");
 export const loginBtnEl = document.querySelector(".login");
 const loginModal = document.querySelector(".login-modal");
 const signupModal = document.querySelector(".signup-modal");
+const mainPgEl = document.querySelector('.main-page')
+const userPgEl = document.querySelector('.user-page')
 
 // signup elements
 export const emailInputEl = document.getElementById("signup-email");
@@ -21,6 +23,8 @@ export const loginBtn = document.querySelector(".login-btn");
 export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
 export const loginErrorBox = document.querySelector(".login-error-box");
+
+router()
 
 // console.log(firstNav.innerHTML)
 firstNav.addEventListener("mouseover", () => {
@@ -70,7 +74,11 @@ async function router() {
   console.log(routePath);
   // 초기화면
   if (routePath === "") {
+    mainPgEl.style.display = 'block'
+    userPgEl.style.display = 'none'
   } else if (routePath.includes("#/user")) {
     // 기존꺼 hide하고 갈기면됨
+    mainPgEl.style.display = 'none'
+    userPgEl.style.display = 'block'
   }
 }
