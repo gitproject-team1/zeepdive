@@ -13,6 +13,8 @@ import {
   loginErrorBox,
 } from "./main.js";
 
+import { signup, login, logout, authLogin } from "./requests.js";
+
 const state = {
   email: "",
   password: "",
@@ -30,29 +32,6 @@ export async function createSubmitEvent(event) {
   console.log("done");
 }
 
-// 회원가입 api
-async function signup(email, password, displayName) {
-  const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup",
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        apikey: "FcKdtJs202209",
-        username: "imyeji",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-        displayName: displayName,
-      }),
-    }
-  );
-  console.log(res);
-  const json = await res.json();
-  console.log("Response:", json);
-}
-
 // 로그인 이벤트
 export async function createLoginEvent(event) {
   event.preventDefault();
@@ -62,89 +41,8 @@ export async function createLoginEvent(event) {
   location.reload();
 }
 
-// 로그인 api
-async function login(email, password) {
-  const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login",
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        apikey: "FcKdtJs202209",
-        username: "imyeji",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    }
-  );
-  if (res.ok) {
-    const json = await res.json();
-    console.log("Response:", json);
-    // locaStorage에 24시간 만료시간을 설정하고 데이터 저장
-    setItemWithExpireTime("token", json.accessToken, 86400000);
-    location.reload();
-  } else {
-    idboxEl.style.border = "2px solid red";
-    pwboxEl.style.border = "2px solid red";
-    loginErrorBox.innerHTML = "회원 정보가 올바르지 않습니다.";
-  }
-}
-
-// 인증 확인 api
-export async function authLogin() {
-  const tokenValue = localStorage.getItem("token");
-  console.log(tokenValue);
-  const token = JSON.parse(tokenValue).value;
-  console.log(token);
-  const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me",
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        apikey: "FcKdtJs202209",
-        username: "imyeji",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const json = await res.json();
-  console.log("Response:", json);
-  if (token) {
-    loginBtnEl.textContent = "로그아웃";
-    loginBtnEl.addEventListener("click", async () => {
-      await signout();
-    });
-  }
-}
-
-// 로그아웃
-async function signout() {
-  const tokenValue = localStorage.getItem("token");
-  const token = JSON.parse(tokenValue).value;
-  const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout",
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        apikey: "FcKdtJs202209",
-        username: "imyeji",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const json = await res.json();
-  console.log("Response:", json);
-  window.localStorage.removeItem("token");
-  location.reload();
-  loginBtnEl.textContent = "로그인/가입";
-}
-
 // 만료 시간과 함께 데이터를 저장
-function setItemWithExpireTime(keyName, keyValue, tts) {
+export function setItemWithExpireTime(keyName, keyValue, tts) {
   // localStorage에 저장할 객체
   const obj = {
     value: keyValue,
