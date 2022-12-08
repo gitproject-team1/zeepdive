@@ -1,11 +1,5 @@
 import { setItemWithExpireTime } from "./signup.js";
-import {
-  loginBtnEl,
-  idboxEl,
-  pwboxEl,
-  loginErrorBox,
-  userInfoName,
-} from "./main.js";
+import { loginBtnEl, idboxEl, pwboxEl, loginErrorBox } from "./main.js";
 
 const API_KEY = `FcKdtJs202209`;
 const USER_NAME = `imyeji`;
@@ -82,9 +76,12 @@ export async function logout() {
   console.log("Response:", json);
   window.localStorage.removeItem("token");
   location.reload();
+  // 만약에 #/user에서 로그아웃을 하면 / 로 나오게 하기
+  window.location = "/";
   loginBtnEl.textContent = "로그인/가입";
 }
 
+export const userInfoName = document.getElementById("user-info-name");
 // 인증 확인 api
 export async function authLogin() {
   const tokenValue = localStorage.getItem("token");
@@ -107,12 +104,13 @@ export async function authLogin() {
     loginBtnEl.addEventListener("click", async () => {
       await logout();
     });
+    // 로그인할 때 회원정보에 이름 들어가도록 만들기
     userInfoName.value = json.displayName;
   }
 }
 
 // 사용자 정보 수정 api
-async function editUser() {
+async function editUser(displayName, oldPassword, newPassword) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   const res = await fetch(
@@ -121,8 +119,8 @@ async function editUser() {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        apikey: "FcKdtJs202209",
-        username: "imyeji",
+        apikey: API_KEY,
+        username: USER_NAME,
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -136,7 +134,16 @@ async function editUser() {
   console.log("Response:", json);
 }
 
-// 이름이 이미 들어가 있게 만들까..
-// 로그인할 때 회원정보에 이름 들어가도록 만들기?
-// const userInfoName = document.getElementById("user-info-name");
-// userInfoName.innerHTML = json.displayName;
+// 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
+const nameChangeBtn = document.querySelector(".name-change-btn");
+nameChangeBtn.addEventListener("click", async () => {
+  await editUser(userInfoName.value);
+});
+
+// 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
+const userInfoPw = document.getElementById("user-info-pwd");
+const userInfoNewPw = document.getElementById("user-info-new-pwd");
+const pwChangeBtn = document.querySelector(".pw-change-btn");
+pwChangeBtn.addEventListener("click", async () => {
+  await editUser(userInfoName.value, userInfoPw.value, userInfoNewPw.value);
+});

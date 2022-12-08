@@ -29,9 +29,6 @@ export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
 export const loginErrorBox = document.querySelector(".login-error-box");
 
-// user info elements
-export const userInfoName = document.getElementById("user-info-name");
-
 firstNav.addEventListener("mouseover", () => {
   backGround.style.visibility = "visible";
 });
@@ -94,3 +91,12 @@ async function router() {
     userPgEl.style.display = "block";
   }
 }
+
+// token이 없을 때 회원정보를 클릭하면 로그인을 하라고 모달창
+const userInfoBtn = document.querySelector(".user-info-btn");
+userInfoBtn.addEventListener("click", () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    window.location = "#/user";
+  } else return;
+});
