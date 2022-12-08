@@ -8,9 +8,6 @@ import {
   loginPw,
   loginBtnEl,
   test,
-  idboxEl,
-  pwboxEl,
-  loginErrorBox,
 } from "./main.js";
 
 import { signup, login, logout, authLogin } from "./requests.js";
@@ -25,12 +22,16 @@ const state = {
 export async function createSubmitEvent(event) {
   event.preventDefault();
   state.email = emailInputEl.value;
+  // const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  // if (!exptext.test(email))
   state.password = passwordInputEl.value;
   state.displayName = displayNameInputEl.value;
   await signup(state.email, state.password, state.displayName);
   location.reload();
   console.log("done");
 }
+
+// 회원가입 이메일 유효성 검사
 
 // 로그인 이벤트
 export async function createLoginEvent(event) {
