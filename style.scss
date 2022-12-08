@@ -7,7 +7,7 @@ header {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 16px 0px;
   z-index: 100;
   background-color: #fff;
-  .container {
+  .header-container {
     max-width: 1240px;
     margin: 0 auto;
     height: 70px;
@@ -36,6 +36,8 @@ header {
               position: absolute;
               top: 50%;
               transform: translateY(-50%);
+              font-size: 17px;
+              font-weight: 700;
             }
             i {
               margin-right: 15px;
@@ -75,6 +77,12 @@ header {
               }
             }
           }
+          &:last-child {
+            a {
+              font-size: 16px;
+              font-weight: 700;
+            }
+          }
           .search-box {
             width: 30vw;
             position: relative;
@@ -108,11 +116,12 @@ header {
           }
           button.login {
             background-color: #535b63;
-            width: 120px;
+            width: 100px;
             height: 30px;
             cursor: pointer;
-            font-size: 16px;
-            color: #f7f8f9;
+            font-size: 13px;
+            color: rgb(255, 255, 255);
+            font-weight: 900;
             border: transparent;
             border-radius: 20px;
             &:hover {
@@ -125,7 +134,7 @@ header {
   }
 }
 main {
-  article.main-page{
+  article.main-page {
     display: block;
     .mySwiper1 {
       width: 100%;
@@ -148,46 +157,48 @@ main {
       }
     }
   }
-  article.user-page{
+  article.user-page,
+  article.admin-page {
     display: none;
-    h2{
+    h2 {
       font-size: 40px;
       margin-top: 50px;
-      
     }
-    .container{
+    .user-container,
+    .admin-container {
       width: 730px;
       box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 16px 0px;
       margin: 50px auto 100px;
       padding: 50px;
       box-sizing: border-box;
-      h3{
-        font-size: 20px; 
+      h3 {
+        font-size: 20px;
         text-align: center;
         line-height: 50px;
         border-bottom: 2px solid #333;
         margin-bottom: 40px;
       }
-      .user-info{
+      .user-info {
         display: flex;
         flex-direction: column;
         align-items: center;
-        p{
+        p {
           margin-bottom: 40px;
           label {
             display: inline-block;
             width: 80px;
             font-size: 20px;
           }
-          .change-pw-box{
+          .change-pw-box {
             display: block;
-            margin:{
+            margin: {
               left: 83px;
               top: 20px;
             }
           }
-          input{
-            width: 350px; height: 35px;
+          input {
+            width: 350px;
+            height: 35px;
             box-sizing: border-box;
             padding-left: 10px;
             font-size: 18px;
@@ -196,9 +207,10 @@ main {
               outline: none;
             }
           }
-          button{
-            width: 70px; height: 35px;
-            background-color:#fb3f4c;
+          button {
+            width: 70px;
+            height: 35px;
+            background-color: #fb3f4c;
             color: #fff;
             font-size: 17px;
             border: transparent;
@@ -210,7 +222,24 @@ main {
           }
         }
       }
-      .bank-info{
+      .add-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .add-item-name {
+          margin-bottom: 20px;
+          label {
+            display: inline-block;
+            width: 80px;
+            font-size: 16px;
+          }
+          input {
+            width: 350px;
+            height: 25px;
+          }
+        }
+      }
+      .bank-info {
         display: flex;
         flex-direction: column;
         align-items: center;
