@@ -8,9 +8,10 @@ import {
   loginPw,
   loginBtnEl,
   test,
+  userInfoName,
 } from "./main.js";
 
-import { signup, login, logout, authLogin } from "./requests.js";
+import { signup, login, logout, authLogin, editUser } from "./requests.js";
 
 const state = {
   email: "",
@@ -25,12 +26,11 @@ export async function createSubmitEvent(event) {
   event.preventDefault();
   // 이메일
   state.email = emailInputEl.value;
-  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-  if (!exptext.test(email)) {
-    signupEmailBox.style.border = "2px solid red";
-    signupEmailAlert.classList.add("show");
-  }
-
+  // const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  // if (!exptext.test(email)) {
+  //   signupEmailBox.style.border = "2px solid red";
+  //   signupEmailAlert.classList.add("show");
+  // }
   // 비밀번호
   state.password = passwordInputEl.value;
   // 사용자 이름
@@ -39,8 +39,6 @@ export async function createSubmitEvent(event) {
   location.reload();
   console.log("done");
 }
-
-// 회원가입 이메일 유효성 검사
 
 // 로그인 이벤트
 export async function createLoginEvent(event) {
@@ -85,3 +83,17 @@ export function getItemWithExpireTime(keyName) {
   // 만료기간이 남아있는 경우, value 값 리턴
   return obj.value;
 }
+
+// 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
+const nameChangeBtn = document.querySelector(".name-change-btn");
+nameChangeBtn.addEventListener("click", async () => {
+  await editUser(userInfoName.value);
+});
+
+// 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
+const userInfoPw = document.getElementById("user-info-pwd");
+const userInfoNewPw = document.getElementById("user-info-new-pwd");
+const pwChangeBtn = document.querySelector(".pw-change-btn");
+pwChangeBtn.addEventListener("click", async () => {
+  await editUser(userInfoName.value, userInfoPw.value, userInfoNewPw.value);
+});

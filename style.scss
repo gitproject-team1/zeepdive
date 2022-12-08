@@ -119,13 +119,16 @@ header {
               background-color: #2e3236;
             }
           }
+          a.user-info-btn {
+            cursor: pointer;
+          }
         }
       }
     }
   }
 }
 main {
-  article.main-page{
+  article.main-page {
     display: block;
     .mySwiper1 {
       width: 100%;
@@ -148,46 +151,46 @@ main {
       }
     }
   }
-  article.user-page{
+  article.user-page {
     display: none;
-    h2{
+    h2 {
       font-size: 40px;
       margin-top: 50px;
-      
     }
-    .container{
+    .container {
       width: 730px;
       box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 16px 0px;
       margin: 50px auto 100px;
       padding: 50px;
       box-sizing: border-box;
-      h3{
-        font-size: 20px; 
+      h3 {
+        font-size: 20px;
         text-align: center;
         line-height: 50px;
         border-bottom: 2px solid #333;
         margin-bottom: 40px;
       }
-      .user-info{
+      .user-info {
         display: flex;
         flex-direction: column;
         align-items: center;
-        p{
+        p {
           margin-bottom: 40px;
           label {
             display: inline-block;
             width: 80px;
             font-size: 20px;
           }
-          .change-pw-box{
+          .change-pw-box {
             display: block;
-            margin:{
+            margin: {
               left: 83px;
               top: 20px;
             }
           }
-          input{
-            width: 350px; height: 35px;
+          input {
+            width: 350px;
+            height: 35px;
             box-sizing: border-box;
             padding-left: 10px;
             font-size: 18px;
@@ -196,9 +199,10 @@ main {
               outline: none;
             }
           }
-          button{
-            width: 70px; height: 35px;
-            background-color:#fb3f4c;
+          button {
+            width: 70px;
+            height: 35px;
+            background-color: #fb3f4c;
             color: #fff;
             font-size: 17px;
             border: transparent;
@@ -210,7 +214,7 @@ main {
           }
         }
       }
-      .bank-info{
+      .bank-info {
         display: flex;
         flex-direction: column;
         align-items: center;
