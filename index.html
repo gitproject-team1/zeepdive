@@ -161,7 +161,7 @@
     <section class="signup-modal">
       <h3>SIGN UP</h3>
       <form id="frm">
-        <p>
+        <p class="signup-email-box">
           <label for="signup-email">이메일</label>
           <input
             type="text"
@@ -170,7 +170,8 @@
             placeholder="이메일을 적어주세요"
           />
         </p>
-        <p>
+        <div class="email-alert"></div>
+        <p class="signup-pw-box">
           <label for="signup-pw">비밀번호</label>
           <input
             type="password"
@@ -179,7 +180,7 @@
             placeholder="숫자와 영어 소문자 입력해주세요"
           />
         </p>
-        <p>
+        <p class="signup-repw-box">
           <label for="signup-repw">비밀번호 확인</label>
           <input
             type="password"
@@ -188,7 +189,7 @@
             placeholder="비밀번호를 다시한번 입력해주세요"
           />
         </p>
-        <p>
+        <p class="signup-name-box">
           <label for="signup-name">사용자 이름</label>
           <input
             type="text"

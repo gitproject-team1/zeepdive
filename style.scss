@@ -340,6 +340,12 @@ main {
         }
       }
     }
+    .email-alert {
+      display: none;
+    }
+    .email-alert.show {
+      display: block;
+    }
     input.signup-button {
       width: 300px;
       height: 30px;

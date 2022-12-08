@@ -8,9 +8,6 @@ import {
   loginPw,
   loginBtnEl,
   test,
-  idboxEl,
-  pwboxEl,
-  loginErrorBox,
 } from "./main.js";
 
 import { signup, login, logout, authLogin } from "./requests.js";
@@ -21,16 +18,29 @@ const state = {
   displayName: "",
 };
 
+const signupEmailBox = document.querySelector(".signup-email-box");
+const signupEmailAlert = document.querySelector(".email-alert");
 // 회원가입 이벤트
 export async function createSubmitEvent(event) {
   event.preventDefault();
+  // 이메일
   state.email = emailInputEl.value;
+  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  if (!exptext.test(email)) {
+    signupEmailBox.style.border = "2px solid red";
+    signupEmailAlert.classList.add("show");
+  }
+
+  // 비밀번호
   state.password = passwordInputEl.value;
+  // 사용자 이름
   state.displayName = displayNameInputEl.value;
   await signup(state.email, state.password, state.displayName);
   location.reload();
   console.log("done");
 }
+
+// 회원가입 이메일 유효성 검사
 
 // 로그인 이벤트
 export async function createLoginEvent(event) {

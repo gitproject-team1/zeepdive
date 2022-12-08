@@ -1,8 +1,8 @@
 import { setItemWithExpireTime } from "./signup.js";
-import { loginBtnEl } from "./main.js";
+import { loginBtnEl, idboxEl, pwboxEl, loginErrorBox } from "./main.js";
 
 const API_KEY = `FcKdtJs202209`;
-const USER_NAME = `KDT3_imyeji`;
+const USER_NAME = `imyeji`;
 
 // 회원가입 api
 export async function signup(email, password, displayName) {
