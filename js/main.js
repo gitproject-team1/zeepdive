@@ -35,8 +35,6 @@ export const loginErrorBox = document.querySelector(".login-error-box");
 const searchInput = document.getElementById("search-main");
 
 // admin elements
-// export const addItemEl = document.querySelectorAll(".add-item-name input");
-// console.log(addItemEl);
 const addItemBtn = document.querySelector(".submit-item");
 
 // user Info elements
@@ -102,17 +100,7 @@ pwChangeBtn.addEventListener("click", async (event) => {
 // ============ 관리자페이지 ============
 addItemBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  const addItemEl = document.querySelectorAll(".add-item-name input");
-  const state = {
-    name: addItemEl[0].value,
-    price: addItemEl[1].value,
-    description: addItemEl[2].value,
-    tag: addItemEl[3].value,
-    thumbnail: addItemEl[4].value,
-    img: addItemEl[5].value,
-  };
-  await createItemEvent(state);
-  alert("제품추가완료");
+  await createItemEvent();
 });
 
 // 초기화면(새로고침, 화면진입) 렌더
