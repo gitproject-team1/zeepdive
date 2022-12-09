@@ -18,6 +18,7 @@ const signupModal = document.querySelector(".signup-modal");
 const mainPgEl = document.querySelector(".main-page");
 const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
+const salesPgEls = document.querySelectorAll(".saleslist-container");
 
 // signup elements
 export const emailInputEl = document.getElementById("signup-email");
@@ -127,12 +128,18 @@ async function router() {
     mainPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     userPgEl.style.display = "block";
+    const closeSalesPg = salesPgEls.forEach(
+      (salesPgEl) => (salesPgEl.style.display = "none")
+    );
   } else if (routePath.includes("#/admin")) {
     const email = await authLogin();
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
       userPgEl.style.display = "none";
       adminPgEl.style.display = "block";
+      const closeSalesPg = salesPgEls.forEach(
+        (salesPgEl) => (salesPgEl.style.display = "none")
+      );
       renderAdminItems();
     } else {
       alert("허용되지 않은 접근입니다.");
