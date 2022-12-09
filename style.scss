@@ -354,6 +354,28 @@ main {
           }
         }
       }
+      .total-items {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .item-container {
+          .items {
+            margin-bottom: 20px;
+            width: 430px;
+            display: flex;
+            justify-content: space-between;
+            .delete-btn {
+              cursor: pointer;
+              background: transparent;
+              border-color: transparent;
+              i {
+                color: hsl(360, 71%, 66%);
+              }
+            }
+          }
+        }
+      }
       .bank-info {
         display: flex;
         flex-direction: column;

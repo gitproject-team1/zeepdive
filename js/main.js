@@ -5,7 +5,10 @@ import {
   getItemWithExpireTime,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
-import { createItemEvent } from "./admin.js";
+import { createItemEvent, renderAdminItems } from "./admin.js";
+
+// 관리자 이메일 -> 추후 .env넣어야함.
+const ADMIN_EMAIL = `hyochofriend@naver.com`;
 
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const backGround = document.querySelector(".back-ground");
@@ -162,12 +165,15 @@ async function router() {
   if (routePath === "") {
     mainPgEl.style.display = "block";
     userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
   } else if (routePath.includes("#/user")) {
     // 기존꺼 hide하고 갈기면됨
     mainPgEl.style.display = "none";
     userPgEl.style.display = "block";
+    adminPgEl.style.display = "none";
   } else if (routePath.includes("#/admin")) {
     const email = await authLogin();
+    console.log(email);
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
       userPgEl.style.display = "none";

@@ -117,6 +117,7 @@ export async function authLogin() {
     // 로그인할 때 회원정보에 이름 들어가도록 만들기
     userInfoName.value = json.displayName;
   }
+  return json.email;
 }
 
 // 사용자 정보 수정 api
