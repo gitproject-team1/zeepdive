@@ -83,17 +83,3 @@ export function getItemWithExpireTime(keyName) {
   // 만료기간이 남아있는 경우, value 값 리턴
   return obj.value;
 }
-
-// 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
-const nameChangeBtn = document.querySelector(".name-change-btn");
-nameChangeBtn.addEventListener("click", async () => {
-  await editUser(userInfoName.value);
-});
-
-// 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
-const userInfoPw = document.getElementById("user-info-pwd");
-const userInfoNewPw = document.getElementById("user-info-new-pwd");
-const pwChangeBtn = document.querySelector(".pw-change-btn");
-pwChangeBtn.addEventListener("click", async () => {
-  await editUser(userInfoName.value, userInfoPw.value, userInfoNewPw.value);
-});
