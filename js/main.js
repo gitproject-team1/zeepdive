@@ -39,6 +39,8 @@ const searchInput = document.getElementById("search-main");
 
 // admin elements
 const addItemBtn = document.querySelector(".submit-item");
+const adminThumbnailFile = document.getElementById("admin-info-thumbnail");
+const adminImgFile = document.getElementById("admin-info-img");
 export const adminItemsEl = document.querySelector(".item-container");
 
 // user Info elements
@@ -74,19 +76,33 @@ loginBtnEl.addEventListener("click", () => {
     });
   }
 });
-
+// 평소에는 display: none을 걸어놓는다.
+// 이름 변경을 클릭하고 완료 했으면 모달창이 뜨도록
+// 확인 버튼을 누르면 다시 display: none 되도록
+export const userModal = document.querySelector(".user-modal");
+const userModalBtn = document.querySelector(".user-modal-btn");
+export const userModalContent = document.querySelector(".user-modal-content");
 submitEl.addEventListener("submit", createSubmitEvent);
 loginBtn.addEventListener("click", createLoginEvent);
-
+export const content = "";
 // 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
 nameChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await editUser(userInfoName.value);
+  await editUser("이름", userInfoName.value);
+});
+// 변경 됐다는 모달창에 있는 확인 버튼
+userModalBtn.addEventListener("click", () => {
+  userModal.classList.remove("show");
 });
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await editUser(userInfoName.value, userInfoPw.value, userInfoNewPw.value);
+  await editUser(
+    "비밀번호",
+    userInfoName.value,
+    userInfoPw.value,
+    userInfoNewPw.value
+  );
 });
 
 // 로컬에 로그인 데이터 있는지 확인.
@@ -103,9 +119,37 @@ pwChangeBtn.addEventListener("click", async (event) => {
 })();
 
 // ============ 관리자페이지 ============
+let base64Thumbnail = "";
+let base64Img = "";
+
+adminThumbnailFile.addEventListener("change", (event) => {
+  const { files } = event.target;
+  for (let i = 0; i < files.length; i += 1) {
+    const file = files[i];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.addEventListener("load", (e) => {
+      base64Thumbnail = e.target.result;
+    });
+  }
+});
+
+adminImgFile.addEventListener("change", (event) => {
+  const { files } = event.target;
+  for (let i = 0; i < files.length; i += 1) {
+    const file = files[i];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.addEventListener("load", (e) => {
+      base64Img = e.target.result;
+    });
+  }
+});
+
 addItemBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await createItemEvent();
+  await createItemEvent(base64Thumbnail, base64Img);
+  location.reload();
 });
 
 // 초기화면(새로고침, 화면진입) 렌더
@@ -125,10 +169,11 @@ async function router() {
   } else if (routePath.includes("#/user")) {
     // 기존꺼 hide하고 갈기면됨
     mainPgEl.style.display = "none";
-    adminPgEl.style.display = "none";
     userPgEl.style.display = "block";
+    adminPgEl.style.display = "none";
   } else if (routePath.includes("#/admin")) {
     const email = await authLogin();
+    console.log(email);
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
       userPgEl.style.display = "none";
