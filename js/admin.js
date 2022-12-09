@@ -1,4 +1,4 @@
-import { addItem } from "./requests.js";
+import { addItem, getItem } from "./requests.js";
 
 // 제품 추가
 export async function createItemEvent() {
@@ -14,3 +14,18 @@ export async function createItemEvent() {
   console.log(state);
   await addItem(state);
 }
+
+// export async function deleteItemEvent(){
+
+// }
+
+// 전체 item을 먼저 찾아야함. 거기서 id찾아서 삭제로 보내야함
+async function renderItems() {
+  const items = await getItem();
+  console.log(items);
+  items.forEach((item) => {
+    console.log(item);
+  });
+}
+
+renderItems();

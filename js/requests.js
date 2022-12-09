@@ -114,6 +114,31 @@ export async function authLogin() {
   }
 }
 
+// 사용자 정보 수정 api
+export async function editUser(displayName, oldPassword, newPassword) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch(
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/user",
+    {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        displayName,
+        oldPassword,
+        newPassword,
+      }),
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+}
+
 // ========== 관리자 api ==========
 export async function addItem({
   name,
@@ -147,27 +172,20 @@ export async function addItem({
   console.log("Response:", json);
 }
 
-// 사용자 정보 수정 api
-export async function editUser(displayName, oldPassword, newPassword) {
-  const tokenValue = localStorage.getItem("token");
-  const token = JSON.parse(tokenValue).value;
+export async function getItem() {
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/user",
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products",
     {
-      method: "PUT",
+      method: "GET",
       headers: {
         "content-type": "application/json",
         apikey: API_KEY,
         username: USER_NAME,
-        Authorization: `Bearer ${token}`,
+        masterKey: "true",
       },
-      body: JSON.stringify({
-        displayName,
-        oldPassword,
-        newPassword,
-      }),
     }
   );
   const json = await res.json();
   console.log("Response:", json);
+  return json;
 }
