@@ -1,4 +1,6 @@
-import { setItemWithExpireTime } from "./signup.js";
+import {
+  setItemWithExpireTime
+} from "./signup.js";
 import {
   loginBtnEl,
   idboxEl,
@@ -18,8 +20,7 @@ const USER_NAME = `imyeji`;
 // 회원가입 api
 export async function signup(email, password, displayName) {
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup",
-    {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -40,8 +41,7 @@ export async function signup(email, password, displayName) {
 // 로그인 api
 export async function login(email, password) {
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login",
-    {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -72,8 +72,7 @@ export async function logout() {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout",
-    {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -97,8 +96,7 @@ export async function authLogin() {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me",
-    {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -125,8 +123,7 @@ export async function editUser(content, displayName, oldPassword, newPassword) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/user",
-    {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/user", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -162,8 +159,7 @@ export async function addItem({
   img,
 }) {
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products",
-    {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -187,8 +183,7 @@ export async function addItem({
 
 export async function getItem() {
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products",
-    {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products", {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -205,8 +200,7 @@ export async function getItem() {
 
 export async function deleteItem(id) {
   const res = await fetch(
-    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
-    {
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
@@ -218,4 +212,41 @@ export async function deleteItem(id) {
   );
   const json = await res.json();
   console.log("Response:", json);
+}
+
+export async function getAccount(bankCode, accountN, phoneN, signature) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/account', {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      apikey: API_KEY,
+      username: USER_NAME,
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  const json = await res.json()
+  console.log(json)
+}
+
+// 계좌 연결
+async function addAccount(code, accN, phoneN, sign) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/account', {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      apikey: API_KEY,
+      username: USER_NAME,
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      bankCode: code,
+      accountNumber: accN,
+      phoneNumber: phoneN,
+      signature: sign
+    }),
+  })
 }
