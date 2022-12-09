@@ -46,7 +46,7 @@ export async function createLoginEvent(event) {
   state.email = loginId.value;
   state.password = loginPw.value;
   await login(state.email, state.password);
-  location.reload();
+  // location.reload();
 }
 
 // 만료 시간과 함께 데이터를 저장
