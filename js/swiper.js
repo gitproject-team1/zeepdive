@@ -3,7 +3,7 @@ export const swiper = new Swiper(".mySwiper1", {
     delay: 2500,
     disableOnInteraction: false,
   },
-  loop: 'ture',
+  loop: "ture",
   pagination: {
     el: ".swiper-pagination",
     type: "fraction",
