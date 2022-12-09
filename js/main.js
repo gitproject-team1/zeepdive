@@ -74,34 +74,23 @@ loginBtnEl.addEventListener("click", () => {
     });
   }
 });
-// 평소에는 display: none을 걸어놓는다.
-// 이름 변경을 클릭하고 완료 했으면 모달창이 뜨도록
-// 확인 버튼을 누르면 다시 display: none 되도록
-export const userModal = document.querySelector(".user-modal");
-const userModalBtn = document.querySelector(".user-modal-btn");
-export const userModalContent = document.querySelector(".user-modal-content");
+
 submitEl.addEventListener("submit", createSubmitEvent);
 loginBtn.addEventListener("click", createLoginEvent);
+<<<<<<< HEAD
 
 export const content = "";
+=======
+>>>>>>> parent of c2c060e (feat: Create User Info Change Modal Function)
 // 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
 nameChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await editUser("이름", userInfoName.value);
-});
-// 변경 됐다는 모달창에 있는 확인 버튼
-userModalBtn.addEventListener("click", () => {
-  userModal.classList.remove("show");
+  await editUser(userInfoName.value);
 });
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await editUser(
-    "비밀번호",
-    userInfoName.value,
-    userInfoPw.value,
-    userInfoNewPw.value
-  );
+  await editUser(userInfoName.value, userInfoPw.value, userInfoNewPw.value);
 });
 
 // 로컬에 로그인 데이터 있는지 확인.
