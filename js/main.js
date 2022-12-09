@@ -5,7 +5,7 @@ import {
   getItemWithExpireTime,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
-import { createItemEvent } from "./admin.js";
+import { createItemEvent, renderAdminItems } from "./admin.js";
 
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const backGround = document.querySelector(".back-ground");
@@ -36,6 +36,7 @@ const searchInput = document.getElementById("search-main");
 
 // admin elements
 const addItemBtn = document.querySelector(".submit-item");
+export const adminItemsEl = document.querySelector(".item-container");
 
 // user Info elements
 export const userInfoName = document.getElementById("user-info-name");
@@ -73,6 +74,7 @@ loginBtnEl.addEventListener("click", () => {
 
 submitEl.addEventListener("submit", createSubmitEvent);
 loginBtn.addEventListener("click", createLoginEvent);
+
 // 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
 nameChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -124,6 +126,7 @@ async function router() {
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "block";
+    renderAdminItems();
   }
 }
 

@@ -10,6 +10,7 @@ import {
 } from "./main.js";
 
 const API_KEY = `FcKdtJs202209`;
+const ADMIN_EMAIL = `hyochoFriend@naver.com`;
 const USER_NAME = `imyeji`;
 
 // 회원가입 api
@@ -190,4 +191,21 @@ export async function getItem() {
   const json = await res.json();
   console.log("Response:", json);
   return json;
+}
+
+export async function deleteItem(id) {
+  const res = await fetch(
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        masterKey: "true",
+      },
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
 }
