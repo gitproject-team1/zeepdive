@@ -1,9 +1,9 @@
 export const swiper = new Swiper(".mySwiper1", {
   autoplay: {
-    delay: 2500,
+    delay: 5000,
     disableOnInteraction: false,
   },
-  loop: 'ture',
+  loop: "ture",
   pagination: {
     el: ".swiper-pagination",
     type: "fraction",
