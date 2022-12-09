@@ -7,6 +7,9 @@ import {
   userInfoName,
   userInfoPw,
   userInfoNewPw,
+  userModal,
+  userModalContent,
+  content,
 } from "./main.js";
 
 const API_KEY = `FcKdtJs202209`;
@@ -114,11 +117,10 @@ export async function authLogin() {
     // 로그인할 때 회원정보에 이름 들어가도록 만들기
     userInfoName.value = json.displayName;
   }
-  return json.email;
 }
 
 // 사용자 정보 수정 api
-export async function editUser(displayName, oldPassword, newPassword) {
+export async function editUser(content, displayName, oldPassword, newPassword) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   const res = await fetch(
@@ -138,8 +140,15 @@ export async function editUser(displayName, oldPassword, newPassword) {
       }),
     }
   );
-  const json = await res.json();
-  console.log("Response:", json);
+  if (res.ok) {
+    const json = await res.json();
+    console.log("Response:", json);
+    userModalContent.innerHTML = `${content} 변경이 완료되었습니다.`;
+    userModal.classList.add("show");
+  } else {
+    userModalContent.innerHTML = `${content}가 일치하지 않습니다.`;
+    userModal.classList.add("show");
+  }
 }
 
 // ========== 관리자 api ==========
