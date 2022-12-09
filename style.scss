@@ -8,6 +8,7 @@ header {
   z-index: 100;
   background-color: #fff;
   .header-container {
+    display: flex;
     max-width: 1240px;
     margin: 0 auto;
     height: 70px;

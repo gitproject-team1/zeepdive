@@ -16,7 +16,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <!-- Swiper CDN -->
+    <!-- swiper css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+    />
+    <!-- Swiper js -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
@@ -157,12 +162,8 @@
               <input type="text" name="price" id="admin-info-price" />
             </p>
             <p class="add-item-name">
-              <label for="add-description">상세 설명</label>
-              <input
-                type="text"
-                name="description"
-                id="admin-info-description"
-              />
+              <label for="add-description">제품 설명</label>
+              <input type="text" name="tag" id="admin-info-description" />
             </p>
             <p class="add-item-name">
               <label for="add-tag">제품 태그</label>
@@ -170,11 +171,11 @@
             </p>
             <p class="add-item-name">
               <label for="add-thumbnail">썸네일</label>
-              <input type="text" name="thumbnail" id="admin-info-thumbnail" />
+              <input type="file" name="thumbnail" id="admin-info-thumbnail" />
             </p>
             <p class="add-item-name">
-              <label for="add-img">대표 사진</label>
-              <input type="text" name="img" id="admin-info-img" />
+              <label for="add-img">상세 사진</label>
+              <input type="file" name="img" id="admin-info-img" />
             </p>
             <button class="submit-item" type="submit">추가</button>
           </form>
