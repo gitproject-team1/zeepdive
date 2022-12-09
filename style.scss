@@ -160,6 +160,117 @@ main {
         }
       }
     }
+    .saleslist-container {
+      height: 100%;
+      max-width: 1152px;
+      padding: 50px;
+      margin: 0 auto;
+      .saleslist-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .saleslist-header-main {
+          font-size: 24px;
+          height: 24px;
+          font-weight: 700;
+        }
+        button {
+          padding: 10px 30px;
+          border-radius: 20px;
+          background-color: transparent;
+          border: 1.5px solid rgb(197, 200, 206);
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+      .saleslist-comment {
+        display: inline-block;
+        width: auto;
+        height: auto;
+        margin: 0px;
+        padding: 0px;
+        overflow: initial;
+        color: rgb(100, 111, 124);
+        font-size: 17px;
+        font-weight: inherit;
+        font-style: normal;
+        line-height: 23px;
+        text-align: inherit;
+        white-space: initial;
+        letter-spacing: -0.02em;
+      }
+    }
+    .saleslist-itemlist {
+      margin: 10px 0 0 0;
+      padding: 0;
+      width: auto;
+      align-items: center;
+      flex-wrap: nowrap;
+      .itemlist {
+        display: flex;
+      }
+    }
+    .itemlist-container {
+      width: 295px;
+      overflow: hidden;
+      &:hover {
+        cursor: pointer;
+      }
+      .saleslist-seemore {
+        display: flex;
+      }
+      .itemlist-image {
+        img {
+          max-width: 100%;
+          border: none;
+        }
+      }
+    }
+    .itemlist-detail {
+      display: flex;
+      flex-direction: column;
+      .itemlist-tag {
+        font-weight: 400;
+        line-height: 12px;
+        margin: 8px 0;
+        word-break: keep-all;
+        color: rgb(137, 143, 148);
+        font-size: 13px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .itemlist-title {
+        color: rgb(51, 60, 69);
+        font-size: 15px;
+        font-weight: 500;
+        margin: 8px 0;
+        line-height: 22px;
+        max-height: 40px;
+        overflow-wrap: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+      }
+      .itemlist-price {
+        display: inline-block;
+        width: auto;
+        height: auto;
+        margin: 0 0 2px 0;
+        padding: 0px;
+        overflow: initial;
+        color: rgb(24, 29, 31);
+        font-size: 20px;
+        font-weight: 700;
+        font-style: normal;
+        line-height: 22px;
+        text-align: inherit;
+        white-space: initial;
+        letter-spacing: initial;
+      }
+    }
   }
   article.user-page,
   article.admin-page {

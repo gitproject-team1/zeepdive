@@ -167,9 +167,15 @@ async function router() {
     mainPgEl.style.display = "none";
     userPgEl.style.display = "block";
   } else if (routePath.includes("#/admin")) {
-    mainPgEl.style.display = "none";
-    userPgEl.style.display = "none";
-    adminPgEl.style.display = "block";
+    const email = await authLogin();
+    if (email === ADMIN_EMAIL) {
+      mainPgEl.style.display = "none";
+      userPgEl.style.display = "none";
+      adminPgEl.style.display = "block";
+      renderAdminItems();
+    } else {
+      alert("허용되지 않은 접근입니다.");
+    }
   }
 }
 
