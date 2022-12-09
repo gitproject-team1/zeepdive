@@ -175,11 +175,14 @@ main {
       padding: 50px;
       box-sizing: border-box;
       h3 {
+        margin: 0 auto;
         font-size: 20px;
         text-align: center;
         line-height: 50px;
         border-bottom: 2px solid #333;
         margin-bottom: 40px;
+        width: max-content;
+
       }
       .user-info {
         display: flex;
@@ -268,6 +271,32 @@ main {
         display: flex;
         flex-direction: column;
         align-items: center;
+        .link-form{
+          .bank-link-section{
+            .bank-select{
+              width: 80px; height: 35px;
+              outline: none;
+              box-sizing: border-box;
+            }
+            input{
+              width: 80px; height: 35px;
+              display: none;
+              line-height: 20px;
+              outline: none;
+              box-sizing: border-box;
+            }
+            .bank-link-btn{
+              width: 80px; height: 35px;
+              color: #fff;
+              background-color: #fb3f4c;
+              border: transparent;
+              border-radius: 5px;
+              &:hover{
+                background-color: #a32931;
+              }
+            }
+          }
+        }
       }
     }
   }

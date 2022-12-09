@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>인테리어의 시작, 집꾸미기</title>
-    <link rel="favicon" href="./img/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
     <!-- reset css -->
     <link rel="stylesheet" href="./reset.css" />
     <!-- FontAwesome CDN -->
@@ -126,16 +126,27 @@
           </div>
           <!-- /.user-info -->
           <div class="bank-info">
-            <h3>계좌 연결 / 해지</h3>
-            <div class="gnb">
-              <button class="bank-link">계좌 연결</button>
-              <button class="bank-delete">계좌 해지</button>
-            </div>
-            <!-- bank-link-section -->
-            <div class="bank-link-section"></div>
-            <!-- bank-delete-section -->
-            <div class="bank-link-section"></div>
-            <!-- bank-delete-section -->
+            <!-- <button class="bank-link">계좌 연결</button>
+            <button class="bank-delete">계좌 해지</button> -->
+            <form class="link-form">
+              <h3>계좌 연결 / 해지</h3>
+              <!-- bank-link-section -->
+              <div class="bank-link-section">
+                <select class="bank-select">
+                  <option value="none">은행 선택</option>
+                  <option value="bank-nh">NH농협은행</option>
+                  <option value="bank-kb">KB국민은행</option>
+                  <option value="bank-sh">신한은행</option>
+                  <option value="bank-ka">카카오뱅크</option>
+                </select>
+                <input type='text' pattern="[0-9]+" class="bank-link-1 bank-link-input"/>
+                <input type='text' pattern="[0-9]+" class="bank-link-2 bank-link-input"/>
+                <input type='text' pattern="[0-9]+" class="bank-link-3 bank-link-input"/>
+                <input type='text' pattern="[0-9]+" class="bank-link-4 bank-link-input"/>
+                <button class="bank-link-btn">계좌 연결</button>
+              </div>
+              <!-- bank-link-section -->
+            </form><!-- /.add-bank -->
           </div>
           <!-- /.bank-info -->
         </div>
