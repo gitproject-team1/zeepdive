@@ -5,6 +5,8 @@ import {
   pwboxEl,
   loginErrorBox,
   userInfoName,
+  userInfoPw,
+  userInfoNewPw,
 } from "./main.js";
 
 const API_KEY = `FcKdtJs202209`;
