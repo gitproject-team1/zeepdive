@@ -5,10 +5,7 @@ import {
   getItemWithExpireTime,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
-import { createItemEvent, renderAdminItems } from "./admin.js";
-
-// 관리자 이메일 -> 추후 .env넣어야함.
-const ADMIN_EMAIL = `hyochofriend@naver.com`;
+import { createItemEvent } from "./admin.js";
 
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const backGround = document.querySelector(".back-ground");
@@ -39,7 +36,6 @@ const searchInput = document.getElementById("search-main");
 
 // admin elements
 const addItemBtn = document.querySelector(".submit-item");
-export const adminItemsEl = document.querySelector(".item-container");
 
 // user Info elements
 export const userInfoName = document.getElementById("user-info-name");
@@ -74,23 +70,33 @@ loginBtnEl.addEventListener("click", () => {
     });
   }
 });
-
+// 평소에는 display: none을 걸어놓는다.
+// 이름 변경을 클릭하고 완료 했으면 모달창이 뜨도록
+// 확인 버튼을 누르면 다시 display: none 되도록
+export const userModal = document.querySelector(".user-modal");
+const userModalBtn = document.querySelector(".user-modal-btn");
+export const userModalContent = document.querySelector(".user-modal-content");
 submitEl.addEventListener("submit", createSubmitEvent);
 loginBtn.addEventListener("click", createLoginEvent);
-<<<<<<< HEAD
-
 export const content = "";
-=======
->>>>>>> parent of c2c060e (feat: Create User Info Change Modal Function)
 // 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
 nameChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await editUser(userInfoName.value);
+  await editUser("이름", userInfoName.value);
+});
+// 변경 됐다는 모달창에 있는 확인 버튼
+userModalBtn.addEventListener("click", () => {
+  userModal.classList.remove("show");
 });
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await editUser(userInfoName.value, userInfoPw.value, userInfoNewPw.value);
+  await editUser(
+    "비밀번호",
+    userInfoName.value,
+    userInfoPw.value,
+    userInfoNewPw.value
+  );
 });
 
 // 로컬에 로그인 데이터 있는지 확인.
@@ -125,22 +131,14 @@ async function router() {
   if (routePath === "") {
     mainPgEl.style.display = "block";
     userPgEl.style.display = "none";
-    adminPgEl.style.display = "none";
   } else if (routePath.includes("#/user")) {
     // 기존꺼 hide하고 갈기면됨
     mainPgEl.style.display = "none";
-    adminPgEl.style.display = "none";
     userPgEl.style.display = "block";
   } else if (routePath.includes("#/admin")) {
-    const email = await authLogin();
-    if (email === ADMIN_EMAIL) {
-      mainPgEl.style.display = "none";
-      userPgEl.style.display = "none";
-      adminPgEl.style.display = "block";
-      renderAdminItems();
-    } else {
-      alert("허용되지 않은 접근입니다.");
-    }
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "block";
   }
 }
 
