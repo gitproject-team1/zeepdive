@@ -1,9 +1,10 @@
 import { addItem, getItem, deleteItem } from "./requests.js";
 import { adminItemsEl } from "./main.js";
 
+const addItemEl = document.querySelectorAll(".add-item-name input");
 // 제품 추가
 export async function createItemEvent(base64Thumbnail, base64Img) {
-  const addItemEl = document.querySelectorAll(".add-item-name input");
+  // const addItemEl = document.querySelectorAll(".add-item-name input");
   const state = {
     name: addItemEl[0].value,
     price: addItemEl[1].value,
