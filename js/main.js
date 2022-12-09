@@ -185,5 +185,8 @@ userInfoBtn.addEventListener("click", () => {
   const token = localStorage.getItem("token");
   if (token) {
     window.location = "#/user";
-  } else return;
+  } else {
+    userModalContent.innerHTML = `로그인을 해주세요.`;
+    userModal.classList.add("show");
+  }
 });
