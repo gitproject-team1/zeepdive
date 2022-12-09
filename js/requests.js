@@ -10,7 +10,6 @@ import {
 } from "./main.js";
 
 const API_KEY = `FcKdtJs202209`;
-const ADMIN_EMAIL = `hyochoFriend@naver.com`;
 const USER_NAME = `imyeji`;
 
 // 회원가입 api
@@ -115,6 +114,7 @@ export async function authLogin() {
     // 로그인할 때 회원정보에 이름 들어가도록 만들기
     userInfoName.value = json.displayName;
   }
+  return json.email;
 }
 
 // 사용자 정보 수정 api
