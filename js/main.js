@@ -36,6 +36,9 @@ const searchInput = document.getElementById("search-main");
 
 // admin elements
 const addItemBtn = document.querySelector(".submit-item");
+const adminThumbnailFile = document.getElementById("admin-info-thumbnail");
+const adminImgFile = document.getElementById("admin-info-img");
+export const adminItemsEl = document.querySelector(".item-container");
 
 // user Info elements
 export const userInfoName = document.getElementById("user-info-name");
@@ -113,9 +116,37 @@ pwChangeBtn.addEventListener("click", async (event) => {
 })();
 
 // ============ 관리자페이지 ============
+let base64Thumbnail = "";
+let base64Img = "";
+
+adminThumbnailFile.addEventListener("change", (event) => {
+  const { files } = event.target;
+  for (let i = 0; i < files.length; i += 1) {
+    const file = files[i];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.addEventListener("load", (e) => {
+      base64Thumbnail = e.target.result;
+    });
+  }
+});
+
+adminImgFile.addEventListener("change", (event) => {
+  const { files } = event.target;
+  for (let i = 0; i < files.length; i += 1) {
+    const file = files[i];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.addEventListener("load", (e) => {
+      base64Img = e.target.result;
+    });
+  }
+});
+
 addItemBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await createItemEvent();
+  await createItemEvent(base64Thumbnail, base64Img);
+  location.reload();
 });
 
 // 초기화면(새로고침, 화면진입) 렌더

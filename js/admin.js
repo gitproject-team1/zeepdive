@@ -2,19 +2,19 @@ import { addItem, getItem, deleteItem } from "./requests.js";
 import { adminItemsEl } from "./main.js";
 
 // 제품 추가
-export async function createItemEvent() {
+export async function createItemEvent(base64Thumbnail, base64Img) {
   const addItemEl = document.querySelectorAll(".add-item-name input");
   const state = {
     name: addItemEl[0].value,
     price: addItemEl[1].value,
     description: addItemEl[2].value,
     tag: addItemEl[3].value,
-    thumbnail: addItemEl[4].value,
-    img: addItemEl[5].value,
+    thumbnail: base64Thumbnail,
+    img: base64Img,
   };
   console.log(state);
   await addItem(state);
-  location.reload();
+  // location.reload();
 }
 
 // 전체 제품 렌더링

@@ -175,8 +175,8 @@ export async function addItem({
         price: Number(price),
         description: description,
         tags: [tag],
-        // thumbnailBase64: thumbnail,
-        // photoBase64: img,
+        thumbnailBase64: thumbnail,
+        photoBase64: img,
       }),
     }
   );
