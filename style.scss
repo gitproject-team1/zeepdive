@@ -287,14 +287,11 @@ main {
       padding: 50px;
       box-sizing: border-box;
       h3 {
-        margin: 0 auto;
         font-size: 20px;
         text-align: center;
         line-height: 50px;
         border-bottom: 2px solid #333;
         margin-bottom: 40px;
-        width: max-content;
-
       }
       .user-info {
         display: flex;
@@ -383,32 +380,6 @@ main {
         display: flex;
         flex-direction: column;
         align-items: center;
-        .link-form{
-          .bank-link-section{
-            .bank-select{
-              width: 80px; height: 35px;
-              outline: none;
-              box-sizing: border-box;
-            }
-            input{
-              width: 80px; height: 35px;
-              display: none;
-              line-height: 20px;
-              outline: none;
-              box-sizing: border-box;
-            }
-            .bank-link-btn{
-              width: 80px; height: 35px;
-              color: #fff;
-              background-color: #fb3f4c;
-              border: transparent;
-              border-radius: 5px;
-              &:hover{
-                background-color: #a32931;
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -446,25 +417,30 @@ main {
       }
       .option {
         display: flex;
-        .option-cart {
+        gap: 8px;
+        button {
           border-radius: 12px;
-          background-color: rgb(255, 236, 236);
-          color: white;
           width: 200px;
           height: 55px;
+          font-weight: 700;
+          font-size: 16px;
           cursor: pointer;
+          border-width: 0;
+        }
+        .option-cart {
+          background-color: rgb(255, 236, 236);
+          box-sizing: border-box;
+          color: rgb(238, 109, 109);
           &:hover {
             transition: all 0.2s ease-out 0s;
             background: rgb(246, 163, 166);
+            color: rgb(221, 96, 96);
           }
         }
         .option-buynow {
-          border-radius: 12px;
           background-color: rgb(238, 109, 109);
+          box-sizing: border-box;
           color: white;
-          width: 200px;
-          height: 55px;
-          cursor: pointer;
           &:hover {
             transition: all 0.2s ease-out 0s;
             background: rgb(221, 96, 96);
