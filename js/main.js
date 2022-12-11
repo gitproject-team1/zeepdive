@@ -6,6 +6,7 @@ import {
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
 import { createItemEvent, renderAdminItems } from "./admin.js";
+import { render, sassFalse } from "sass";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
@@ -173,7 +174,7 @@ async function router() {
     adminPgEl.style.display = "none";
   } else if (routePath.includes("#/admin")) {
     const email = await authLogin();
-    console.log(email);
+    // console.log(email);
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
       userPgEl.style.display = "none";
