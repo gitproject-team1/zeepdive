@@ -384,6 +384,82 @@ main {
     }
   }
 }
+
+.detail-container {
+  .detail-view {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    .thumnail {
+      width: 540px;
+      height: 540px;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+    .funiture-summary {
+      .furniture-tag {
+        color: rgb(100, 111, 124);
+        font-size: 15px;
+        font-weight: 500;
+        white-space: normal;
+        margin-bottom: 16px;
+      }
+      .furniture-title {
+        font-size: 20px;
+        font-weight: 500;
+        word-break: break-all;
+        margin: 0px 0px 16px;
+      }
+      .furniture-price {
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 1.33;
+      }
+      .option {
+        display: flex;
+        .option-cart {
+          border-radius: 12px;
+          background-color: rgb(255, 236, 236);
+          color: white;
+          width: 200px;
+          height: 55px;
+          cursor: pointer;
+          &:hover {
+            transition: all 0.2s ease-out 0s;
+            background: rgb(246, 163, 166);
+          }
+        }
+        .option-buynow {
+          border-radius: 12px;
+          background-color: rgb(238, 109, 109);
+          color: white;
+          width: 200px;
+          height: 55px;
+          cursor: pointer;
+          &:hover {
+            transition: all 0.2s ease-out 0s;
+            background: rgb(221, 96, 96);
+          }
+        }
+      }
+    }
+  }
+  .furniture-container {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 46px;
+    .furniture-detail-view {
+      font-size: 20px;
+      font-weight: 700;
+      padding: 30px 0 10px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+  }
+}
+
 .back-ground {
   position: fixed;
   visibility: hidden;
