@@ -22,6 +22,7 @@ export const mainPgEl = document.querySelector(".main-page");
 const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
 const footerEl = document.querySelector("footer");
+const categorypgEl = document.querySelector(".category-page");
 
 // signup elements
 export const emailInputEl = document.getElementById("signup-email");
@@ -38,6 +39,7 @@ export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
 
 //search elements
+const searchForm = document.querySelector(".search-box");
 const searchInput = document.getElementById("search-main");
 
 // user Info elements
@@ -46,6 +48,11 @@ export const nameChangeBtn = document.querySelector(".name-change-btn");
 export const userInfoPw = document.getElementById("user-info-pwd");
 export const userInfoNewPw = document.getElementById("user-info-new-pwd");
 const pwChangeBtn = document.querySelector(".pw-change-btn");
+
+// 검색창
+searchForm.addEventListener("submit", (event) => {
+  window.location.href = `#/furniture/all/${searchInput.value}`;
+});
 
 //상세페이지
 const detailPageEl = document.querySelector(".detail-container");
@@ -165,6 +172,7 @@ async function router() {
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     footerEl.style.display = "none";
+    categorypgEl.style.display = "none";
     await renderMainItems();
     mainPgEl.style.display = "block";
     footerEl.style.display = "block";
@@ -174,17 +182,20 @@ async function router() {
     userPgEl.style.display = "block";
     adminPgEl.style.display = "none";
     detailPageEl.style.display = "none";
+    categorypgEl.style.display = "none";
     //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     detailPageEl.style.display = "block";
+    categorypgEl.style.display = "none";
     //관리자 페이지
   } else if (routePath.includes("#/admin")) {
     // 관리자인지 확인
     const email = await authLogin();
     detailPageEl.style.display = "none";
+    categorypgEl.style.display = "none";
     //만약 관리자라면,
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
@@ -201,6 +212,7 @@ async function router() {
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
+    categorypgEl.style.display = "block";
     // category url에서 파싱
     const category = routePath.split("/")[2];
     await renderCategoryPages(category);
