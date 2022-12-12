@@ -10,6 +10,7 @@ import {
   userModal,
   userModalContent,
   content,
+  showErrorBox,
 } from "./main.js";
 
 const API_KEY = `FcKdtJs202209`;
@@ -61,9 +62,7 @@ export async function login(email, password) {
     setItemWithExpireTime("token", json.accessToken, 86400000);
     location.reload();
   } else {
-    idboxEl.style.border = "2px solid red";
-    pwboxEl.style.border = "2px solid red";
-    loginErrorBox.innerHTML = "회원 정보가 올바르지 않습니다.";
+    showErrorBox();
   }
 }
 

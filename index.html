@@ -522,13 +522,16 @@
             <i class="fa-solid fa-user"></i>
             <input type="email" class="login-id" placeholder="아이디" />
           </div>
+          <span class="id-error-msg"
+            >규칙에 맞는 이메일 주소를 입력해주세요.</span
+          >
           <div class="pw-box">
             <i class="fa-solid fa-key"></i>
             <input type="password" class="login-pw" placeholder="비밀번호" />
           </div>
-          <div class="login-error-box"></div>
           <button type="submit" class="login-btn">로그인</button>
           <button class="signup" type="button">회원가입</button>
+          <div class="login-error-box">로그인정보가 일치하지 않습니다.</div>
         </form>
       </article>
       <button class="close-login close">
@@ -549,6 +552,9 @@
             placeholder="이메일을 적어주세요"
           />
         </p>
+        <span class="id-error-msg"
+          >규칙에 맞는 이메일 주소를 입력해주세요.</span
+        >
         <div class="email-alert"></div>
         <p class="signup-pw-box">
           <label for="signup-pw">비밀번호</label>
