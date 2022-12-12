@@ -6,6 +6,8 @@ import {
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
 import { createItemEvent, renderAdminItems } from "./admin.js";
+import { getItem } from "./requests.js";
+import { render, sassFalse } from "sass";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
@@ -49,6 +51,15 @@ export const nameChangeBtn = document.querySelector(".name-change-btn");
 export const userInfoPw = document.getElementById("user-info-pwd");
 export const userInfoNewPw = document.getElementById("user-info-new-pwd");
 const pwChangeBtn = document.querySelector(".pw-change-btn");
+
+//상세페이지
+const detailPageEl = document.querySelector(".detail-container");
+
+//메인페이지
+const itemimgEl = document.querySelector(".itemlist-image");
+const itemTagsEls = document.querySelectorAll(".itemlist-tag");
+const itemTitleEls = document.querySelectorAll(".itemlist-title");
+const itemPriceEls = document.querySelectorAll(".itemlist-price");
 
 firstNav.addEventListener("mouseover", () => {
   backGround.style.visibility = "visible";
@@ -166,14 +177,22 @@ async function router() {
     mainPgEl.style.display = "block";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
+    detailPageEl.style.display = "none";
   } else if (routePath.includes("#/user")) {
     // 기존꺼 hide하고 갈기면됨
     mainPgEl.style.display = "none";
     userPgEl.style.display = "block";
     adminPgEl.style.display = "none";
+    detailPageEl.style.display = "none";
+  } else if (routePath.includes("#/detail")) {
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
+    detailPageEl.style.display = "block";
   } else if (routePath.includes("#/admin")) {
     const email = await authLogin();
-    console.log(email);
+    detailPageEl.style.display = "none";
+    // console.log(email);
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
       userPgEl.style.display = "none";
@@ -194,84 +213,104 @@ userInfoBtn.addEventListener("click", () => {
   } else return;
 });
 
-// bank elements 
-const inputBankEl1 = document.querySelector('.bank-link-1')
-const inputBankEl2 = document.querySelector('.bank-link-2')
-const inputBankEl3 = document.querySelector('.bank-link-3')
-const inputBankEl4 = document.querySelector('.bank-link-4')
-const allInputBankEl = document.querySelectorAll('.bank-link-input')
-const bankSelectEl = document.querySelector('.bank-select')
-const bankSubmitBtn = document.querySelector('.bank-link-btn')
-let bankNumber = ''
+// bank elements
+const inputBankEl1 = document.querySelector(".bank-link-1");
+const inputBankEl2 = document.querySelector(".bank-link-2");
+const inputBankEl3 = document.querySelector(".bank-link-3");
+const inputBankEl4 = document.querySelector(".bank-link-4");
+const allInputBankEl = document.querySelectorAll(".bank-link-input");
+const bankSelectEl = document.querySelector(".bank-select");
+const bankSubmitBtn = document.querySelector(".bank-link-btn");
+let bankNumber = "";
 
-
-bankSelectEl.addEventListener('change', () => {
-  let select1 = bankSelectEl[bankSelectEl.selectedIndex].value
-  let arr =[]
-  if( select1 === 'none'){
-    inputDisplay('none')
-  } else if ( select1 === 'bank-nh'){
-    inputDisplay('inline')
-    arr =  [3, 4, 4, 2]
-  } else if ( select1 === 'bank-kb'){
-    inputDisplay('inline')
-    arr = [3, 2, 4, 3]
-  } else if (select1 === 'bank-sh'){
-    inputDisplay('inline')
-    arr = [3, 3, 6]
-    }else if (select1 === 'bank-ka'){
-    inputDisplay('inline')
-    arr = [4, 2, 7]
+bankSelectEl.addEventListener("change", () => {
+  let select1 = bankSelectEl[bankSelectEl.selectedIndex].value;
+  let arr = [];
+  if (select1 === "none") {
+    inputDisplay("none");
+  } else if (select1 === "bank-nh") {
+    inputDisplay("inline");
+    arr = [3, 4, 4, 2];
+  } else if (select1 === "bank-kb") {
+    inputDisplay("inline");
+    arr = [3, 2, 4, 3];
+  } else if (select1 === "bank-sh") {
+    inputDisplay("inline");
+    arr = [3, 3, 6];
+  } else if (select1 === "bank-ka") {
+    inputDisplay("inline");
+    arr = [4, 2, 7];
   }
 
+  inputBankEl1.value = "";
+  inputBankEl2.value = "";
+  inputBankEl3.value = "";
+  inputBankEl4.value = "";
 
-  inputBankEl1.value = ''
-  inputBankEl2.value = ''
-  inputBankEl3.value = ''
-  inputBankEl4.value = ''
+  inputBankEl1.setAttribute("maxlength", arr[0]);
+  inputBankEl2.setAttribute("maxlength", arr[1]);
+  inputBankEl3.setAttribute("maxlength", arr[2]);
+  inputBankEl4.setAttribute("maxlength", arr[3]);
 
-  inputBankEl1.setAttribute('maxlength',arr[0])
-  inputBankEl2.setAttribute('maxlength',arr[1])
-  inputBankEl3.setAttribute('maxlength',arr[2])
-  inputBankEl4.setAttribute('maxlength',arr[3])
+  const i4Len = inputBankEl4.getAttribute("maxlength");
 
-  const i4Len = inputBankEl4.getAttribute('maxlength')
-  
-  if( i4Len === 'undefined' ){
-    inputBankEl4.style.display = 'none'
+  if (i4Len === "undefined") {
+    inputBankEl4.style.display = "none";
   } else {
-    inputBankEl4.style.display = 'inline'
+    inputBankEl4.style.display = "inline";
   }
-  inputBankEl1.focus()
+  inputBankEl1.focus();
 
-  function inputDisplay(display){
-    allInputBankEl.forEach(e=>{
-      e.style.display = display
-    })
+  function inputDisplay(display) {
+    allInputBankEl.forEach((e) => {
+      e.style.display = display;
+    });
   }
+});
 
-})
-
-allInputBankEl.forEach((e,i)=>{
-  e.addEventListener('input',()=>{
-    if( i < 3 ){
-      if(allInputBankEl[i].value.length === Number(allInputBankEl[i].getAttribute('maxlength'))){
-        allInputBankEl[i+1].focus()
+allInputBankEl.forEach((e, i) => {
+  e.addEventListener("input", () => {
+    if (i < 3) {
+      if (
+        allInputBankEl[i].value.length ===
+        Number(allInputBankEl[i].getAttribute("maxlength"))
+      ) {
+        allInputBankEl[i + 1].focus();
       }
     }
-  })
-})
-bankSubmitBtn.addEventListener('click',()=>{
-allInputBankEl.forEach(e => {
-      bankNumber += e.value
-      e.value = ''
-  })
-  if(!Number(bankNumber)){
-    window.alert('숫자만 입력하세요')
-  }else{
-    console.log(Number(bankNumber))
+  });
+});
+bankSubmitBtn.addEventListener("click", () => {
+  allInputBankEl.forEach((e) => {
+    bankNumber += e.value;
+    e.value = "";
+  });
+  if (!Number(bankNumber)) {
+    window.alert("숫자만 입력하세요");
+  } else {
+    // console.log(Number(bankNumber));
   }
-  console.log(bankNumber)
-  bankNumber = ''
-})
+  // console.log(bankNumber);
+  bankNumber = "";
+});
 
+async function getMainPage() {
+  const items = await getItem();
+  const christmasItem = items.filter((item) => item.tags[0] === "크리스마스");
+  const planterior = items.filter((item) => item.tags[0] === "플랜테리어");
+  const cookoo = items.filter((item) => item.tags[0] === "쿠쿠");
+  const drawer = items.filter((item) => item.tags[0] === "플랜테리어");
+  for (let i = 0; i < 4; i++) {
+    itemTagsEls[i].innerHTML = christmasItem[i].tags;
+    itemTitleEls[i].innerHTML = christmasItem[i].title;
+    itemPriceEls[i].innerHTML = christmasItem[i].price;
+  }
+  for (let i = 4; i < 8; i++) {
+    itemTagsEls[i].innerHTML = planterior[i].tags;
+    itemTitleEls[i].innerHTML = planterior[i].title;
+    itemPriceEls[i].innerHTML = planterior[i].price;
+  }
+}
+getMainPage();
+
+console.log(await getItem());
