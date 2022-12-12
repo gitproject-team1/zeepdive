@@ -36,7 +36,6 @@ export const loginPw = document.querySelector(".login-pw");
 export const loginBtn = document.querySelector(".login-btn");
 export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
-export const loginErrorBox = document.querySelector(".login-error-box");
 
 //search elements
 const searchInput = document.getElementById("search-main");
@@ -83,9 +82,7 @@ loginBtnEl.addEventListener("click", () => {
     });
   }
 });
-// 평소에는 display: none을 걸어놓는다.
-// 이름 변경을 클릭하고 완료 했으면 모달창이 뜨도록
-// 확인 버튼을 누르면 다시 display: none 되도록
+
 export const userModal = document.querySelector(".user-modal");
 const userModalBtn = document.querySelector(".user-modal-btn");
 export const userModalContent = document.querySelector(".user-modal-content");
@@ -124,6 +121,39 @@ pwChangeBtn.addEventListener("click", async (event) => {
   // 만료시간 체크는 계속
   getItemWithExpireTime("token");
 })();
+
+// 로그인 시 유효성 검사
+const idErrorMsg = document.querySelector(".id-error-msg");
+loginId.addEventListener("focusout", () => {
+  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  if (loginId.value && !exptext.test(loginId.value)) {
+    idErrorMsg.classList.add("show");
+    idboxEl.style.border = "1px solid #ed234b";
+  }
+});
+loginId.addEventListener("focusin", () => {
+  idErrorMsg.classList.remove("show");
+  idboxEl.style.border = "1px solid #999";
+});
+
+// 로그인 실패 시
+const loginErrorBox = document.querySelector(".login-error-box");
+export function showErrorBox() {
+  loginErrorBox.classList.add("show");
+  setTimeout(() => {
+    loginErrorBox.classList.remove("show");
+  }, 2000);
+}
+
+// 회원가입 유효성 검사
+// const singupEmailBox = document.querySelector('.signup-email-box')
+// emailInputEl.addEventListener("focusout", () => {
+//   const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+//   if (emailInputEl.value && !exptext.test(emailInputEl)) {
+//     // idErrorMsg.classList.add("show");
+//     singupEmailBox.style.border = "1px solid #ed234b";
+//   }
+// });
 
 // ============ 관리자페이지 ============
 let base64Thumbnail = "";
@@ -210,7 +240,10 @@ userInfoBtn.addEventListener("click", () => {
   const token = localStorage.getItem("token");
   if (token) {
     window.location = "#/user";
-  } else return;
+  } else {
+    userModalContent.innerHTML = `로그인을 해주세요.`;
+    userModal.classList.add("show");
+  }
 });
 
 // bank elements

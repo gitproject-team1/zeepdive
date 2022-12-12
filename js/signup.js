@@ -9,6 +9,7 @@ import {
   loginBtnEl,
   test,
   userInfoName,
+  idboxEl,
 } from "./main.js";
 
 import { signup, login, logout, authLogin, editUser } from "./requests.js";

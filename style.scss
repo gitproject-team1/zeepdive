@@ -381,6 +381,35 @@ main {
         display: flex;
         flex-direction: column;
         align-items: center;
+        .link-form {
+          .bank-link-section {
+            .bank-select {
+              width: 80px;
+              height: 35px;
+              outline: none;
+              box-sizing: border-box;
+            }
+            input {
+              width: 80px;
+              height: 35px;
+              display: none;
+              line-height: 20px;
+              outline: none;
+              box-sizing: border-box;
+            }
+            .bank-link-btn {
+              width: 80px;
+              height: 35px;
+              color: #fff;
+              background-color: #fb3f4c;
+              border: transparent;
+              border-radius: 5px;
+              &:hover {
+                background-color: #a32931;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -504,13 +533,14 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: 20px;
+    position: relative;
     .id-box,
     .pw-box {
       background-color: #f7f8f9;
       border: 1px solid #999;
       display: flex;
       align-items: center;
+      // margin-bottom: 20px;
       i {
         font-size: 20px;
         color: #555;
@@ -527,6 +557,21 @@ main {
         }
       }
     }
+    span {
+      visibility: hidden;
+      margin-top: 6px;
+      text-align: left;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: #ed234b;
+    }
+    span.show {
+      visibility: visible;
+    }
+    .login-btn {
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
     button {
       width: 300px;
       height: 30px;
@@ -538,6 +583,20 @@ main {
       &:hover {
         background-color: #2e3236;
       }
+    }
+    .login-error-box {
+      display: none;
+      padding: 27px 30px;
+      border-radius: 4px;
+      background-color: #2e2e2e;
+      color: #fff;
+      font-size: 14px;
+      position: absolute;
+      top: 30px;
+      transition: all 0.3s linear;
+    }
+    .login-error-box.show {
+      display: block;
     }
   }
 }
@@ -565,12 +624,13 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: 20px;
+    // row-gap: 20px;
     p {
       border: 1px solid #333;
       background-color: #f7f8f9;
       display: flex;
       align-items: center;
+      margin-bottom: 20px;
       label {
         display: inline-block;
         width: 100px;
@@ -588,6 +648,9 @@ main {
           outline: none;
         }
       }
+    }
+    .signup-email-box {
+      margin-bottom: 0px;
     }
     .email-alert {
       display: none;
