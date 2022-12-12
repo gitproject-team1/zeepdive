@@ -1,6 +1,11 @@
 import { addItem, getItem, deleteItem } from "./requests.js";
-import { adminItemsEl } from "./main.js";
-import { adminThumbnailFile, adminImgFile, addItemBtn } from "./store.js";
+// import { adminItemsEl } from "./main.js";
+import {
+  adminThumbnailFile,
+  adminImgFile,
+  addItemBtn,
+  adminItemsEl,
+} from "./store.js";
 
 const addItemEl = document.querySelectorAll(".add-item-name input");
 // 제품 추가

@@ -10,3 +10,6 @@ export const adminThumbnailFile = document.getElementById(
 );
 export const adminImgFile = document.getElementById("admin-info-img");
 export const addItemBtn = document.querySelector(".submit-item");
+export const adminItemsEl = document.querySelector(
+  ".total-items > .item-container"
+);
