@@ -149,6 +149,16 @@ export function showErrorBox() {
   }, 2000);
 }
 
+// 회원가입 유효성 검사
+// const singupEmailBox = document.querySelector('.signup-email-box')
+// emailInputEl.addEventListener("focusout", () => {
+//   const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+//   if (emailInputEl.value && !exptext.test(emailInputEl)) {
+//     // idErrorMsg.classList.add("show");
+//     singupEmailBox.style.border = "1px solid #ed234b";
+//   }
+// });
+
 // ============ 관리자페이지 ============
 let base64Thumbnail = "";
 let base64Img = "";
