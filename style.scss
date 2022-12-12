@@ -209,6 +209,7 @@ main {
       flex-wrap: nowrap;
       .itemlist {
         display: flex;
+        gap: 10px;
       }
     }
     .itemlist-container {
@@ -223,7 +224,7 @@ main {
       .itemlist-image {
         img {
           max-width: 100%;
-          border: none;
+          border-radius: 5px;
         }
       }
     }
@@ -386,6 +387,7 @@ main {
 }
 
 .detail-container {
+  display: none;
   .detail-view {
     display: flex;
     justify-content: center;
