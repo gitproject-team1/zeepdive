@@ -7,6 +7,7 @@ import {
 import { authLogin, editUser } from "./requests.js";
 import { createItemEvent, renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
+import { getMainPage } from "./render.js";
 import { render, sassFalse } from "sass";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
@@ -17,9 +18,10 @@ const backGround = document.querySelector(".back-ground");
 export const loginBtnEl = document.querySelector(".login");
 const loginModal = document.querySelector(".login-modal");
 const signupModal = document.querySelector(".signup-modal");
-const mainPgEl = document.querySelector(".main-page");
+export const mainPgEl = document.querySelector(".main-page");
 const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
+const footerEl = document.querySelector("footer");
 
 // signup elements
 export const emailInputEl = document.getElementById("signup-email");
@@ -53,12 +55,6 @@ const pwChangeBtn = document.querySelector(".pw-change-btn");
 
 //상세페이지
 const detailPageEl = document.querySelector(".detail-container");
-
-//메인페이지
-const itemimgEl = document.querySelector(".itemlist-image");
-const itemTagsEls = document.querySelectorAll(".itemlist-tag");
-const itemTitleEls = document.querySelectorAll(".itemlist-title");
-const itemPriceEls = document.querySelectorAll(".itemlist-price");
 
 firstNav.addEventListener("mouseover", () => {
   backGround.style.visibility = "visible";
@@ -204,10 +200,14 @@ async function router() {
   const routePath = location.hash;
   // 초기화면
   if (routePath === "") {
-    mainPgEl.style.display = "block";
+    detailPageEl.style.display = "none";
+    mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
-    detailPageEl.style.display = "none";
+    footerEl.style.display = "none";
+    await getMainPage();
+    mainPgEl.style.display = "block";
+    footerEl.style.display = "block";
   } else if (routePath.includes("#/user")) {
     // 기존꺼 hide하고 갈기면됨
     mainPgEl.style.display = "none";
@@ -326,24 +326,3 @@ bankSubmitBtn.addEventListener("click", () => {
   // console.log(bankNumber);
   bankNumber = "";
 });
-
-async function getMainPage() {
-  const items = await getItem();
-  const christmasItem = items.filter((item) => item.tags[0] === "크리스마스");
-  const planterior = items.filter((item) => item.tags[0] === "플랜테리어");
-  const cookoo = items.filter((item) => item.tags[0] === "쿠쿠");
-  const drawer = items.filter((item) => item.tags[0] === "플랜테리어");
-  for (let i = 0; i < 4; i++) {
-    itemTagsEls[i].innerHTML = christmasItem[i].tags;
-    itemTitleEls[i].innerHTML = christmasItem[i].title;
-    itemPriceEls[i].innerHTML = christmasItem[i].price;
-  }
-  for (let i = 4; i < 8; i++) {
-    itemTagsEls[i].innerHTML = planterior[i].tags;
-    itemTitleEls[i].innerHTML = planterior[i].title;
-    itemPriceEls[i].innerHTML = planterior[i].price;
-  }
-}
-getMainPage();
-
-console.log(await getItem());
