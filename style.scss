@@ -37,7 +37,7 @@ header {
               position: absolute;
               top: 50%;
               transform: translateY(-50%);
-              font-size: 17px;
+              font-size: 20px;
               font-weight: 700;
             }
             i {
@@ -51,15 +51,21 @@ header {
               top: 70px;
               padding-top: 5px;
               background-color: #fff;
-              width: 100px;
+              width: auto;
               display: none;
               box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 16px 0px;
               & > li {
+                margin: 12px;
+                margin-bottom: 20px;
                 height: 30px;
                 & > a {
+                  margin-bottom: 8px;
+                  font-size: 16px;
                   display: block;
                   width: 100%;
-                  text-align: center;
+                }
+                &:last-child {
+                  margin-bottom: 8px;
                 }
               }
             }
@@ -234,7 +240,7 @@ main {
       .itemlist-tag {
         font-weight: 400;
         line-height: 12px;
-        margin: 8px 0;
+        margin: 20px 0 8px 0;
         word-break: keep-all;
         color: rgb(137, 143, 148);
         font-size: 13px;
@@ -246,7 +252,7 @@ main {
         color: rgb(51, 60, 69);
         font-size: 15px;
         font-weight: 500;
-        margin: 8px 0;
+        margin: 0 0 8px 0;
         line-height: 22px;
         max-height: 40px;
         overflow-wrap: normal;
