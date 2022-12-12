@@ -146,18 +146,54 @@ export function showErrorBox() {
   loginErrorBox.classList.add("show");
   setTimeout(() => {
     loginErrorBox.classList.remove("show");
-  }, 2000);
+  }, 1500);
 }
 
 // 회원가입 유효성 검사
-// const singupEmailBox = document.querySelector('.signup-email-box')
-// emailInputEl.addEventListener("focusout", () => {
-//   const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-//   if (emailInputEl.value && !exptext.test(emailInputEl)) {
-//     // idErrorMsg.classList.add("show");
-//     singupEmailBox.style.border = "1px solid #ed234b";
-//   }
-// });
+const emailErrorMsg = document.querySelector(".email-error-msg");
+const singupEmailBox = document.querySelector(".signup-email-box");
+emailInputEl.addEventListener("focusout", () => {
+  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  if (emailInputEl.value && !exptext.test(emailInputEl.value)) {
+    emailErrorMsg.classList.add("show");
+    singupEmailBox.style.border = "1px solid #ed234b";
+  }
+});
+emailInputEl.addEventListener("focusin", () => {
+  emailErrorMsg.classList.remove("show");
+  singupEmailBox.style.border = "1px solid #333";
+});
+
+const pwErrorMsg = document.querySelector(".pw-error-msg");
+const signupPwBox = document.querySelector(".signup-pw-box");
+const signupRepwBox = document.querySelector(".signup-repw-box");
+passwordcheckEl.addEventListener("focusout", () => {
+  if (
+    passwordInputEl &&
+    passwordcheckEl &&
+    passwordInputEl.value !== passwordcheckEl.value
+  ) {
+    pwErrorMsg.classList.add("show");
+    signupPwBox.style.border = "1px solid #ed234b";
+    signupRepwBox.style.border = "1px solid #ed234b";
+  }
+});
+passwordcheckEl.addEventListener("focusin", () => {
+  pwErrorMsg.classList.remove("show");
+  signupPwBox.style.border = "1px solid #333";
+  signupRepwBox.style.border = "1px solid #333";
+});
+const pwLengthMsg = document.querySelector(".pw-length-msg");
+passwordInputEl.addEventListener("focusout", () => {
+  if (passwordInputEl.value && passwordInputEl.value.length < 8) {
+    pwLengthMsg.classList.add("show");
+    signupPwBox.style.border = "1px solid #ed234b";
+  }
+});
+passwordInputEl.addEventListener("focusin", () => {
+  pwLengthMsg.classList.remove("show");
+  signupPwBox.style.border = "1px solid #333";
+});
 
 // ============ 관리자페이지 ============
 let base64Thumbnail = "";

@@ -27,18 +27,23 @@ export async function createSubmitEvent(event) {
   event.preventDefault();
   // 이메일
   state.email = emailInputEl.value;
-  // const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-  // if (!exptext.test(email)) {
-  //   signupEmailBox.style.border = "2px solid red";
-  //   signupEmailAlert.classList.add("show");
-  // }
   // 비밀번호
   state.password = passwordInputEl.value;
   // 사용자 이름
   state.displayName = displayNameInputEl.value;
-  await signup(state.email, state.password, state.displayName);
-  location.reload();
-  console.log("done");
+  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  if (
+    emailInputEl.value &&
+    exptext.test(emailInputEl.value) &&
+    passwordInputEl &&
+    passwordcheckEl &&
+    passwordInputEl.value === passwordcheckEl.value &&
+    passwordInputEl.value.length >= 8
+  ) {
+    await signup(state.email, state.password, state.displayName);
+    location.reload();
+    await login(state.email, state.password);
+  }
 }
 
 // 로그인 이벤트
