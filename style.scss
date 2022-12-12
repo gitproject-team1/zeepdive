@@ -37,7 +37,7 @@ header {
               position: absolute;
               top: 50%;
               transform: translateY(-50%);
-              font-size: 17px;
+              font-size: 20px;
               font-weight: 700;
             }
             i {
@@ -51,15 +51,21 @@ header {
               top: 70px;
               padding-top: 5px;
               background-color: #fff;
-              width: 100px;
+              width: auto;
               display: none;
               box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 16px 0px;
               & > li {
+                margin: 12px;
+                margin-bottom: 20px;
                 height: 30px;
                 & > a {
+                  margin-bottom: 8px;
+                  font-size: 16px;
                   display: block;
                   width: 100%;
-                  text-align: center;
+                }
+                &:last-child {
+                  margin-bottom: 8px;
                 }
               }
             }
@@ -93,13 +99,22 @@ header {
             background-color: rgb(247, 248, 249);
             // padding-left: 20px;
             border: 1px solid rgb(197, 200, 206);
-            i {
-              padding-left: 10px;
-              color: rgb(149, 154, 158);
-              font-size: 20px;
-              line-height: 40px;
-              width: 10%;
-              // min-width: 30px;
+            button {
+              background: inherit;
+              border: none;
+              box-shadow: none;
+              border-radius: 0;
+              padding: 0;
+              overflow: visible;
+              cursor: pointer;
+              i {
+                padding-left: 10px;
+                color: rgb(149, 154, 158);
+                font-size: 20px;
+                line-height: 40px;
+                width: 10%;
+                // min-width: 30px;
+              }
             }
             #search-main {
               position: absolute;
@@ -215,9 +230,6 @@ main {
     .itemlist-container {
       width: 295px;
       overflow: hidden;
-      &:hover {
-        cursor: pointer;
-      }
       .saleslist-seemore {
         display: flex;
       }
@@ -234,7 +246,7 @@ main {
       .itemlist-tag {
         font-weight: 400;
         line-height: 12px;
-        margin: 8px 0;
+        margin: 20px 0 8px 0;
         word-break: keep-all;
         color: rgb(137, 143, 148);
         font-size: 13px;
@@ -246,7 +258,7 @@ main {
         color: rgb(51, 60, 69);
         font-size: 15px;
         font-weight: 500;
-        margin: 8px 0;
+        margin: 0 0 8px 0;
         line-height: 22px;
         max-height: 40px;
         overflow-wrap: normal;
@@ -414,6 +426,108 @@ main {
     }
   }
 }
+
+//category page
+.category-container {
+  height: 100%;
+  max-width: 1152px;
+  padding: 50px;
+  margin: 0 auto;
+  .category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+    .category-title {
+      font-size: 24px;
+      height: 24px;
+      font-weight: 700;
+    }
+    .selector {
+      font-weight: 600;
+      font-size: 14px;
+      border: none;
+      outline: none;
+      scroll-behavior: smooth;
+      text-align: left;
+      padding: 5px 10px;
+      &:focus {
+        border: none;
+      }
+    }
+  }
+}
+.category-itemlist {
+  margin: 10px 0 0 0;
+  padding: 0;
+  width: auto;
+  align-items: center;
+  flex-wrap: nowrap;
+  .itemlist {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    .itemlist-container {
+      width: 280px;
+      overflow: hidden;
+      margin-bottom: 100px;
+      &:hover {
+        cursor: pointer;
+      }
+      .itemlist-image {
+        img {
+          max-width: 100%;
+          border-radius: 5px;
+        }
+      }
+    }
+    .itemlist-detail {
+      display: flex;
+      flex-direction: column;
+      .itemlist-tag {
+        font-weight: 400;
+        line-height: 12px;
+        margin: 20px 0 8px 0;
+        word-break: keep-all;
+        color: rgb(137, 143, 148);
+        font-size: 13px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .itemlist-title {
+        color: rgb(51, 60, 69);
+        font-size: 15px;
+        font-weight: 500;
+        margin: 0 0 8px 0;
+        line-height: 22px;
+        max-height: 40px;
+        overflow-wrap: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-break: break-all;
+      }
+      .itemlist-price {
+        display: inline-block;
+        width: auto;
+        height: auto;
+        margin: 0 0 2px 0;
+        padding: 0px;
+        overflow: initial;
+        color: rgb(24, 29, 31);
+        font-size: 20px;
+        font-weight: 700;
+        font-style: normal;
+        line-height: 22px;
+        text-align: inherit;
+        white-space: initial;
+        letter-spacing: initial;
+      }
+    }
+  }
+}
+//category
 
 .detail-container {
   display: none;

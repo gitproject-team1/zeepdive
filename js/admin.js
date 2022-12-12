@@ -1,5 +1,11 @@
 import { addItem, getItem, deleteItem } from "./requests.js";
-import { adminItemsEl } from "./main.js";
+// import { adminItemsEl } from "./main.js";
+import {
+  adminThumbnailFile,
+  adminImgFile,
+  addItemBtn,
+  adminItemsEl,
+} from "./store.js";
 
 const addItemEl = document.querySelectorAll(".add-item-name input");
 // 제품 추가
@@ -43,3 +49,40 @@ export async function renderAdminItems() {
     adminItemsEl.append(items);
   });
 }
+
+// ============ 관리자페이지 ============
+let base64Thumbnail = "";
+let base64Img = "";
+
+// 썸네일 base64변환 input type="file". 이벤트리스너로 받음
+adminThumbnailFile.addEventListener("change", (event) => {
+  const { files } = event.target;
+  for (let i = 0; i < files.length; i += 1) {
+    const file = files[i];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.addEventListener("load", (e) => {
+      base64Thumbnail = e.target.result;
+    });
+  }
+});
+
+// 상세사진 base64변환 input type="file". 이벤트리스너로 받음
+adminImgFile.addEventListener("change", (event) => {
+  const { files } = event.target;
+  for (let i = 0; i < files.length; i += 1) {
+    const file = files[i];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.addEventListener("load", (e) => {
+      base64Img = e.target.result;
+    });
+  }
+});
+
+// 전체 정보 서버로 넘김
+addItemBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
+  await createItemEvent(base64Thumbnail, base64Img);
+  location.reload();
+});
