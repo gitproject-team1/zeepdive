@@ -32,7 +32,6 @@ export const loginPw = document.querySelector(".login-pw");
 export const loginBtn = document.querySelector(".login-btn");
 export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
-export const loginErrorBox = document.querySelector(".login-error-box");
 
 //search elements
 const searchInput = document.getElementById("search-main");
@@ -76,9 +75,7 @@ loginBtnEl.addEventListener("click", () => {
     });
   }
 });
-// 평소에는 display: none을 걸어놓는다.
-// 이름 변경을 클릭하고 완료 했으면 모달창이 뜨도록
-// 확인 버튼을 누르면 다시 display: none 되도록
+
 export const userModal = document.querySelector(".user-modal");
 const userModalBtn = document.querySelector(".user-modal-btn");
 export const userModalContent = document.querySelector(".user-modal-content");
@@ -117,6 +114,29 @@ pwChangeBtn.addEventListener("click", async (event) => {
   // 만료시간 체크는 계속
   getItemWithExpireTime("token");
 })();
+
+// 로그인 시 유효성 검사
+const idErrorMsg = document.querySelector(".id-error-msg");
+loginId.addEventListener("focusout", () => {
+  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  if (loginId.value && !exptext.test(loginId.value)) {
+    idErrorMsg.classList.add("show");
+    idboxEl.style.border = "1px solid #ed234b";
+  }
+});
+loginId.addEventListener("focusin", () => {
+  idErrorMsg.classList.remove("show");
+  idboxEl.style.border = "1px solid #999";
+});
+
+// 로그인 실패 시
+const loginErrorBox = document.querySelector(".login-error-box");
+export function showErrorBox() {
+  loginErrorBox.classList.add("show");
+  setTimeout(() => {
+    loginErrorBox.classList.remove("show");
+  }, 2000);
+}
 
 // ============ 관리자페이지 ============
 let base64Thumbnail = "";
@@ -197,84 +217,83 @@ userInfoBtn.addEventListener("click", () => {
   }
 });
 
-// bank elements 
-const inputBankEl1 = document.querySelector('.bank-link-1')
-const inputBankEl2 = document.querySelector('.bank-link-2')
-const inputBankEl3 = document.querySelector('.bank-link-3')
-const inputBankEl4 = document.querySelector('.bank-link-4')
-const allInputBankEl = document.querySelectorAll('.bank-link-input')
-const bankSelectEl = document.querySelector('.bank-select')
-const bankSubmitBtn = document.querySelector('.bank-link-btn')
-let bankNumber = ''
+// bank elements
+const inputBankEl1 = document.querySelector(".bank-link-1");
+const inputBankEl2 = document.querySelector(".bank-link-2");
+const inputBankEl3 = document.querySelector(".bank-link-3");
+const inputBankEl4 = document.querySelector(".bank-link-4");
+const allInputBankEl = document.querySelectorAll(".bank-link-input");
+const bankSelectEl = document.querySelector(".bank-select");
+const bankSubmitBtn = document.querySelector(".bank-link-btn");
+let bankNumber = "";
 
-
-bankSelectEl.addEventListener('change', () => {
-  let select1 = bankSelectEl[bankSelectEl.selectedIndex].value
-  let arr =[]
-  if( select1 === 'none'){
-    inputDisplay('none')
-  } else if ( select1 === 'bank-nh'){
-    inputDisplay('inline')
-    arr =  [3, 4, 4, 2]
-  } else if ( select1 === 'bank-kb'){
-    inputDisplay('inline')
-    arr = [3, 2, 4, 3]
-  } else if (select1 === 'bank-sh'){
-    inputDisplay('inline')
-    arr = [3, 3, 6]
-    }else if (select1 === 'bank-ka'){
-    inputDisplay('inline')
-    arr = [4, 2, 7]
+bankSelectEl.addEventListener("change", () => {
+  let select1 = bankSelectEl[bankSelectEl.selectedIndex].value;
+  let arr = [];
+  if (select1 === "none") {
+    inputDisplay("none");
+  } else if (select1 === "bank-nh") {
+    inputDisplay("inline");
+    arr = [3, 4, 4, 2];
+  } else if (select1 === "bank-kb") {
+    inputDisplay("inline");
+    arr = [3, 2, 4, 3];
+  } else if (select1 === "bank-sh") {
+    inputDisplay("inline");
+    arr = [3, 3, 6];
+  } else if (select1 === "bank-ka") {
+    inputDisplay("inline");
+    arr = [4, 2, 7];
   }
 
+  inputBankEl1.value = "";
+  inputBankEl2.value = "";
+  inputBankEl3.value = "";
+  inputBankEl4.value = "";
 
-  inputBankEl1.value = ''
-  inputBankEl2.value = ''
-  inputBankEl3.value = ''
-  inputBankEl4.value = ''
+  inputBankEl1.setAttribute("maxlength", arr[0]);
+  inputBankEl2.setAttribute("maxlength", arr[1]);
+  inputBankEl3.setAttribute("maxlength", arr[2]);
+  inputBankEl4.setAttribute("maxlength", arr[3]);
 
-  inputBankEl1.setAttribute('maxlength',arr[0])
-  inputBankEl2.setAttribute('maxlength',arr[1])
-  inputBankEl3.setAttribute('maxlength',arr[2])
-  inputBankEl4.setAttribute('maxlength',arr[3])
+  const i4Len = inputBankEl4.getAttribute("maxlength");
 
-  const i4Len = inputBankEl4.getAttribute('maxlength')
-  
-  if( i4Len === 'undefined' ){
-    inputBankEl4.style.display = 'none'
+  if (i4Len === "undefined") {
+    inputBankEl4.style.display = "none";
   } else {
-    inputBankEl4.style.display = 'inline'
+    inputBankEl4.style.display = "inline";
   }
-  inputBankEl1.focus()
+  inputBankEl1.focus();
 
-  function inputDisplay(display){
-    allInputBankEl.forEach(e=>{
-      e.style.display = display
-    })
+  function inputDisplay(display) {
+    allInputBankEl.forEach((e) => {
+      e.style.display = display;
+    });
   }
+});
 
-})
-
-allInputBankEl.forEach((e,i)=>{
-  e.addEventListener('input',()=>{
-    if( i < 3 ){
-      if(allInputBankEl[i].value.length === Number(allInputBankEl[i].getAttribute('maxlength'))){
-        allInputBankEl[i+1].focus()
+allInputBankEl.forEach((e, i) => {
+  e.addEventListener("input", () => {
+    if (i < 3) {
+      if (
+        allInputBankEl[i].value.length ===
+        Number(allInputBankEl[i].getAttribute("maxlength"))
+      ) {
+        allInputBankEl[i + 1].focus();
       }
     }
-  })
-})
-bankSubmitBtn.addEventListener('click',()=>{
-allInputBankEl.forEach(e => {
-      bankNumber += e.value
-      e.value = ''
-  })
-  if(!Number(bankNumber)){
-    window.alert('숫자만 입력하세요')
-  }else{
-    console.log(Number(bankNumber))
+  });
+});
+bankSubmitBtn.addEventListener("click", () => {
+  allInputBankEl.forEach((e) => {
+    bankNumber += e.value;
+    e.value = "";
+  });
+  if (!Number(bankNumber)) {
+    window.alert("숫자만 입력하세요");
+  } else {
+    console.log(Number(bankNumber));
   }
-  console.log(bankNumber)
-  bankNumber = ''
-})
-
+  console.log(bankNumber);
+  bankNumber = "";
+});
