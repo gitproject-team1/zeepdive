@@ -214,24 +214,9 @@ export async function deleteItem(id) {
   console.log("Response:", json);
 }
 
-export async function getAccount(bankCode, accountN, phoneN, signature) {
-  const tokenValue = localStorage.getItem("token");
-  const token = JSON.parse(tokenValue).value;
-  const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/account', {
-    method: "GET",
-    headers: {
-      "content-type": "application/json",
-      apikey: API_KEY,
-      username: USER_NAME,
-      Authorization: `Bearer ${token}`,
-    },
-  })
-  const json = await res.json()
-  console.log(json)
-}
 
 // 계좌 연결
-async function addAccount(code, accN, phoneN, sign) {
+export async function addAccount(code, accN, phoneN, sign) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/account', {
@@ -249,4 +234,43 @@ async function addAccount(code, accN, phoneN, sign) {
       signature: sign
     }),
   })
+  const json = await res.json()
+  console.log(json)
+}
+
+export async function getAccounts () {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/account', {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      apikey: API_KEY,
+      username: USER_NAME,
+      Authorization: `Bearer ${token}`,
+    }
+  })
+  const json = await res.json()
+  console.log(json)
+  return json.accounts
+}
+
+export async function removeAccount (accId,sign) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/account', {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+      apikey: API_KEY,
+      username: USER_NAME,
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      accountId: accId, // 계좌 ID (필수!)
+      signature: sign // 사용자 서명 (필수!)
+    }),
+  })
+  const json = await res.json()
+  console.log(json)
 }
