@@ -5,10 +5,10 @@ import {
   getItemWithExpireTime,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
-import { createItemEvent, renderAdminItems } from "./admin.js";
+import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
+import { renderMainItems, renderCategoryPages } from "./render.js";
 import { render, sassFalse } from "sass";
-import { getMainPage } from "./render.js";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
@@ -18,9 +18,11 @@ const backGround = document.querySelector(".back-ground");
 export const loginBtnEl = document.querySelector(".login");
 const loginModal = document.querySelector(".login-modal");
 const signupModal = document.querySelector(".signup-modal");
-const mainPgEl = document.querySelector(".main-page");
+export const mainPgEl = document.querySelector(".main-page");
 const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
+const footerEl = document.querySelector("footer");
+const categorypgEl = document.querySelector(".category-page");
 
 // signup elements
 export const emailInputEl = document.getElementById("signup-email");
@@ -35,16 +37,10 @@ export const loginPw = document.querySelector(".login-pw");
 export const loginBtn = document.querySelector(".login-btn");
 export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
-export const loginErrorBox = document.querySelector(".login-error-box");
 
 //search elements
+const searchForm = document.querySelector(".search-box");
 const searchInput = document.getElementById("search-main");
-
-// admin elements
-const addItemBtn = document.querySelector(".submit-item");
-const adminThumbnailFile = document.getElementById("admin-info-thumbnail");
-const adminImgFile = document.getElementById("admin-info-img");
-export const adminItemsEl = document.querySelector(".item-container");
 
 // user Info elements
 export const userInfoName = document.getElementById("user-info-name");
@@ -52,6 +48,11 @@ export const nameChangeBtn = document.querySelector(".name-change-btn");
 export const userInfoPw = document.getElementById("user-info-pwd");
 export const userInfoNewPw = document.getElementById("user-info-new-pwd");
 const pwChangeBtn = document.querySelector(".pw-change-btn");
+
+// 검색창
+searchForm.addEventListener("submit", (event) => {
+  window.location.href = `#/furniture/all/${searchInput.value}`;
+});
 
 //상세페이지
 const detailPageEl = document.querySelector(".detail-container");
@@ -82,9 +83,7 @@ loginBtnEl.addEventListener("click", () => {
     });
   }
 });
-// 평소에는 display: none을 걸어놓는다.
-// 이름 변경을 클릭하고 완료 했으면 모달창이 뜨도록
-// 확인 버튼을 누르면 다시 display: none 되도록
+
 export const userModal = document.querySelector(".user-modal");
 const userModalBtn = document.querySelector(".user-modal-btn");
 export const userModalContent = document.querySelector(".user-modal-content");
@@ -124,39 +123,38 @@ pwChangeBtn.addEventListener("click", async (event) => {
   getItemWithExpireTime("token");
 })();
 
-// ============ 관리자페이지 ============
-let base64Thumbnail = "";
-let base64Img = "";
-
-adminThumbnailFile.addEventListener("change", (event) => {
-  const { files } = event.target;
-  for (let i = 0; i < files.length; i += 1) {
-    const file = files[i];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.addEventListener("load", (e) => {
-      base64Thumbnail = e.target.result;
-    });
+// 로그인 시 유효성 검사
+const idErrorMsg = document.querySelector(".id-error-msg");
+loginId.addEventListener("focusout", () => {
+  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  if (loginId.value && !exptext.test(loginId.value)) {
+    idErrorMsg.classList.add("show");
+    idboxEl.style.border = "1px solid #ed234b";
   }
 });
-
-adminImgFile.addEventListener("change", (event) => {
-  const { files } = event.target;
-  for (let i = 0; i < files.length; i += 1) {
-    const file = files[i];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.addEventListener("load", (e) => {
-      base64Img = e.target.result;
-    });
-  }
+loginId.addEventListener("focusin", () => {
+  idErrorMsg.classList.remove("show");
+  idboxEl.style.border = "1px solid #999";
 });
 
-addItemBtn.addEventListener("click", async (event) => {
-  event.preventDefault();
-  await createItemEvent(base64Thumbnail, base64Img);
-  location.reload();
-});
+// 로그인 실패 시
+const loginErrorBox = document.querySelector(".login-error-box");
+export function showErrorBox() {
+  loginErrorBox.classList.add("show");
+  setTimeout(() => {
+    loginErrorBox.classList.remove("show");
+  }, 2000);
+}
+
+// 회원가입 유효성 검사
+// const singupEmailBox = document.querySelector('.signup-email-box')
+// emailInputEl.addEventListener("focusout", () => {
+//   const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+//   if (emailInputEl.value && !exptext.test(emailInputEl)) {
+//     // idErrorMsg.classList.add("show");
+//     singupEmailBox.style.border = "1px solid #ed234b";
+//   }
+// });
 
 // 초기화면(새로고침, 화면진입) 렌더
 router();
@@ -169,33 +167,55 @@ async function router() {
   const routePath = location.hash;
   // 초기화면
   if (routePath === "") {
-    mainPgEl.style.display = "block";
+    detailPageEl.style.display = "none";
+    mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
-    detailPageEl.style.display = "none";
+    footerEl.style.display = "none";
+    categorypgEl.style.display = "none";
+    await renderMainItems();
+    mainPgEl.style.display = "block";
+    footerEl.style.display = "block";
+    //회원정보 페이지
   } else if (routePath.includes("#/user")) {
-    // 기존꺼 hide하고 갈기면됨
     mainPgEl.style.display = "none";
     userPgEl.style.display = "block";
     adminPgEl.style.display = "none";
     detailPageEl.style.display = "none";
+    categorypgEl.style.display = "none";
+    //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     detailPageEl.style.display = "block";
+    categorypgEl.style.display = "none";
+    //관리자 페이지
   } else if (routePath.includes("#/admin")) {
+    // 관리자인지 확인
     const email = await authLogin();
     detailPageEl.style.display = "none";
-    // console.log(email);
+    categorypgEl.style.display = "none";
+    //만약 관리자라면,
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
       userPgEl.style.display = "none";
       adminPgEl.style.display = "block";
       renderAdminItems();
     } else {
+      // 허가되지 않은 사용자면 -> alert띄운다
       alert("허용되지 않은 접근입니다.");
     }
+    //category 분류 페이지
+  } else if (routePath.includes("#/furniture")) {
+    detailPageEl.style.display = "none";
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
+    categorypgEl.style.display = "block";
+    // category url에서 파싱
+    const category = routePath.split("/")[2];
+    await renderCategoryPages(category);
   }
 }
 
@@ -205,7 +225,10 @@ userInfoBtn.addEventListener("click", () => {
   const token = localStorage.getItem("token");
   if (token) {
     window.location = "#/user";
-  } else return;
+  } else {
+    userModalContent.innerHTML = `로그인을 해주세요.`;
+    userModal.classList.add("show");
+  }
 });
 
 // bank elements
@@ -288,5 +311,3 @@ bankSubmitBtn.addEventListener("click", () => {
   // console.log(bankNumber);
   bankNumber = "";
 });
-
-getMainPage();
