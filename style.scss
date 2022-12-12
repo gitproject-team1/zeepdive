@@ -287,13 +287,11 @@ main {
       padding: 50px;
       box-sizing: border-box;
       h3 {
-        margin: 0 auto;
         font-size: 20px;
         text-align: center;
         line-height: 50px;
         border-bottom: 2px solid #333;
         margin-bottom: 40px;
-        width: max-content;
       }
       .user-info {
         display: flex;
@@ -415,6 +413,87 @@ main {
     }
   }
 }
+
+.detail-container {
+  .detail-view {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    .thumnail {
+      width: 540px;
+      height: 540px;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+    .funiture-summary {
+      .furniture-tag {
+        color: rgb(100, 111, 124);
+        font-size: 15px;
+        font-weight: 500;
+        white-space: normal;
+        margin-bottom: 16px;
+      }
+      .furniture-title {
+        font-size: 20px;
+        font-weight: 500;
+        word-break: break-all;
+        margin: 0px 0px 16px;
+      }
+      .furniture-price {
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 1.33;
+      }
+      .option {
+        display: flex;
+        gap: 8px;
+        button {
+          border-radius: 12px;
+          width: 200px;
+          height: 55px;
+          font-weight: 700;
+          font-size: 16px;
+          cursor: pointer;
+          border-width: 0;
+        }
+        .option-cart {
+          background-color: rgb(255, 236, 236);
+          box-sizing: border-box;
+          color: rgb(238, 109, 109);
+          &:hover {
+            transition: all 0.2s ease-out 0s;
+            background: rgb(246, 163, 166);
+            color: rgb(221, 96, 96);
+          }
+        }
+        .option-buynow {
+          background-color: rgb(238, 109, 109);
+          box-sizing: border-box;
+          color: white;
+          &:hover {
+            transition: all 0.2s ease-out 0s;
+            background: rgb(221, 96, 96);
+          }
+        }
+      }
+    }
+  }
+  .furniture-container {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 46px;
+    .furniture-detail-view {
+      font-size: 20px;
+      font-weight: 700;
+      padding: 30px 0 10px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+  }
+}
+
 .back-ground {
   position: fixed;
   visibility: hidden;

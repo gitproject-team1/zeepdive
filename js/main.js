@@ -6,6 +6,8 @@ import {
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
 import { createItemEvent, renderAdminItems } from "./admin.js";
+import { getItem } from "./requests.js";
+import { render, sassFalse } from "sass";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
@@ -48,6 +50,15 @@ export const nameChangeBtn = document.querySelector(".name-change-btn");
 export const userInfoPw = document.getElementById("user-info-pwd");
 export const userInfoNewPw = document.getElementById("user-info-new-pwd");
 const pwChangeBtn = document.querySelector(".pw-change-btn");
+
+//상세페이지
+const detailPageEl = document.querySelector(".detail-container");
+
+//메인페이지
+const itemimgEl = document.querySelector(".itemlist-image");
+const itemTagsEls = document.querySelectorAll(".itemlist-tag");
+const itemTitleEls = document.querySelectorAll(".itemlist-title");
+const itemPriceEls = document.querySelectorAll(".itemlist-price");
 
 firstNav.addEventListener("mouseover", () => {
   backGround.style.visibility = "visible";
@@ -186,14 +197,22 @@ async function router() {
     mainPgEl.style.display = "block";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
+    detailPageEl.style.display = "none";
   } else if (routePath.includes("#/user")) {
     // 기존꺼 hide하고 갈기면됨
     mainPgEl.style.display = "none";
     userPgEl.style.display = "block";
     adminPgEl.style.display = "none";
+    detailPageEl.style.display = "none";
+  } else if (routePath.includes("#/detail")) {
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
+    detailPageEl.style.display = "block";
   } else if (routePath.includes("#/admin")) {
     const email = await authLogin();
-    console.log(email);
+    detailPageEl.style.display = "none";
+    // console.log(email);
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
       userPgEl.style.display = "none";
@@ -292,8 +311,29 @@ bankSubmitBtn.addEventListener("click", () => {
   if (!Number(bankNumber)) {
     window.alert("숫자만 입력하세요");
   } else {
-    console.log(Number(bankNumber));
+    // console.log(Number(bankNumber));
   }
-  console.log(bankNumber);
+  // console.log(bankNumber);
   bankNumber = "";
 });
+
+async function getMainPage() {
+  const items = await getItem();
+  const christmasItem = items.filter((item) => item.tags[0] === "크리스마스");
+  const planterior = items.filter((item) => item.tags[0] === "플랜테리어");
+  const cookoo = items.filter((item) => item.tags[0] === "쿠쿠");
+  const drawer = items.filter((item) => item.tags[0] === "플랜테리어");
+  for (let i = 0; i < 4; i++) {
+    itemTagsEls[i].innerHTML = christmasItem[i].tags;
+    itemTitleEls[i].innerHTML = christmasItem[i].title;
+    itemPriceEls[i].innerHTML = christmasItem[i].price;
+  }
+  for (let i = 4; i < 8; i++) {
+    itemTagsEls[i].innerHTML = planterior[i].tags;
+    itemTitleEls[i].innerHTML = planterior[i].title;
+    itemPriceEls[i].innerHTML = planterior[i].price;
+  }
+}
+getMainPage();
+
+console.log(await getItem());

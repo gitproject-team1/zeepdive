@@ -198,7 +198,7 @@ export async function getItem() {
     }
   );
   const json = await res.json();
-  console.log("Response:", json);
+  // console.log("Response:", json);
   return json;
 }
 
