@@ -412,14 +412,31 @@
                   <option value="bank-sh">신한은행</option>
                   <option value="bank-ka">카카오뱅크</option>
                 </select>
-                <input type='text' pattern="[0-9]+" class="bank-link-1 bank-link-input"/>
-                <input type='text' pattern="[0-9]+" class="bank-link-2 bank-link-input"/>
-                <input type='text' pattern="[0-9]+" class="bank-link-3 bank-link-input"/>
-                <input type='text' pattern="[0-9]+" class="bank-link-4 bank-link-input"/>
+                <input
+                  type="text"
+                  pattern="[0-9]+"
+                  class="bank-link-1 bank-link-input"
+                />
+                <input
+                  type="text"
+                  pattern="[0-9]+"
+                  class="bank-link-2 bank-link-input"
+                />
+                <input
+                  type="text"
+                  pattern="[0-9]+"
+                  class="bank-link-3 bank-link-input"
+                />
+                <input
+                  type="text"
+                  pattern="[0-9]+"
+                  class="bank-link-4 bank-link-input"
+                />
                 <button class="bank-link-btn">계좌 연결</button>
               </div>
               <!-- bank-link-section -->
-            </form><!-- /.add-bank -->
+            </form>
+            <!-- /.add-bank -->
           </div>
           <!-- /.bank-info -->
         </div>
@@ -474,13 +491,16 @@
             <i class="fa-solid fa-user"></i>
             <input type="email" class="login-id" placeholder="아이디" />
           </div>
+          <span class="id-error-msg"
+            >규칙에 맞는 이메일 주소를 입력해주세요.</span
+          >
           <div class="pw-box">
             <i class="fa-solid fa-key"></i>
             <input type="password" class="login-pw" placeholder="비밀번호" />
           </div>
-          <div class="login-error-box"></div>
           <button type="submit" class="login-btn">로그인</button>
           <button class="signup" type="button">회원가입</button>
+          <div class="login-error-box">로그인정보가 일치하지 않습니다.</div>
         </form>
       </article>
       <button class="close-login close">
