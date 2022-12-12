@@ -1,18 +1,17 @@
+import { signup, login } from "./requests.js";
 import {
+  loginErrorBox,
   emailInputEl,
   passwordInputEl,
   passwordcheckEl,
   displayNameInputEl,
-  loginBtn,
   loginId,
   loginPw,
   loginBtnEl,
-  test,
-  userInfoName,
-  idboxEl,
-} from "./main.js";
-
-import { signup, login, logout, authLogin, editUser } from "./requests.js";
+  backGround,
+  loginModal,
+  signupModal,
+} from "./store.js";
 
 const state = {
   email: "",
@@ -20,8 +19,26 @@ const state = {
   displayName: "",
 };
 
-const signupEmailBox = document.querySelector(".signup-email-box");
-const signupEmailAlert = document.querySelector(".email-alert");
+// 로그인/회원가입 모달 visibility 조정
+export async function loginModal() {
+  if (loginBtnEl.textContent === "로그인/가입") {
+    backGround.style.visibility = "visible";
+    loginModal.style.visibility = "visible";
+    document.querySelector(".close-login").addEventListener("click", () => {
+      backGround.style.visibility = "hidden";
+      loginModal.style.visibility = "hidden";
+    });
+    document.querySelector(".signup").addEventListener("click", () => {
+      signupModal.style.visibility = "visible";
+      loginModal.style.visibility = "hidden";
+      document.querySelector(".close-signup").addEventListener("click", () => {
+        backGround.style.visibility = "hidden";
+        signupModal.style.visibility = "hidden";
+      });
+    });
+  }
+}
+
 // 회원가입 이벤트
 export async function createSubmitEvent(event) {
   event.preventDefault();
@@ -31,18 +48,31 @@ export async function createSubmitEvent(event) {
   state.password = passwordInputEl.value;
   // 사용자 이름
   state.displayName = displayNameInputEl.value;
-  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
   if (
     emailInputEl.value &&
-    exptext.test(emailInputEl.value) &&
-    passwordInputEl &&
-    passwordcheckEl &&
-    passwordInputEl.value === passwordcheckEl.value &&
-    passwordInputEl.value.length >= 8
+    passwordInputEl.value &&
+    passwordcheckEl.value &&
+    displayNameInputEl.value &&
+    passwordInputEl.value === passwordcheckEl.value
   ) {
     await signup(state.email, state.password, state.displayName);
     location.reload();
-    await login(state.email, state.password);
+  }
+}
+
+// 유효성 검사 스타일
+export async function validationStyle(errormsg, type, element, color) {
+  switch (type) {
+    case "add":
+      errormsg.classList.add("show");
+      element.style.border = `1px solid ${color}`;
+      break;
+    case "remove":
+      errormsg.classList.remove("show");
+      element.style.border = `1px solid ${color}`;
+      break;
+    default:
+      break;
   }
 }
 
@@ -52,7 +82,14 @@ export async function createLoginEvent(event) {
   state.email = loginId.value;
   state.password = loginPw.value;
   await login(state.email, state.password);
-  // location.reload();
+}
+
+// 로그인 실패 시 Error Box
+export function showErrorBox() {
+  loginErrorBox.classList.add("show");
+  setTimeout(() => {
+    loginErrorBox.classList.remove("show");
+  }, 1500);
 }
 
 // 만료 시간과 함께 데이터를 저장

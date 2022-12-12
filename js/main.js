@@ -3,39 +3,50 @@ import {
   createSubmitEvent,
   createLoginEvent,
   getItemWithExpireTime,
+  loginModal,
+  validationStyle,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
 import { createItemEvent, renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
 import { getMainPage } from "./render.js";
 import { render, sassFalse } from "sass";
+import {
+  submitEl,
+  emailInputEl,
+  passwordcheckEl,
+  passwordInputEl,
+  loginBtn,
+  loginId,
+  loginBtnEl,
+  backGround,
+  idboxEl,
+  emailErrorMsg,
+  singupEmailBox,
+  pwErrorMsg,
+  signupPwBox,
+  signupRepwBox,
+  pwLengthMsg,
+  idErrorMsg,
+  exptext,
+  userInfoName,
+  nameChangeBtn,
+  userInfoPw,
+  userInfoNewPw,
+  pwChangeBtn,
+  userModal,
+  userModalBtn,
+  userModalContent,
+} from "./store.js";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
 
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
-const backGround = document.querySelector(".back-ground");
-export const loginBtnEl = document.querySelector(".login");
-const loginModal = document.querySelector(".login-modal");
-const signupModal = document.querySelector(".signup-modal");
 export const mainPgEl = document.querySelector(".main-page");
 const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
 const footerEl = document.querySelector("footer");
-
-// signup elements
-export const emailInputEl = document.getElementById("signup-email");
-export const passwordInputEl = document.getElementById("signup-pw");
-export const passwordcheckEl = document.getElementById("signup-repw");
-export const displayNameInputEl = document.getElementById("signup-name");
-export const submitEl = document.getElementById("frm");
-
-// login elements
-export const loginId = document.querySelector(".login-id");
-export const loginPw = document.querySelector(".login-pw");
-export const loginBtn = document.querySelector(".login-btn");
-export const idboxEl = document.querySelector(".id-box");
-export const pwboxEl = document.querySelector(".pw-box");
 
 //search elements
 const searchInput = document.getElementById("search-main");
@@ -45,13 +56,6 @@ const addItemBtn = document.querySelector(".submit-item");
 const adminThumbnailFile = document.getElementById("admin-info-thumbnail");
 const adminImgFile = document.getElementById("admin-info-img");
 export const adminItemsEl = document.querySelector(".item-container");
-
-// user Info elements
-export const userInfoName = document.getElementById("user-info-name");
-export const nameChangeBtn = document.querySelector(".name-change-btn");
-export const userInfoPw = document.getElementById("user-info-pwd");
-export const userInfoNewPw = document.getElementById("user-info-new-pwd");
-const pwChangeBtn = document.querySelector(".pw-change-btn");
 
 //상세페이지
 const detailPageEl = document.querySelector(".detail-container");
@@ -63,36 +67,58 @@ firstNav.addEventListener("mouseout", () => {
   backGround.style.visibility = "hidden";
 });
 
+// ============ 인증 관련 ============
 // 로그인/회원가입 모달 visibility 조정
-loginBtnEl.addEventListener("click", () => {
-  if (loginBtnEl.textContent === "로그인/가입") {
-    backGround.style.visibility = "visible";
-    loginModal.style.visibility = "visible";
-    document.querySelector(".close-login").addEventListener("click", () => {
-      backGround.style.visibility = "hidden";
-      loginModal.style.visibility = "hidden";
-    });
-    document.querySelector(".signup").addEventListener("click", () => {
-      signupModal.style.visibility = "visible";
-      loginModal.style.visibility = "hidden";
-      document.querySelector(".close-signup").addEventListener("click", () => {
-        backGround.style.visibility = "hidden";
-        signupModal.style.visibility = "hidden";
-      });
-    });
+loginBtnEl.addEventListener("click", loginModal);
+// 회원가입 전송
+submitEl.addEventListener("submit", createSubmitEvent);
+// 로그인
+loginBtn.addEventListener("click", createLoginEvent);
+
+// 로그인 시 유효성 검사
+loginId.addEventListener("focusout", () => {
+  if (loginId.value && !exptext.test(loginId.value)) {
+    validationStyle(idErrorMsg, "add", idboxEl, "#ed234b");
   }
 });
+loginId.addEventListener("focusin", () => {
+  validationStyle(idErrorMsg, "remove", idboxEl, "#999");
+});
 
-export const userModal = document.querySelector(".user-modal");
-const userModalBtn = document.querySelector(".user-modal-btn");
-export const userModalContent = document.querySelector(".user-modal-content");
-submitEl.addEventListener("submit", createSubmitEvent);
-loginBtn.addEventListener("click", createLoginEvent);
-export const content = "";
+// 회원가입 유효성 검사
+// 이메일
+emailInputEl.addEventListener("focusout", () => {
+  if (emailInputEl.value && !exptext.test(emailInputEl.value)) {
+    validationStyle(emailErrorMsg, "add", singupEmailBox, "#ed234b");
+  }
+});
+emailInputEl.addEventListener("focusin", () => {
+  validationStyle(emailErrorMsg, "remove", singupEmailBox, "#333");
+});
+// 비밀번호 8자리 이상
+passwordInputEl.addEventListener("focusout", () => {
+  if (passwordInputEl.value && passwordInputEl.value.length < 8) {
+    validationStyle(pwLengthMsg, "add", signupPwBox, "#ed234b");
+  }
+});
+passwordInputEl.addEventListener("focusin", () => {
+  validationStyle(pwLengthMsg, "remove", signupPwBox, "#333");
+});
+// 비밀번호 확인
+passwordcheckEl.addEventListener("focusout", () => {
+  if (passwordInputEl && passwordInputEl.value !== passwordcheckEl.value) {
+    validationStyle(pwErrorMsg, "add", signupRepwBox, "#ed234b");
+  }
+});
+passwordcheckEl.addEventListener("focusin", () => {
+  validationStyle(pwErrorMsg, "remove", signupRepwBox, "#333");
+});
+
+// ============ 인증 관련 : 회원정보 페이지 ============
 // 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
 nameChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await editUser("이름", userInfoName.value);
+  if (userInfoName.value) await editUser("이름", userInfoName.value);
 });
 // 변경 됐다는 모달창에 있는 확인 버튼
 userModalBtn.addEventListener("click", () => {
@@ -101,12 +127,13 @@ userModalBtn.addEventListener("click", () => {
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  await editUser(
-    "비밀번호",
-    userInfoName.value,
-    userInfoPw.value,
-    userInfoNewPw.value
-  );
+  if (userInfoPw.value && userInfoNewPw.value)
+    await editUser(
+      "비밀번호",
+      userInfoName.value,
+      userInfoPw.value,
+      userInfoNewPw.value
+    );
 });
 
 // 로컬에 로그인 데이터 있는지 확인.
@@ -121,75 +148,6 @@ pwChangeBtn.addEventListener("click", async (event) => {
   // 만료시간 체크는 계속
   getItemWithExpireTime("token");
 })();
-
-// 로그인 시 유효성 검사
-const idErrorMsg = document.querySelector(".id-error-msg");
-loginId.addEventListener("focusout", () => {
-  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-  if (loginId.value && !exptext.test(loginId.value)) {
-    idErrorMsg.classList.add("show");
-    idboxEl.style.border = "1px solid #ed234b";
-  }
-});
-loginId.addEventListener("focusin", () => {
-  idErrorMsg.classList.remove("show");
-  idboxEl.style.border = "1px solid #999";
-});
-
-// 로그인 실패 시
-const loginErrorBox = document.querySelector(".login-error-box");
-export function showErrorBox() {
-  loginErrorBox.classList.add("show");
-  setTimeout(() => {
-    loginErrorBox.classList.remove("show");
-  }, 1500);
-}
-
-// 회원가입 유효성 검사
-const emailErrorMsg = document.querySelector(".email-error-msg");
-const singupEmailBox = document.querySelector(".signup-email-box");
-emailInputEl.addEventListener("focusout", () => {
-  const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-  if (emailInputEl.value && !exptext.test(emailInputEl.value)) {
-    emailErrorMsg.classList.add("show");
-    singupEmailBox.style.border = "1px solid #ed234b";
-  }
-});
-emailInputEl.addEventListener("focusin", () => {
-  emailErrorMsg.classList.remove("show");
-  singupEmailBox.style.border = "1px solid #333";
-});
-
-const pwErrorMsg = document.querySelector(".pw-error-msg");
-const signupPwBox = document.querySelector(".signup-pw-box");
-const signupRepwBox = document.querySelector(".signup-repw-box");
-passwordcheckEl.addEventListener("focusout", () => {
-  if (
-    passwordInputEl &&
-    passwordcheckEl &&
-    passwordInputEl.value !== passwordcheckEl.value
-  ) {
-    pwErrorMsg.classList.add("show");
-    signupPwBox.style.border = "1px solid #ed234b";
-    signupRepwBox.style.border = "1px solid #ed234b";
-  }
-});
-passwordcheckEl.addEventListener("focusin", () => {
-  pwErrorMsg.classList.remove("show");
-  signupPwBox.style.border = "1px solid #333";
-  signupRepwBox.style.border = "1px solid #333";
-});
-const pwLengthMsg = document.querySelector(".pw-length-msg");
-passwordInputEl.addEventListener("focusout", () => {
-  if (passwordInputEl.value && passwordInputEl.value.length < 8) {
-    pwLengthMsg.classList.add("show");
-    signupPwBox.style.border = "1px solid #ed234b";
-  }
-});
-passwordInputEl.addEventListener("focusin", () => {
-  pwLengthMsg.classList.remove("show");
-  signupPwBox.style.border = "1px solid #333";
-});
 
 // ============ 관리자페이지 ============
 let base64Thumbnail = "";
