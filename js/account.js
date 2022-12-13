@@ -1,7 +1,19 @@
-import { bankSelectEl,listUl, removeSectionBtn, addSectionBtn} from "./main.js"
-import {addAccount, getAccounts} from "./requests"
+import {
+  addAccount,
+  getAccounts,
+  removeAccount
+} from "./requests"
+import {
+  userModal,
+  userModalContent,
+  bankSubmitBtn,
+  bankSelectEl,
+  accountListUl,
+  removeSectionBtn,
+  addSectionBtn
+} from "./store.js"
 // bank elements 
-export 
+
 const inputBankEl1 = document.querySelector('.bank-add-1')
 const inputBankEl2 = document.querySelector('.bank-add-2')
 const inputBankEl3 = document.querySelector('.bank-add-3')
@@ -10,13 +22,12 @@ const allInputBankEl = document.querySelectorAll('.bank-add-input')
 const bankPhoneNumEl = document.getElementById('bank-phone-num')
 const bankSignatureEl = document.getElementById('account-signature')
 const addSection = document.querySelector('.bank-add-section')
-const removeSection =  document.querySelector('.bank-remove-section')
+const removeSection = document.querySelector('.bank-remove-section')
 
 let accountNumber = ''
 let bankCode = ''
 
-export function bankSelelectEvent(event) {
-  event.preventDefault()
+export function bankSelelectEvent() {
   let digits = []
   let select1 = bankSelectEl[bankSelectEl.selectedIndex].value
   switch (select1) {
@@ -95,68 +106,70 @@ function inputDisplay(display) {
   })
 }
 
-export async function accountAddSubmit(event) {
-  event.preventDefault()
+export async function accountAddSubmit() {
+  accountNumber = ''
   allInputBankEl.forEach(e => {
     accountNumber += e.value
   })
-  
   if (!Number(accountNumber)) {
-    window.alert('계좌번호에 숫자만 입력하세요')
+    userModalContent.innerHTML = '계좌번호는 숫자만 입력해주세요';
+    userModal.classList.add("show");
+    allInputBankEl.forEach(e => {
+      e.value = ''
+    })
   } else {
     if (!Number(bankPhoneNumEl.value)) {
-      window.alert('전화번호에 숫자만 입력하세요')
+      userModalContent.innerHTML = '전화번호는 숫자만 입력해주세요';
+      userModal.classList.add("show");
+      bankPhoneNumEl.value = ''
+      console.log(accountNumber)
     } else {
-      if (!bankSignatureEl.checked) {
-        window.alert('약관을 동의해주세요')
-      } else {
-        await addAccount(bankCode, accountNumber, bankPhoneNumEl.value, true)
-        accountNumber = ''
-        bankPhoneNumEl.value = ''
-        bankSignatureEl.checked = false
-        bankSelectEl.value = 'none'
-        inputDisplay('none');
-      }
+      console.log(accountNumber)
+      await addAccount(bankCode, accountNumber, bankPhoneNumEl.value, true)
+      accountNumber = ''
+      bankPhoneNumEl.value = ''
+      bankSignatureEl.checked = false
+      bankSelectEl.value = 'none'
+      inputDisplay('none');
     }
   }
-
 }
 
-export async function renderUserAccount(){
+export async function renderUserAccount() {
   const accountInfo = await getAccounts()
-  if(!accountInfo.length){
-    createAccountList(1,1,1,1,false)
-  }
-  else{
+  accountListUl.innerHTML = ''
+  if (!accountInfo.length) {
+    createAccountList(1, 1, 1, 1, false)
+  } else {
     accountInfo.forEach(element => {
-      console.log(element)
-      const accountId = element.id
-      const accountName = element.bankName
-      const accountNum = element.accountNumber
-      const accountBal =  element.balance
-      createAccountList(accountId, accountName, accountNum, accountBal,true)
-    });
+    console.log(element)
+    const accountId = element.id
+    const accountName = element.bankName
+    const accountNum = element.accountNumber
+    const accountBal = element.balance
+    createAccountList(accountId, accountName, accountNum, accountBal, true)
+    })
   }
 }
 
-function createAccountList(acId, acName, acNum, acBalance, isAccount){
+function createAccountList(acId, acName, acNum, acBalance, isAccount) {
   const createList = document.createElement('li')
-    if(!isAccount){
-      createList.innerHTML = `
+  if (!isAccount) {
+    createList.innerHTML = `
         <span style="width: max-content;">연결된 계좌가 없습니다. 계좌를 먼저 연결해주세요</span>
       `
-    }else{
-      createList.id = acId
-      acBal = acBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      createList.innerHTML = `
+  } else {
+    createList.id = acId
+    acBal = acBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    createList.innerHTML = `
         <input type="checkbox" id="remove-check">
         <span class="bank-name">${acName}</span>
         <span class="acount-number">${acNum}</span>
         <span class="balance">₩ ${acBal}</span>
       `
-    }
-   
-  listUl.append(createList)
+  }
+
+  accountListUl.append(createList)
 }
 
 export function gnbBtnClick(wBtn, bool) {
@@ -168,7 +181,7 @@ export function gnbBtnClick(wBtn, bool) {
       removeSection.style.display = 'none'
     }
   } else if (wBtn === 'remove') {
-    
+
     if (!bool) {
       removeSectionBtn.classList.add('on')
       addSectionBtn.classList.remove('on')
@@ -176,4 +189,22 @@ export function gnbBtnClick(wBtn, bool) {
       removeSection.style.display = 'block'
     }
   }
+}
+
+export async function removeAccountFnc() {
+  const accountCheckEl = document.querySelectorAll('.account-lists>li>#remove-check')
+  const accountList = document.querySelectorAll('.account-lists>li')
+  let arr = []
+  accountCheckEl.forEach((e, i) => {
+    if (e.checked) {
+      arr.push(document.getElementById(accountList[i].getAttribute('id')).getAttribute('id'))
+    }
+  })
+  const accountRemoveSign = document.querySelector('#account-remove-sign')
+  for (const x of arr) {
+    await removeAccount(x, accountRemoveSign.checked)
+  }
+  accountListUl.innerHTML = ''
+  accountRemoveSign.checked = false
+  renderUserAccount()
 }

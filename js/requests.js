@@ -1,18 +1,10 @@
-import {
-  setItemWithExpireTime
-} from "./signup.js";
+import { setItemWithExpireTime, showErrorBox } from "./signup.js";
 import {
   loginBtnEl,
-  idboxEl,
-  pwboxEl,
-  loginErrorBox,
   userInfoName,
-  userInfoPw,
-  userInfoNewPw,
   userModal,
   userModalContent,
-  content,
-} from "./main.js";
+} from "./store.js";
 
 const API_KEY = `FcKdtJs202209`;
 const USER_NAME = `imyeji`;
@@ -20,7 +12,8 @@ const USER_NAME = `imyeji`;
 // 회원가입 api
 export async function signup(email, password, displayName) {
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup", {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup",
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -41,7 +34,8 @@ export async function signup(email, password, displayName) {
 // 로그인 api
 export async function login(email, password) {
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login", {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/login",
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -61,9 +55,7 @@ export async function login(email, password) {
     setItemWithExpireTime("token", json.accessToken, 86400000);
     location.reload();
   } else {
-    idboxEl.style.border = "2px solid red";
-    pwboxEl.style.border = "2px solid red";
-    loginErrorBox.innerHTML = "회원 정보가 올바르지 않습니다.";
+    showErrorBox();
   }
 }
 
@@ -72,7 +64,8 @@ export async function logout() {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout", {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/logout",
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -96,7 +89,8 @@ export async function authLogin() {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me", {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me",
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -123,7 +117,8 @@ export async function editUser(content, displayName, oldPassword, newPassword) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/user", {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/user",
+    {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -159,7 +154,8 @@ export async function addItem({
   img,
 }) {
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products", {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products",
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -183,7 +179,8 @@ export async function addItem({
 
 export async function getItem() {
   const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products", {
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products",
+    {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -194,13 +191,14 @@ export async function getItem() {
     }
   );
   const json = await res.json();
-  console.log("Response:", json);
+  // console.log("Response:", json);
   return json;
 }
 
 export async function deleteItem(id) {
   const res = await fetch(
-    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`, {
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
+    {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
@@ -214,8 +212,6 @@ export async function deleteItem(id) {
   console.log("Response:", json);
 }
 
-
-// 계좌 연결
 export async function addAccount(code, accN, phoneN, sign) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
@@ -236,6 +232,13 @@ export async function addAccount(code, accN, phoneN, sign) {
   })
   const json = await res.json()
   console.log(json)
+  if (!res.ok) {
+    userModalContent.innerHTML = `${json}`;
+    userModal.classList.add("show");
+  } else {
+    userModalContent.innerHTML = '계좌가 연결되었습니다.';
+    userModal.classList.add("show");
+  }
 }
 
 export async function getAccounts () {
@@ -273,4 +276,11 @@ export async function removeAccount (accId,sign) {
   })
   const json = await res.json()
   console.log(json)
+  if(!res.ok){
+    userModalContent.innerHTML = `${json}`;
+    userModal.classList.add("show");
+  } else {
+    userModalContent.innerHTML = '삭제되었습니다.';
+    userModal.classList.add("show");
+  }
 }
