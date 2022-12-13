@@ -167,7 +167,7 @@ async function router() {
   const routePath = location.hash;
   // 초기화면
   if (routePath === "") {
-    detailPageEl.style.display = "none";
+    detailPageEl.style.display = "block";
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
