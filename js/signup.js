@@ -16,6 +16,14 @@ import {
   userInfoNewPw,
   userModalContent,
   userInfoName,
+  idErrorMsg,
+  idboxEl,
+  emailErrorMsg,
+  singupEmailBox,
+  pwLengthMsg,
+  signupPwBox,
+  pwErrorMsg,
+  signupRepwBox,
 } from "./store.js";
 import { editUser } from "./requests.js";
 const state = {
@@ -32,6 +40,9 @@ export async function loginModal() {
     document.querySelector(".close-login").addEventListener("click", () => {
       backGround.style.visibility = "hidden";
       loginModal.style.visibility = "hidden";
+      validationStyle(idErrorMsg, "remove", idboxEl, "#999");
+      loginId.value = "";
+      loginPw.value = "";
     });
     document.querySelector(".signup").addEventListener("click", () => {
       signupModal.style.visibility = "visible";
@@ -39,6 +50,14 @@ export async function loginModal() {
       document.querySelector(".close-signup").addEventListener("click", () => {
         backGround.style.visibility = "hidden";
         signupModal.style.visibility = "hidden";
+        validationStyle(idErrorMsg, "remove", idboxEl, "#999");
+        validationStyle(emailErrorMsg, "remove", singupEmailBox, "#333");
+        validationStyle(pwLengthMsg, "remove", signupPwBox, "#333");
+        validationStyle(pwErrorMsg, "remove", signupRepwBox, "#333");
+        emailInputEl.value = "";
+        passwordInputEl = "";
+        passwordcheckEl = "";
+        displayNameInputEl = "";
       });
     });
   }
