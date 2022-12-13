@@ -24,7 +24,19 @@ import {
   userInfoBtn,
   searchForm,
   searchInput,
+  bankSubmitBtn,
+  bankSelectEl,
+  accountListUl,
+  removeSectionBtn,
+  addSectionBtn
 } from "./store.js";
+import {
+  renderUserAccount,
+  gnbBtnClick,
+  bankSelelectEvent,
+  accountAddSubmit,
+  removeAccountFnc
+} from "./account.js"
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
@@ -146,83 +158,32 @@ async function router() {
   }
 }
 
-// bank elements
-const inputBankEl1 = document.querySelector(".bank-link-1");
-const inputBankEl2 = document.querySelector(".bank-link-2");
-const inputBankEl3 = document.querySelector(".bank-link-3");
-const inputBankEl4 = document.querySelector(".bank-link-4");
-const allInputBankEl = document.querySelectorAll(".bank-link-input");
-const bankSelectEl = document.querySelector(".bank-select");
-const bankSubmitBtn = document.querySelector(".bank-link-btn");
-let bankNumber = "";
+// user-info창에서 은행을 선택하면 생기는 이벤트
+bankSelectEl.addEventListener('change', (event) => {
+  event.preventDefault()
+  bankSelelectEvent()
+})
+bankSubmitBtn.addEventListener('click', (event) => {
+  event.preventDefault()
+  accountAddSubmit()
+})
 
-bankSelectEl.addEventListener("change", () => {
-  let select1 = bankSelectEl[bankSelectEl.selectedIndex].value;
-  let arr = [];
-  if (select1 === "none") {
-    inputDisplay("none");
-  } else if (select1 === "bank-nh") {
-    inputDisplay("inline");
-    arr = [3, 4, 4, 2];
-  } else if (select1 === "bank-kb") {
-    inputDisplay("inline");
-    arr = [3, 2, 4, 3];
-  } else if (select1 === "bank-sh") {
-    inputDisplay("inline");
-    arr = [3, 3, 6];
-  } else if (select1 === "bank-ka") {
-    inputDisplay("inline");
-    arr = [4, 2, 7];
-  }
 
-  inputBankEl1.value = "";
-  inputBankEl2.value = "";
-  inputBankEl3.value = "";
-  inputBankEl4.value = "";
+removeSectionBtn.addEventListener('click', function chacngeSection () {
+  renderUserAccount()
+  const clickValue = removeSectionBtn.classList.contains('on')
+  gnbBtnClick('remove', clickValue)
+  removeEventListener('click',chacngeSection)
+})
 
-  inputBankEl1.setAttribute("maxlength", arr[0]);
-  inputBankEl2.setAttribute("maxlength", arr[1]);
-  inputBankEl3.setAttribute("maxlength", arr[2]);
-  inputBankEl4.setAttribute("maxlength", arr[3]);
+addSectionBtn.addEventListener('click', () => {
+  const clickValue = addSectionBtn.classList.contains('on')
+  gnbBtnClick('add', clickValue)
+})
 
-  const i4Len = inputBankEl4.getAttribute("maxlength");
+const removeAccountBtn = document.querySelector('.remove-account')
+removeAccountBtn.addEventListener('click', ()=>{
+  removeAccountFnc()
+})
 
-  if (i4Len === "undefined") {
-    inputBankEl4.style.display = "none";
-  } else {
-    inputBankEl4.style.display = "inline";
-  }
-  inputBankEl1.focus();
 
-  function inputDisplay(display) {
-    allInputBankEl.forEach((e) => {
-      e.style.display = display;
-    });
-  }
-});
-
-allInputBankEl.forEach((e, i) => {
-  e.addEventListener("input", () => {
-    if (i < 3) {
-      if (
-        allInputBankEl[i].value.length ===
-        Number(allInputBankEl[i].getAttribute("maxlength"))
-      ) {
-        allInputBankEl[i + 1].focus();
-      }
-    }
-  });
-});
-bankSubmitBtn.addEventListener("click", () => {
-  allInputBankEl.forEach((e) => {
-    bankNumber += e.value;
-    e.value = "";
-  });
-  if (!Number(bankNumber)) {
-    window.alert("숫자만 입력하세요");
-  } else {
-    // console.log(Number(bankNumber));
-  }
-  // console.log(bankNumber);
-  bankNumber = "";
-});

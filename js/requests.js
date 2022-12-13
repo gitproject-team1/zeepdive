@@ -213,45 +213,75 @@ export async function deleteItem(id) {
   console.log("Response:", json);
 }
 
-export async function getAccount(bankCode, accountN, phoneN, signature) {
+export async function addAccount(code, accN, phoneN, sign) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
-  const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/account",
-    {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        apikey: API_KEY,
-        username: USER_NAME,
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const json = await res.json();
-  console.log(json);
+  const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/account', {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      apikey: API_KEY,
+      username: USER_NAME,
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      bankCode: code,
+      accountNumber: accN,
+      phoneNumber: phoneN,
+      signature: sign
+    }),
+  })
+  const json = await res.json()
+  console.log(json)
+  if (!res.ok) {
+    userModalContent.innerHTML = `${json}`;
+    userModal.classList.add("show");
+  } else {
+    userModalContent.innerHTML = '계좌가 연결되었습니다.';
+    userModal.classList.add("show");
+  }
 }
 
-// 계좌 연결
-async function addAccount(code, accN, phoneN, sign) {
+export async function getAccounts () {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
-  const res = await fetch(
-    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/account",
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        apikey: API_KEY,
-        username: USER_NAME,
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        bankCode: code,
-        accountNumber: accN,
-        phoneNumber: phoneN,
-        signature: sign,
-      }),
+  const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/account', {
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      apikey: API_KEY,
+      username: USER_NAME,
+      Authorization: `Bearer ${token}`,
     }
-  );
+  })
+  const json = await res.json()
+  console.log(json)
+  return json.accounts
+}
+
+export async function removeAccount (accId,sign) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch('https://asia-northeast3-heropy-api.cloudfunctions.net/api/account', {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+      apikey: API_KEY,
+      username: USER_NAME,
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      accountId: accId, // 계좌 ID (필수!)
+      signature: sign // 사용자 서명 (필수!)
+    }),
+  })
+  const json = await res.json()
+  console.log(json)
+  if(!res.ok){
+    userModalContent.innerHTML = `${json}`;
+    userModal.classList.add("show");
+  } else {
+    userModalContent.innerHTML = '삭제되었습니다.';
+    userModal.classList.add("show");
+  }
 }

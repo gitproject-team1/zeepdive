@@ -61,3 +61,10 @@ export const adminItemsEl = document.querySelector(
 //search elements
 export const searchForm = document.querySelector(".search-box");
 export const searchInput = document.getElementById("search-main");
+
+// 계좌 관련 elements
+export const bankSubmitBtn = document.querySelector('.bank-add-btn');
+export const bankSelectEl = document.querySelector('.bank-select');
+export const accountListUl = document.querySelector('.account-lists')
+export const removeSectionBtn = document.querySelector('.bank-remove-gnb')
+export const addSectionBtn = document.querySelector('.bank-add-gnb')
