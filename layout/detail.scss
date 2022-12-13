@@ -1,127 +1,182 @@
-.detail-container {
-  display: none;
-  .border-line {
-    width: 100%;
-    height: 1px;
-    background: rgb(241, 243, 246);
-    margin: 22px 0px 19px;
-  }
-  .return-policy {
-    width: 600px;
-    margin: auto;
-    img {
+.detail-page {
+  .detail-container {
+    display: none;
+    .border-line {
       width: 100%;
+      height: 1px;
+      background: rgb(241, 243, 246);
+      margin: 22px 0px 19px;
     }
-  }
-  .detail-view {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    .thumnail {
-      width: 540px;
-      height: 540px;
-      overflow: hidden;
-      border-radius: 20px;
+    .furniture-detail-img {
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+    }
+    .return-policy {
+      width: 600px;
+      margin: auto;
+      margin-bottom: 50px;
       img {
         width: 100%;
       }
     }
-    .funiture-summary {
-      .furniture-tag {
-        color: rgb(100, 111, 124);
-        font-size: 15px;
-        font-weight: 500;
-        white-space: normal;
-        margin-bottom: 16px;
-      }
-      .furniture-title {
-        font-size: 20px;
-        font-weight: 500;
-        word-break: break-all;
-        margin: 0px 0px 16px;
-      }
-      .furniture-price {
-        font-size: 30px;
-        font-weight: 700;
-        line-height: 1.33;
-        margin-bottom: 30px;
-      }
-      .item-addinfo {
-        display: flex;
-        font-size: 15px;
-        height: 30px;
-        margin-bottom: 5px;
-        align-items: center;
-        .add-info-title {
-          color: rgb(170, 175, 185);
-          width: 100px;
-        }
-        .add-info-content {
-          display: flex;
-          align-items: center;
-        }
-        .add-del-info-content {
-          display: flex;
-          align-items: center;
-          &:hover {
-            cursor: pointer;
-          }
+    .detail-view {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 30px;
+      padding: 50px 100px 100px 100px;
+      .thumnail {
+        width: 540px;
+        height: 540px;
+        overflow: hidden;
+        border-radius: 20px;
+        img {
+          width: 100%;
         }
       }
-      .buying-option {
-        .product-selector {
-          width: 400px;
-          height: 20px;
-          margin-top: 10px;
-          margin-bottom: 20px;
+      .funiture-summary {
+        margin-top: 45px;
+        .furniture-tag {
+          color: rgb(100, 111, 124);
+          font-size: 15px;
+          font-weight: 500;
+          white-space: normal;
+          margin-bottom: 16px;
         }
-      }
-      .buying-button {
-        display: flex;
-        gap: 8px;
-        button {
-          border-radius: 12px;
-          width: 200px;
-          height: 55px;
+        .furniture-title {
+          font-size: 20px;
+          font-weight: 500;
+          word-break: break-all;
+          margin: 0px 0px 16px;
+        }
+        .furniture-price {
+          font-size: 30px;
           font-weight: 700;
-          font-size: 16px;
-          cursor: pointer;
-          border-width: 0;
+          line-height: 1.33;
+          margin-bottom: 30px;
         }
-        .option-cart {
-          background-color: rgb(255, 236, 236);
-          box-sizing: border-box;
-          color: rgb(238, 109, 109);
-          &:hover {
-            transition: all 0.2s ease-out 0s;
-            background: rgb(246, 163, 166);
-            color: rgb(221, 96, 96);
+        .item-addinfo {
+          display: flex;
+          font-size: 15px;
+          height: 30px;
+          margin-bottom: 5px;
+          align-items: center;
+          .add-info-title {
+            color: rgb(170, 175, 185);
+            width: 100px;
+          }
+          .add-info-content {
+            display: flex;
+            align-items: center;
+          }
+          .add-del-info-content {
+            display: flex;
+            align-items: center;
+            &:hover {
+              cursor: pointer;
+            }
           }
         }
-        .option-buynow {
-          background-color: rgb(238, 109, 109);
-          box-sizing: border-box;
-          color: white;
-          &:hover {
-            transition: all 0.2s ease-out 0s;
-            background: rgb(221, 96, 96);
+        .buying-option {
+          .product-selector {
+            width: 400px;
+            height: 40px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            scroll-behavior: smooth;
+            text-align: left;
+            border: none;
+            outline: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
+        .buying-button {
+          display: flex;
+          gap: 8px;
+          button {
+            border-radius: 12px;
+            width: 200px;
+            height: 55px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            border-width: 0;
+          }
+          .option-cart {
+            background-color: rgb(255, 236, 236);
+            box-sizing: border-box;
+            color: rgb(238, 109, 109);
+            &:hover {
+              transition: all 0.2s ease-out 0s;
+              background: rgb(246, 163, 166);
+              color: rgb(221, 96, 96);
+            }
+          }
+          .option-buynow {
+            background-color: rgb(238, 109, 109);
+            box-sizing: border-box;
+            color: white;
+            &:hover {
+              transition: all 0.2s ease-out 0s;
+              background: rgb(221, 96, 96);
+            }
           }
         }
       }
     }
   }
-}
-.furniture-container {
-  width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 46px;
-  .furniture-detail-view {
-    font-size: 20px;
-    font-weight: 700;
-    padding: 30px 0 10px;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #ccc;
-    text-align: left;
+  .furniture-container {
+    width: 800px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 1000px;
+    margin-top: 46px;
+    .furniture-detail-view {
+      font-size: 20px;
+      font-weight: 700;
+      padding: 30px 0 10px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+      width: 100%;
+    }
+    h2 {
+      font-size: 30px;
+    }
+  }
+  .qna-container {
+    width: 800px;
+    height: 300px;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 1000px;
+    margin-top: 100px;
+    .qna-title {
+      display: flex;
+      justify-content: space-between;
+    }
+    button {
+      border-radius: 10px;
+      border: none;
+      padding: 15px 20px;
+      background-color: #ee6d6d;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    h2 {
+      font-size: 30px;
+    }
+    .qna-content {
+      display: flex;
+      justify-content: center;
+      margin-top: 80px;
+    }
   }
 }
