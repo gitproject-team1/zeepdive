@@ -1,0 +1,54 @@
+//구매페이지
+.purchase-page {
+  width: 800px;
+  margin: 0 auto;
+  border: 1px solid;
+  .purchase-content {
+  }
+}
+
+.address {
+  .address-title {
+    color: rgb(40, 50, 60);
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+.buyer-title {
+  color: rgb(40, 50, 60);
+  font-weight: 500;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.purchase-content {
+  display: flex;
+  padding: 0 20px;
+  margin-bottom: 10px;
+  .purchase-content-subject {
+    color: rgb(128, 128, 128);
+    font-size: 14px;
+    width: 150px;
+    margin-left: 30px;
+    margin: auto;
+  }
+  .purchase-content-input {
+    width: 580px;
+    height: 50px;
+    // width: auto;
+    height: 46px;
+    border: 1px solid rgb(233, 235, 238);
+    border-radius: 4px;
+    padding: 0px 8px;
+    background: white;
+    box-sizing: border-box;
+    appearance: none;
+    text-align: left;
+    color: rgb(64, 70, 76);
+    font-size: 14px;
+    font-weight: 400;
+    cursor: text;
+    transition: all 0.4s ease-out 0s;
+  }
+}

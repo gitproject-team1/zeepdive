@@ -117,3 +117,15 @@ export async function renderCategoryPages(category, search = "") {
     itemList.appendChild(itemListContainer);
   }
 }
+
+//상세페이지
+
+// 나중에 footer 위치 구해서 이동시키기
+
+const delInfoBtnEl = document.querySelector(".add-del-info-content");
+const shipElement = document.querySelector(".return-policy");
+delInfoBtnEl.addEventListener("click", () =>
+  shipElement.scrollIntoView({
+    behavior: "smooth",
+  })
+);
