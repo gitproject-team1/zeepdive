@@ -8,6 +8,9 @@ import { authLogin, editUser } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
 import { renderMainItems, renderCategoryPages } from "./render.js";
+console.log(1);
+import { searchForm, searchInput } from "./store.js";
+console.log(2);
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
@@ -36,10 +39,6 @@ export const loginPw = document.querySelector(".login-pw");
 export const loginBtn = document.querySelector(".login-btn");
 export const idboxEl = document.querySelector(".id-box");
 export const pwboxEl = document.querySelector(".pw-box");
-
-//search elements
-const searchForm = document.querySelector(".search-box");
-const searchInput = document.getElementById("search-main");
 
 // user Info elements
 export const userInfoName = document.getElementById("user-info-name");
@@ -213,8 +212,11 @@ async function router() {
     adminPgEl.style.display = "none";
     categorypgEl.style.display = "block";
     // category url에서 파싱
+    console.log(routePath);
     const category = routePath.split("/")[2];
-    await renderCategoryPages(category);
+    let searchKeyword = routePath.split("/")[3];
+    searchKeyword = decodeURIComponent(searchKeyword);
+    await renderCategoryPages(category, searchKeyword);
   }
 }
 
