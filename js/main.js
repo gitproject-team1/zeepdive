@@ -22,6 +22,8 @@ import {
   userModal,
   userModalBtn,
   userInfoBtn,
+  searchForm,
+  searchInput,
 } from "./store.js";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
@@ -33,10 +35,6 @@ const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
 const footerEl = document.querySelector("footer");
 const categorypgEl = document.querySelector(".category-page");
-
-//search elements
-const searchForm = document.querySelector(".search-box");
-const searchInput = document.getElementById("search-main");
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
@@ -93,7 +91,7 @@ async function router() {
   const routePath = location.hash;
   // 초기화면
   if (routePath === "") {
-    detailPageEl.style.display = "none";
+    detailPageEl.style.display = "block";
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
@@ -140,8 +138,11 @@ async function router() {
     adminPgEl.style.display = "none";
     categorypgEl.style.display = "block";
     // category url에서 파싱
+    console.log(routePath);
     const category = routePath.split("/")[2];
-    await renderCategoryPages(category);
+    let searchKeyword = routePath.split("/")[3];
+    searchKeyword = decodeURIComponent(searchKeyword);
+    await renderCategoryPages(category, searchKeyword);
   }
 }
 

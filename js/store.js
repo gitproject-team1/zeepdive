@@ -56,3 +56,8 @@ export const addItemBtn = document.querySelector(".submit-item");
 export const adminItemsEl = document.querySelector(
   ".total-items > .item-container"
 );
+
+// 검색기능
+//search elements
+export const searchForm = document.querySelector(".search-box");
+export const searchInput = document.getElementById("search-main");
