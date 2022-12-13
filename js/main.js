@@ -94,6 +94,7 @@ emailInputEl.addEventListener("focusout", () => {
   }
 });
 emailInputEl.addEventListener("focusin", () => {
+  console.log(emailErrorMsg);
   validationStyle(emailErrorMsg, "remove", singupEmailBox, "#333");
 });
 // 비밀번호 8자리 이상
