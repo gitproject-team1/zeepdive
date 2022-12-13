@@ -2,8 +2,13 @@
 .purchase-page {
   width: 800px;
   margin: 0 auto;
-  border: 1px solid;
-  .purchase-content {
+  display: none;
+  .purchase-container {
+    width: 800px;
+    box-sizing: border-box;
+    margin: 50px auto 100px;
+    padding: 50px;
+    box-shadow: 0 8px 16px #00000026;
   }
 }
 
