@@ -1,14 +1,17 @@
 import { mainPgEl } from "./main.js";
 import { getItem } from "./requests.js";
+// import { searchInput } from "./main.js";
 
 //tags 별로 분류
-async function filterCategories() {
+async function filterCategories(search = "") {
   const items = await getItem();
   const christmasItem = items.filter((item) => item.tags[0] === "크리스마스");
   const planteriorItem = items.filter((item) => item.tags[0] === "플랜테리어");
   const cookooItem = items.filter((item) => item.tags[0] === "쿠쿠");
   const drawerItem = items.filter((item) => item.tags[0] === "수납");
-  return [christmasItem, planteriorItem, cookooItem, drawerItem, items];
+  // console.log(search);
+  const searchItem = items.filter((item) => item.title.includes(search));
+  return [christmasItem, planteriorItem, cookooItem, drawerItem, searchItem];
 }
 
 //메인 페이지 아이템 렌더링
@@ -81,9 +84,10 @@ export async function renderMainItems() {
 }
 
 //category별 페이지 렌더링
-export async function renderCategoryPages(category) {
+export async function renderCategoryPages(category, search = "") {
   const categoryMap = { christmas: 0, plant: 1, digital: 2, drawer: 3, all: 4 };
-  const filteredItems = await filterCategories();
+  const filteredItems = await filterCategories(search);
+  console.log(filteredItems[categoryMap[category]]);
   document.querySelector(".category-title").textContent =
     filteredItems[categoryMap[category]][0].tags;
   const itemList = document.querySelector(".category-itemlist > .itemlist");
