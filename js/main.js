@@ -2,40 +2,26 @@ import { swiper } from "./swiper.js";
 import {
   createSubmitEvent,
   createLoginEvent,
-  getItemWithExpireTime,
   loginModal,
-  validationStyle,
   pwchange,
+  autoLogin,
+  userinfoClick,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
 import { renderMainItems, renderCategoryPages } from "./render.js";
-import { render, sassFalse } from "sass";
 import {
   submitEl,
-  emailInputEl,
-  passwordcheckEl,
-  passwordInputEl,
   loginBtn,
-  loginId,
   loginBtnEl,
   backGround,
-  idboxEl,
-  emailErrorMsg,
-  singupEmailBox,
-  pwErrorMsg,
-  signupPwBox,
-  signupRepwBox,
-  pwLengthMsg,
-  idErrorMsg,
-  exptext,
   userInfoName,
   nameChangeBtn,
   pwChangeBtn,
   userModal,
   userModalBtn,
-  userModalContent,
+  userInfoBtn,
 } from "./store.js";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
@@ -74,44 +60,13 @@ loginBtnEl.addEventListener("click", loginModal);
 submitEl.addEventListener("submit", createSubmitEvent);
 // 로그인
 loginBtn.addEventListener("click", createLoginEvent);
-
-// 로그인 시 유효성 검사
-loginId.addEventListener("focusout", () => {
-  if (loginId.value && !exptext.test(loginId.value)) {
-    validationStyle(idErrorMsg, "add", idboxEl, "#ed234b");
-  }
-});
-loginId.addEventListener("focusin", () => {
-  validationStyle(idErrorMsg, "remove", idboxEl, "#999");
-});
-
-// 회원가입 유효성 검사
-// 이메일
-emailInputEl.addEventListener("focusout", () => {
-  if (emailInputEl.value && !exptext.test(emailInputEl.value)) {
-    validationStyle(emailErrorMsg, "add", singupEmailBox, "#ed234b");
-  }
-});
-emailInputEl.addEventListener("focusin", () => {
-  validationStyle(emailErrorMsg, "remove", singupEmailBox, "#333");
-});
-// 비밀번호 8자리 이상
-passwordInputEl.addEventListener("focusout", () => {
-  if (passwordInputEl.value && passwordInputEl.value.length < 8) {
-    validationStyle(pwLengthMsg, "add", signupPwBox, "#ed234b");
-  }
-});
-passwordInputEl.addEventListener("focusin", () => {
-  validationStyle(pwLengthMsg, "remove", signupPwBox, "#333");
-});
-// 비밀번호 확인
-passwordcheckEl.addEventListener("focusout", () => {
-  if (passwordInputEl && passwordInputEl.value !== passwordcheckEl.value) {
-    validationStyle(pwErrorMsg, "add", signupRepwBox, "#ed234b");
-  }
-});
-passwordcheckEl.addEventListener("focusin", () => {
-  validationStyle(pwErrorMsg, "remove", signupRepwBox, "#333");
+// 로컬에 로그인 데이터 있는지 확인.
+(async () => {
+  await autoLogin();
+})();
+// token이 없을 때 회원정보를 클릭하면 로그인을 하라고 모달창
+userInfoBtn.addEventListener("click", () => {
+  userinfoClick();
 });
 
 // ============ 인증 관련 : 회원정보 페이지 ============
@@ -126,19 +81,6 @@ userModalBtn.addEventListener("click", () => {
 });
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", pwchange);
-
-// 로컬에 로그인 데이터 있는지 확인.
-(async () => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    loginBtnEl.textContent = "로그아웃";
-    await authLogin();
-  } else {
-    loginBtnEl.textContent = "로그인/가입";
-  }
-  // 만료시간 체크는 계속
-  getItemWithExpireTime("token");
-})();
 
 // 초기화면(새로고침, 화면진입) 렌더
 router();
@@ -202,18 +144,6 @@ async function router() {
     await renderCategoryPages(category);
   }
 }
-
-// token이 없을 때 회원정보를 클릭하면 로그인을 하라고 모달창
-const userInfoBtn = document.querySelector(".user-info-btn");
-userInfoBtn.addEventListener("click", () => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    window.location = "#/user";
-  } else {
-    userModalContent.innerHTML = `로그인을 해주세요.`;
-    userModal.classList.add("show");
-  }
-});
 
 // bank elements
 const inputBankEl1 = document.querySelector(".bank-link-1");

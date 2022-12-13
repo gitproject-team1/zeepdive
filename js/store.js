@@ -10,6 +10,7 @@ export const emailInputEl = document.getElementById("signup-email");
 export const passwordInputEl = document.getElementById("signup-pw");
 export const passwordcheckEl = document.getElementById("signup-repw");
 export const displayNameInputEl = document.getElementById("signup-name");
+export const signupErrorBox = document.querySelector(".signup-error-box");
 
 // login elements
 export const loginErrorBox = document.querySelector(".login-error-box");
@@ -44,6 +45,7 @@ export const pwChangeBtn = document.querySelector(".pw-change-btn");
 export const userModal = document.querySelector(".user-modal");
 export const userModalBtn = document.querySelector(".user-modal-btn");
 export const userModalContent = document.querySelector(".user-modal-content");
+export const userInfoBtn = document.querySelector(".user-info-btn");
 
 //관리자페이지
 export const adminThumbnailFile = document.getElementById(
