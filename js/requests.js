@@ -1,17 +1,10 @@
-import { setItemWithExpireTime } from "./signup.js";
+import { setItemWithExpireTime, showErrorBox } from "./signup.js";
 import {
   loginBtnEl,
-  idboxEl,
-  pwboxEl,
-  loginErrorBox,
   userInfoName,
-  userInfoPw,
-  userInfoNewPw,
   userModal,
   userModalContent,
-  content,
-  showErrorBox,
-} from "./main.js";
+} from "./store.js";
 
 const API_KEY = `FcKdtJs202209`;
 const USER_NAME = `imyeji`;
