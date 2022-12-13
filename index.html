@@ -16,6 +16,11 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <!--google icons-->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
     <!-- swiper css -->
     <link
       rel="stylesheet"
@@ -27,12 +32,11 @@
       href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
     />
     <!-- style -->
-    <link rel="stylesheet" href="./style.scss" />
+    <link rel="stylesheet" href="./layout/style.scss" />
     <!-- main.js -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="module" defer src="./js/main.js"></script>
   </head>
-
   <body>
     <header>
       <div class="header-container">
@@ -218,8 +222,8 @@
             </div>
             <!-- /.bank-info -->
           </div>
+          <!-- /.container -->
         </div>
-        <!-- /.container -->
       </article>
       <!-- /.user-page -->
       <!-- 관리자 페이지 -->
@@ -292,7 +296,30 @@
             <div class="furniture-tag">태그</div>
             <div class="furniture-title">상품명</div>
             <div class="furniture-price">가격</div>
-            <div class="option">
+            <div class="item-addinfo">
+              <div class="add-info-title">혜택</div>
+              <div class="add-info-content">최대 적립</div>
+            </div>
+            <div class="item-addinfo">
+              <div class="add-info-title">배송비</div>
+              <div class="add-info-content">원</div>
+            </div>
+            <div class="item-addinfo">
+              <div class="add-info-title">교환/반품</div>
+              <div class="add-del-info-content">
+                배송/교환/반품 안내 자세히 보기
+                <span class="material-symbols-outlined"> chevron_right </span>
+              </div>
+            </div>
+            <div class="border-line"></div>
+            <div class="buying-option">
+              <p>옵션 선택</p>
+              <select class="product-selector" type="button">
+                <option value="default">기본</option>
+                <option value="single-item">단품</option>
+              </select>
+            </div>
+            <div class="buying-button">
               <div>
                 <button type="button" class="option-cart">장바구니 담기</button>
               </div>
@@ -307,9 +334,101 @@
             <h2>제품 설명</h2>
           </div>
         </div>
+        <div class="return-policy">
+          <img
+            src="https://image.ggumim.co.kr/proxy/20200916100508sKzPhMHtvd.jpeg/aHR0cDovL2ptczgxNS5jYWZlMjQuY29tL2ltZy9kZXRhaWwvY3VtYW1hX2FzLmpwZw"
+            alt=""
+          />
+        </div>
       </section>
     </article>
     <!--./상세페이지-->
+
+    <!--구매페이지-->
+    <article class="purchase-page">
+      <section class="purchase-container">
+        <div class="purchase-inner">
+          <div class="address">
+            <div class="address-title">배송지</div>
+            <form>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">수령인</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="이름을 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">휴대폰</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="휴대폰 번호를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">우편번호</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="휴대폰 번호를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">주소지</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="주소를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">배송메모</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="배송 메모를 입력해주세요"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="buyer-title">
+            주문자
+            <form>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">주문자</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="이름을 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">이메일</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="이메일을 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">비밀번호</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="비밀번호를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">휴대폰</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="전화번호를 입력해주세요"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="payment-amount">결제 금액</div>
+          <div class="payment-method">결제 수단</div>
+          <div class="payment-cfm"></div>
+          <div class="payment-cfm-btn"></div>
+        </div>
+      </section>
+    </article>
+    <!--./구매 페이지-->
 
     <div class="back-ground">배경 필터</div>
     <section class="login-modal">
