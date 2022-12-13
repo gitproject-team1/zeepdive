@@ -107,7 +107,7 @@
       </article>
 
       <!-- 회원정보 페이지 -->
-      <dd class="user-page">
+      <article class="user-page">
         <div class="user-container">
           <div class="user-info">
             <form class="change-form">
@@ -138,49 +138,92 @@
             <!-- /.user-info-pwd-box -->
           </div>
           <!-- /.user-info -->
+
           <div class="bank-info">
-            <!-- <button class="bank-link">계좌 연결</button>
-            <button class="bank-delete">계좌 해지</button> -->
-            <form class="link-form">
-              <h3>계좌 연결 / 해지</h3>
-              <!-- bank-link-section -->
-              <div class="bank-link-section">
-                <select class="bank-select">
-                  <option value="none">은행 선택</option>
-                  <option value="bank-nh">NH농협은행</option>
-                  <option value="bank-kb">KB국민은행</option>
-                  <option value="bank-sh">신한은행</option>
-                  <option value="bank-ka">카카오뱅크</option>
-                </select>
-                <input
-                  type="text"
-                  pattern="[0-9]+"
-                  class="bank-link-1 bank-link-input"
-                />
-                <input
-                  type="text"
-                  pattern="[0-9]+"
-                  class="bank-link-2 bank-link-input"
-                />
-                <input
-                  type="text"
-                  pattern="[0-9]+"
-                  class="bank-link-3 bank-link-input"
-                />
-                <input
-                  type="text"
-                  pattern="[0-9]+"
-                  class="bank-link-4 bank-link-input"
-                />
-                <button class="bank-link-btn">계좌 연결</button>
+            <div class="bank-info">
+              <div class="bank-gnb">
+                <button class="bank-add-gnb on">계좌 연결</button>
+                <button class="bank-remove-gnb">계좌 해지</button>
               </div>
-              <!-- bank-link-section -->
-            </form>
-            <!-- /.add-bank -->
+              <!-- /.bank-info -->
+              <section class="bank-add-section">
+                <h3>계좌 연결</h3>
+                <!-- bank-add-section -->
+                <form class="add-form">
+                  <p class="account-box">
+                    <select class="bank-select">
+                      <option value="none">은행 선택</option>
+                      <option value="bank-nh">NH농협은행</option>
+                      <option value="bank-kb">KB국민은행</option>
+                      <option value="bank-sh">신한은행</option>
+                      <option value="bank-kakao">카카오뱅크</option>
+                      <option value="bank-woori">우리은행</option>
+                      <option value="bank-hana">하나은행</option>
+                      <option value="bank-kbank">케이뱅크</option>
+                    </select>
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-1 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-2 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-3 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-4 bank-add-input"
+                    />
+                  </p>
+                  <!-- /.account-box -->
+                  <p class="phone-box">
+                    <label for="bank-phone-num">휴대폰 번호</label>
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      maxlength="11"
+                      id="bank-phone-num"
+                      placeholder="' - ' 를 제외하고 입력해주세요"
+                    />
+                  </p>
+                  <!-- /.phone-box -->
+                  <p class="signature-box">
+                    <span>
+                      <label for="account-signature">약관 동의</label>
+                      <input type="checkbox" id="account-signature" />
+                    </span>
+                    <button class="bank-add-btn">계좌 연결</button>
+                  </p>
+                  <!-- /.signature-box -->
+                </form>
+                <!-- bank-add-section -->
+              </section>
+              <!-- /.add-bank -->
+              <section class="bank-remove-section">
+                <h3>계좌 해지</h3>
+                <ul class="account-lists"></ul>
+                <div class="remove-check-button-box">
+                  <span>
+                    <label for="remove-sign">삭제 동의</label>
+                    <input type="checkbox" id="account-remove-sign" />
+                  </span>
+                  <button class="remove-account">선택계좌 해지하기</button>
+                </div>
+                <!-- bank-add-section -->
+              </section>
+              <!-- /.bank-remove-section -->
+            </div>
+            <!-- /.bank-info -->
           </div>
-          <!-- /.bank-info -->
+          <!-- /.container -->
         </div>
-        <!-- /.container -->
       </article>
       <!-- /.user-page -->
       <!-- 관리자 페이지 -->
@@ -308,45 +351,73 @@
           <div class="address">
             <div class="address-title">배송지</div>
             <form>
-            <div class="purchase-content">
-              <div class="purchase-content-subject">수령인</div>
-              <input class="purchase-content-input" placeholder="이름을 입력해주세요"></input>
-            </div>
-            <div class="purchase-content">
-              <div class="purchase-content-subject">휴대폰</div>
-              <input class="purchase-content-input" placeholder="휴대폰 번호를 입력해주세요"></input>
-            </div>
-            <div class="purchase-content">
-              <div class="purchase-content-subject">우편번호</div>
-              <input class="purchase-content-input" placeholder="휴대폰 번호를 입력해주세요"></input>
-            </div>
-            <div class="purchase-content">
-              <div class="purchase-content-subject">주소지</div>
-              <input class="purchase-content-input" placeholder="주소를 입력해주세요"></input>
-            </div>
-            <div class="purchase-content">
-              <div class="purchase-content-subject">배송메모</div>
-              <input class="purchase-content-input" placeholder="배송 메모를 입력해주세요"></input>
-            </div>
-          </form>
-          </div>
-          <div class="buyer-title">주문자
-            <form>
               <div class="purchase-content">
-                <div class="purchase-content-subject">주문자</div>
-                <input class="purchase-content-input" placeholder="이름을 입력해주세요"></input>
-              </div>
-              <div class="purchase-content">
-                <div class="purchase-content-subject">이메일</div>
-                <input class="purchase-content-input" placeholder="이메일을 입력해주세요"></input>
-              </div>
-              <div class="purchase-content">
-                <div class="purchase-content-subject">비밀번호</div>
-                <input class="purchase-content-input" placeholder="비밀번호를 입력해주세요"></input>
+                <div class="purchase-content-subject">수령인</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="이름을 입력해주세요"
+                />
               </div>
               <div class="purchase-content">
                 <div class="purchase-content-subject">휴대폰</div>
-                <input class="purchase-content-input" placeholder="전화번호를 입력해주세요"></input>
+                <input
+                  class="purchase-content-input"
+                  placeholder="휴대폰 번호를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">우편번호</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="휴대폰 번호를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">주소지</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="주소를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">배송메모</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="배송 메모를 입력해주세요"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="buyer-title">
+            주문자
+            <form>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">주문자</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="이름을 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">이메일</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="이메일을 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">비밀번호</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="비밀번호를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">휴대폰</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="전화번호를 입력해주세요"
+                />
               </div>
             </form>
           </div>
