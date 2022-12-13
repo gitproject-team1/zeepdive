@@ -2,46 +2,41 @@ import { swiper } from "./swiper.js";
 import {
   createSubmitEvent,
   createLoginEvent,
-  getItemWithExpireTime,
   loginModal,
-  validationStyle,
   pwchange,
+  autoLogin,
+  userinfoClick,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
 import { renderMainItems, renderCategoryPages } from "./render.js";
-console.log(1);
-import { searchForm, searchInput } from "./store.js";
-console.log(2);
-
-import { searchForm, searchInput } from "./store.js";
-
 import {
   submitEl,
-  emailInputEl,
-  passwordcheckEl,
-  passwordInputEl,
   loginBtn,
-  loginId,
   loginBtnEl,
   backGround,
-  idboxEl,
-  emailErrorMsg,
-  singupEmailBox,
-  pwErrorMsg,
-  signupPwBox,
-  signupRepwBox,
-  pwLengthMsg,
-  idErrorMsg,
-  exptext,
   userInfoName,
   nameChangeBtn,
   pwChangeBtn,
   userModal,
   userModalBtn,
-  userModalContent,
+  userInfoBtn,
+  searchForm,
+  searchInput,
+  bankSubmitBtn,
+  bankSelectEl,
+  accountListUl,
+  removeSectionBtn,
+  addSectionBtn,
 } from "./store.js";
+import {
+  renderUserAccount,
+  gnbBtnClick,
+  bankSelelectEvent,
+  accountAddSubmit,
+  removeAccountFnc,
+} from "./account.js";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
@@ -75,45 +70,13 @@ loginBtnEl.addEventListener("click", loginModal);
 submitEl.addEventListener("submit", createSubmitEvent);
 // 로그인
 loginBtn.addEventListener("click", createLoginEvent);
-
-// 로그인 시 유효성 검사
-loginId.addEventListener("focusout", () => {
-  if (loginId.value && !exptext.test(loginId.value)) {
-    validationStyle(idErrorMsg, "add", idboxEl, "#ed234b");
-  }
-});
-loginId.addEventListener("focusin", () => {
-  validationStyle(idErrorMsg, "remove", idboxEl, "#999");
-});
-
-// 회원가입 유효성 검사
-// 이메일
-emailInputEl.addEventListener("focusout", () => {
-  if (emailInputEl.value && !exptext.test(emailInputEl.value)) {
-    validationStyle(emailErrorMsg, "add", singupEmailBox, "#ed234b");
-  }
-});
-emailInputEl.addEventListener("focusin", () => {
-  console.log(emailErrorMsg);
-  validationStyle(emailErrorMsg, "remove", singupEmailBox, "#333");
-});
-// 비밀번호 8자리 이상
-passwordInputEl.addEventListener("focusout", () => {
-  if (passwordInputEl.value && passwordInputEl.value.length < 8) {
-    validationStyle(pwLengthMsg, "add", signupPwBox, "#ed234b");
-  }
-});
-passwordInputEl.addEventListener("focusin", () => {
-  validationStyle(pwLengthMsg, "remove", signupPwBox, "#333");
-});
-// 비밀번호 확인
-passwordcheckEl.addEventListener("focusout", () => {
-  if (passwordInputEl && passwordInputEl.value !== passwordcheckEl.value) {
-    validationStyle(pwErrorMsg, "add", signupRepwBox, "#ed234b");
-  }
-});
-passwordcheckEl.addEventListener("focusin", () => {
-  validationStyle(pwErrorMsg, "remove", signupRepwBox, "#333");
+// 로컬에 로그인 데이터 있는지 확인.
+(async () => {
+  await autoLogin();
+})();
+// token이 없을 때 회원정보를 클릭하면 로그인을 하라고 모달창
+userInfoBtn.addEventListener("click", () => {
+  userinfoClick();
 });
 
 // ============ 인증 관련 : 회원정보 페이지 ============
@@ -128,19 +91,6 @@ userModalBtn.addEventListener("click", () => {
 });
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", pwchange);
-
-// 로컬에 로그인 데이터 있는지 확인.
-(async () => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    loginBtnEl.textContent = "로그아웃";
-    await authLogin();
-  } else {
-    loginBtnEl.textContent = "로그인/가입";
-  }
-  // 만료시간 체크는 계속
-  getItemWithExpireTime("token");
-})();
 
 // 초기화면(새로고침, 화면진입) 렌더
 router();
@@ -208,95 +158,29 @@ async function router() {
   }
 }
 
-// token이 없을 때 회원정보를 클릭하면 로그인을 하라고 모달창
-const userInfoBtn = document.querySelector(".user-info-btn");
-userInfoBtn.addEventListener("click", () => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    window.location = "#/user";
-  } else {
-    userModalContent.innerHTML = `로그인을 해주세요.`;
-    userModal.classList.add("show");
-  }
+// user-info창에서 은행을 선택하면 생기는 이벤트
+bankSelectEl.addEventListener("change", (event) => {
+  event.preventDefault();
+  bankSelelectEvent();
+});
+bankSubmitBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  accountAddSubmit();
 });
 
-// bank elements
-const inputBankEl1 = document.querySelector(".bank-link-1");
-const inputBankEl2 = document.querySelector(".bank-link-2");
-const inputBankEl3 = document.querySelector(".bank-link-3");
-const inputBankEl4 = document.querySelector(".bank-link-4");
-const allInputBankEl = document.querySelectorAll(".bank-link-input");
-const bankSelectEl = document.querySelector(".bank-select");
-const bankSubmitBtn = document.querySelector(".bank-link-btn");
-let bankNumber = "";
-
-bankSelectEl.addEventListener("change", () => {
-  let select1 = bankSelectEl[bankSelectEl.selectedIndex].value;
-  let arr = [];
-  if (select1 === "none") {
-    inputDisplay("none");
-  } else if (select1 === "bank-nh") {
-    inputDisplay("inline");
-    arr = [3, 4, 4, 2];
-  } else if (select1 === "bank-kb") {
-    inputDisplay("inline");
-    arr = [3, 2, 4, 3];
-  } else if (select1 === "bank-sh") {
-    inputDisplay("inline");
-    arr = [3, 3, 6];
-  } else if (select1 === "bank-ka") {
-    inputDisplay("inline");
-    arr = [4, 2, 7];
-  }
-
-  inputBankEl1.value = "";
-  inputBankEl2.value = "";
-  inputBankEl3.value = "";
-  inputBankEl4.value = "";
-
-  inputBankEl1.setAttribute("maxlength", arr[0]);
-  inputBankEl2.setAttribute("maxlength", arr[1]);
-  inputBankEl3.setAttribute("maxlength", arr[2]);
-  inputBankEl4.setAttribute("maxlength", arr[3]);
-
-  const i4Len = inputBankEl4.getAttribute("maxlength");
-
-  if (i4Len === "undefined") {
-    inputBankEl4.style.display = "none";
-  } else {
-    inputBankEl4.style.display = "inline";
-  }
-  inputBankEl1.focus();
-
-  function inputDisplay(display) {
-    allInputBankEl.forEach((e) => {
-      e.style.display = display;
-    });
-  }
+removeSectionBtn.addEventListener("click", function chacngeSection() {
+  renderUserAccount();
+  const clickValue = removeSectionBtn.classList.contains("on");
+  gnbBtnClick("remove", clickValue);
+  removeEventListener("click", chacngeSection);
 });
 
-allInputBankEl.forEach((e, i) => {
-  e.addEventListener("input", () => {
-    if (i < 3) {
-      if (
-        allInputBankEl[i].value.length ===
-        Number(allInputBankEl[i].getAttribute("maxlength"))
-      ) {
-        allInputBankEl[i + 1].focus();
-      }
-    }
-  });
+addSectionBtn.addEventListener("click", () => {
+  const clickValue = addSectionBtn.classList.contains("on");
+  gnbBtnClick("add", clickValue);
 });
-bankSubmitBtn.addEventListener("click", () => {
-  allInputBankEl.forEach((e) => {
-    bankNumber += e.value;
-    e.value = "";
-  });
-  if (!Number(bankNumber)) {
-    window.alert("숫자만 입력하세요");
-  } else {
-    // console.log(Number(bankNumber));
-  }
-  // console.log(bankNumber);
-  bankNumber = "";
+
+const removeAccountBtn = document.querySelector(".remove-account");
+removeAccountBtn.addEventListener("click", () => {
+  removeAccountFnc();
 });
