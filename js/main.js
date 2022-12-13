@@ -28,15 +28,15 @@ import {
   bankSelectEl,
   accountListUl,
   removeSectionBtn,
-  addSectionBtn
+  addSectionBtn,
 } from "./store.js";
 import {
   renderUserAccount,
   gnbBtnClick,
   bankSelelectEvent,
   accountAddSubmit,
-  removeAccountFnc
-} from "./account.js"
+  removeAccountFnc,
+} from "./account.js";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
@@ -159,31 +159,28 @@ async function router() {
 }
 
 // user-info창에서 은행을 선택하면 생기는 이벤트
-bankSelectEl.addEventListener('change', (event) => {
-  event.preventDefault()
-  bankSelelectEvent()
-})
-bankSubmitBtn.addEventListener('click', (event) => {
-  event.preventDefault()
-  accountAddSubmit()
-})
+bankSelectEl.addEventListener("change", (event) => {
+  event.preventDefault();
+  bankSelelectEvent();
+});
+bankSubmitBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  accountAddSubmit();
+});
 
+removeSectionBtn.addEventListener("click", function chacngeSection() {
+  renderUserAccount();
+  const clickValue = removeSectionBtn.classList.contains("on");
+  gnbBtnClick("remove", clickValue);
+  removeEventListener("click", chacngeSection);
+});
 
-removeSectionBtn.addEventListener('click', function chacngeSection () {
-  renderUserAccount()
-  const clickValue = removeSectionBtn.classList.contains('on')
-  gnbBtnClick('remove', clickValue)
-  removeEventListener('click',chacngeSection)
-})
+addSectionBtn.addEventListener("click", () => {
+  const clickValue = addSectionBtn.classList.contains("on");
+  gnbBtnClick("add", clickValue);
+});
 
-addSectionBtn.addEventListener('click', () => {
-  const clickValue = addSectionBtn.classList.contains('on')
-  gnbBtnClick('add', clickValue)
-})
-
-const removeAccountBtn = document.querySelector('.remove-account')
-removeAccountBtn.addEventListener('click', ()=>{
-  removeAccountFnc()
-})
-
-
+const removeAccountBtn = document.querySelector(".remove-account");
+removeAccountBtn.addEventListener("click", () => {
+  removeAccountFnc();
+});
