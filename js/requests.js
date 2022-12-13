@@ -4,6 +4,7 @@ import {
   userInfoName,
   userModal,
   userModalContent,
+  loginErrorBox,
 } from "./store.js";
 
 const API_KEY = `FcKdtJs202209`;
@@ -55,7 +56,7 @@ export async function login(email, password) {
     setItemWithExpireTime("token", json.accessToken, 86400000);
     location.reload();
   } else {
-    showErrorBox();
+    showErrorBox(loginErrorBox);
   }
 }
 
