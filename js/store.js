@@ -44,3 +44,13 @@ export const pwChangeBtn = document.querySelector(".pw-change-btn");
 export const userModal = document.querySelector(".user-modal");
 export const userModalBtn = document.querySelector(".user-modal-btn");
 export const userModalContent = document.querySelector(".user-modal-content");
+
+//관리자페이지
+export const adminThumbnailFile = document.getElementById(
+  "admin-info-thumbnail"
+);
+export const adminImgFile = document.getElementById("admin-info-img");
+export const addItemBtn = document.querySelector(".submit-item");
+export const adminItemsEl = document.querySelector(
+  ".total-items > .item-container"
+);

@@ -7,9 +7,9 @@ import {
   validationStyle,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
-import { createItemEvent, renderAdminItems } from "./admin.js";
+import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
-import { getMainPage } from "./render.js";
+import { renderMainItems, renderCategoryPages } from "./render.js";
 import { render, sassFalse } from "sass";
 import {
   submitEl,
@@ -47,15 +47,16 @@ export const mainPgEl = document.querySelector(".main-page");
 const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
 const footerEl = document.querySelector("footer");
+const categorypgEl = document.querySelector(".category-page");
 
 //search elements
+const searchForm = document.querySelector(".search-box");
 const searchInput = document.getElementById("search-main");
 
-// admin elements
-const addItemBtn = document.querySelector(".submit-item");
-const adminThumbnailFile = document.getElementById("admin-info-thumbnail");
-const adminImgFile = document.getElementById("admin-info-img");
-export const adminItemsEl = document.querySelector(".item-container");
+// 검색창
+searchForm.addEventListener("submit", (event) => {
+  window.location.href = `#/furniture/all/${searchInput.value}`;
+});
 
 //상세페이지
 const detailPageEl = document.querySelector(".detail-container");
@@ -149,40 +150,6 @@ pwChangeBtn.addEventListener("click", async (event) => {
   getItemWithExpireTime("token");
 })();
 
-// ============ 관리자페이지 ============
-let base64Thumbnail = "";
-let base64Img = "";
-
-adminThumbnailFile.addEventListener("change", (event) => {
-  const { files } = event.target;
-  for (let i = 0; i < files.length; i += 1) {
-    const file = files[i];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.addEventListener("load", (e) => {
-      base64Thumbnail = e.target.result;
-    });
-  }
-});
-
-adminImgFile.addEventListener("change", (event) => {
-  const { files } = event.target;
-  for (let i = 0; i < files.length; i += 1) {
-    const file = files[i];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.addEventListener("load", (e) => {
-      base64Img = e.target.result;
-    });
-  }
-});
-
-addItemBtn.addEventListener("click", async (event) => {
-  event.preventDefault();
-  await createItemEvent(base64Thumbnail, base64Img);
-  location.reload();
-});
-
 // 초기화면(새로고침, 화면진입) 렌더
 router();
 
@@ -199,32 +166,50 @@ async function router() {
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     footerEl.style.display = "none";
-    await getMainPage();
+    categorypgEl.style.display = "none";
+    await renderMainItems();
     mainPgEl.style.display = "block";
     footerEl.style.display = "block";
+    //회원정보 페이지
   } else if (routePath.includes("#/user")) {
-    // 기존꺼 hide하고 갈기면됨
     mainPgEl.style.display = "none";
     userPgEl.style.display = "block";
     adminPgEl.style.display = "none";
     detailPageEl.style.display = "none";
+    categorypgEl.style.display = "none";
+    //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     detailPageEl.style.display = "block";
+    categorypgEl.style.display = "none";
+    //관리자 페이지
   } else if (routePath.includes("#/admin")) {
+    // 관리자인지 확인
     const email = await authLogin();
     detailPageEl.style.display = "none";
-    // console.log(email);
+    categorypgEl.style.display = "none";
+    //만약 관리자라면,
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
       userPgEl.style.display = "none";
       adminPgEl.style.display = "block";
       renderAdminItems();
     } else {
+      // 허가되지 않은 사용자면 -> alert띄운다
       alert("허용되지 않은 접근입니다.");
     }
+    //category 분류 페이지
+  } else if (routePath.includes("#/furniture")) {
+    detailPageEl.style.display = "none";
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
+    categorypgEl.style.display = "block";
+    // category url에서 파싱
+    const category = routePath.split("/")[2];
+    await renderCategoryPages(category);
   }
 }
 
