@@ -11,8 +11,13 @@ import {
   backGround,
   loginModal,
   signupModal,
+  userModal,
+  userInfoPw,
+  userInfoNewPw,
+  userModalContent,
+  userInfoName,
 } from "./store.js";
-
+import { editUser } from "./requests.js";
 const state = {
   email: "",
   password: "",
@@ -90,6 +95,23 @@ export function showErrorBox() {
   setTimeout(() => {
     loginErrorBox.classList.remove("show");
   }, 1500);
+}
+
+// 회원정보 페이지 비밀번호 변경
+export async function pwchange(event) {
+  event.preventDefault();
+  if (userInfoNewPw.value && userInfoNewPw.value.length < 8) {
+    userModalContent.innerHTML = `비밀번호를 8자리 이상 입력해주세요.`;
+    userModal.classList.add("show");
+    return;
+  }
+  if (userInfoPw.value && userInfoNewPw.value)
+    await editUser(
+      "비밀번호",
+      userInfoName.value,
+      userInfoPw.value,
+      userInfoNewPw.value
+    );
 }
 
 // 만료 시간과 함께 데이터를 저장

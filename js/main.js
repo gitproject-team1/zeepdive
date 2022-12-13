@@ -5,6 +5,7 @@ import {
   getItemWithExpireTime,
   loginModal,
   validationStyle,
+  pwchange,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
@@ -31,8 +32,6 @@ import {
   exptext,
   userInfoName,
   nameChangeBtn,
-  userInfoPw,
-  userInfoNewPw,
   pwChangeBtn,
   userModal,
   userModalBtn,
@@ -126,16 +125,7 @@ userModalBtn.addEventListener("click", () => {
   userModal.classList.remove("show");
 });
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
-pwChangeBtn.addEventListener("click", async (event) => {
-  event.preventDefault();
-  if (userInfoPw.value && userInfoNewPw.value)
-    await editUser(
-      "비밀번호",
-      userInfoName.value,
-      userInfoPw.value,
-      userInfoNewPw.value
-    );
-});
+pwChangeBtn.addEventListener("click", pwchange);
 
 // 로컬에 로그인 데이터 있는지 확인.
 (async () => {
