@@ -828,21 +828,24 @@ main {
         background-color: #2e3236;
       }
     }
-    .login-error-box {
-      display: none;
-      padding: 27px 30px;
-      border-radius: 4px;
-      background-color: #2e2e2e;
-      color: #fff;
-      font-size: 14px;
-      position: absolute;
-      top: 30px;
-      transition: all 0.3s linear;
-    }
-    .login-error-box.show {
-      display: block;
-    }
   }
+}
+.login-error-box {
+  display: none;
+  padding: 27px 30px;
+  border-radius: 4px;
+  background-color: #2e2e2e;
+  color: #fff;
+  font-size: 14px;
+  position: absolute;
+  top: 30px;
+  transition: all 0.3s linear;
+}
+.login-error-box.show {
+  display: block;
+}
+.signup-error-box {
+  top: 210px;
 }
 .signup-modal {
   display: flex;
