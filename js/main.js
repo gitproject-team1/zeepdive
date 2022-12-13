@@ -8,7 +8,6 @@ import { authLogin, editUser } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
 import { renderMainItems, renderCategoryPages } from "./render.js";
-import { render, sassFalse } from "sass";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
