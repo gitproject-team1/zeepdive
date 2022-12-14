@@ -1,59 +1,130 @@
 //구매페이지
 .purchase-page {
-  width: 800px;
-  margin: 0 auto;
-  display: none;
+  box-sizing: border-box;
+  position: relative;
+  width: 860px;
+  padding: 0px;
+  margin: 110px auto;
+  background-color: white;
+  border-radius: 2px;
+  border-right: 1px solid rgb(233, 235, 238);
+  border-bottom: 1px solid rgb(233, 235, 238);
+  border-left: 1px solid rgb(233, 235, 238);
+  border-image: initial;
+  border-top: none;
+  box-shadow: rgb(0 0 0 / 8%) 0px 2px 4px 1px;
   .purchase-container {
-    width: 800px;
-    box-sizing: border-box;
-    margin: 50px auto 100px;
-    padding: 50px;
-    box-shadow: 0 8px 16px #00000026;
+    background: rgb(233, 235, 238);
+    width: 100%;
+    // padding: 110px 0px 100px;
   }
 }
 
-.address {
-  .address-title {
+.address,
+.buyer,
+.payment-amount,
+.payment-method {
+  width: 100%;
+  height: auto;
+  background: rgb(255, 255, 255);
+  margin: 1px 0px 0px;
+  padding: 32px 48px;
+  box-sizing: border-box;
+  .address-title,
+  .buyer-title,
+  .payment-amount-title,
+  .payment-method-title {
     color: rgb(40, 50, 60);
     font-weight: 500;
     font-size: 24px;
-    margin-bottom: 20px;
+    margin: 0px 0px 40px;
   }
-}
-.buyer-title {
-  color: rgb(40, 50, 60);
-  font-weight: 500;
-  font-size: 24px;
-  margin-bottom: 20px;
 }
 
-.purchase-content {
+.purchase-content,
+.payment-amount-content {
   display: flex;
-  padding: 0 20px;
-  margin-bottom: 10px;
-  .purchase-content-subject {
+  flex-direction: row;
+  margin: 0px 0px 15px;
+  .purchase-content-subject,
+  .payment-amount-content-subjcet {
+    width: 22%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     color: rgb(128, 128, 128);
-    font-size: 14px;
-    width: 150px;
-    margin-left: 30px;
-    margin: auto;
   }
-  .purchase-content-input {
-    width: 580px;
-    height: 50px;
-    // width: auto;
-    height: 46px;
+  .purchase-content-input,
+  .address-content-input {
+    // width: 580px;
+    // height: 50px;
     border: 1px solid rgb(233, 235, 238);
     border-radius: 4px;
     padding: 0px 8px;
     background: white;
-    box-sizing: border-box;
-    appearance: none;
     text-align: left;
     color: rgb(64, 70, 76);
     font-size: 14px;
     font-weight: 400;
     cursor: text;
-    transition: all 0.4s ease-out 0s;
+    flex-direction: column;
+    display: flex;
+    width: 78%;
+    font-size: 14px;
+    line-height: 1.42857143;
+    &:hover {
+      transition: all 0.4s ease-out 0s;
+      background: rgb(235, 238, 242);
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.payment-amount-content {
+  display: flex;
+  margin: 15px 5px;
+  align-items: center;
+  .payment-amount-content-subjcet {
+    width: 50%;
+  }
+  .payment-amount-content-detail {
+    width: 50%;
+    text-align: right;
+  }
+}
+
+.payment-method-cfm-msg {
+  li {
+    color: rgb(170, 175, 185);
+    font-size: 13px;
+  }
+}
+
+.payment-cfm-btn {
+  background-color: white;
+  padding: 20px 48px 32px;
+  button {
+    width: 100%;
+    height: 72px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+    background: linear-gradient(
+      37deg,
+      rgb(255, 116, 115) 20%,
+      rgb(255, 88, 93) 40%,
+      rgb(255, 116, 115)
+    );
+    &:hover {
+      transition: all 0.4s ease-out 0s;
+      background-position: 100% center, 0% center;
+    }
   }
 }
