@@ -167,6 +167,14 @@ async function router() {
     await renderCategoryPages(category, searchKeyword);
     categorypgEl.style.display = "block";
   }
+  // else if (routePath.includes("#/cart")) {
+  //   mainPgEl.style.display = "none";
+  //   userPgEl.style.display = "none";
+  //   adminPgEl.style.display = "none";
+  //   detailPageEl.style.display = "none";
+  //   categorypgEl.style.display = "none";
+  //   purchasepgEl.style.display = "none";
+  // }
 }
 
 // user-info창에서 은행을 선택하면 생기는 이벤트
