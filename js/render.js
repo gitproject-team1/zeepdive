@@ -10,7 +10,9 @@ async function filterCategories(search = "") {
   const cookooItem = items.filter((item) => item.tags[0] === "쿠쿠");
   const drawerItem = items.filter((item) => item.tags[0] === "수납");
   // console.log(search);
-  const searchItem = items.filter((item) => item.title.includes(search));
+  const searchItem = items.filter((item) =>
+    item.title.toLowerCase().includes(search.toLowerCase())
+  );
   return [christmasItem, planteriorItem, cookooItem, drawerItem, searchItem];
 }
 
@@ -90,8 +92,13 @@ export async function renderCategoryPages(category, search = "") {
   const categoryMap = { christmas: 0, plant: 1, digital: 2, drawer: 3, all: 4 };
   const filteredItems = await filterCategories(search);
   console.log(filteredItems[categoryMap[category]]);
-  document.querySelector(".category-title").textContent =
-    filteredItems[categoryMap[category]][0].tags;
+  console.log(category);
+  if (category !== "all") {
+    document.querySelector(".category-title").textContent =
+      filteredItems[categoryMap[category]][0].tags;
+  } else {
+    document.querySelector(".category-title").textContent = "전체";
+  }
   const itemList = document.querySelector(".category-itemlist > .itemlist");
   itemList.innerHTML = "";
   for (let j = 0; j < filteredItems[categoryMap[category]].length; j++) {
@@ -169,7 +176,9 @@ export async function renderDetailPages(itemId) {
           <button type="button" class="option-cart">장바구니 담기</button>
         </div>
         <div>
-          <button type="button" class="option-buynow">바로 구매</button>
+          <a href = "#/purchase/${detailItem.id}">
+            <button type="button" class="option-buynow">바로 구매</button>
+          </a>
         </div>
       </div>
     </div>
@@ -208,4 +217,130 @@ export async function renderDetailPages(itemId) {
       behavior: "smooth",
     })
   );
+}
+
+export async function renderPurchasePages(itemId) {
+  const detailItem = await getDetailItem(itemId);
+  const purchaseContainer = document.querySelector(".purchase-inner");
+  // 배송비는 가격이 10만이상이면 무료 아니면 3500원
+  let shippingFee = 3500;
+  if (detailItem.price >= 100000) shippingFee = 0;
+  const totalPrice = shippingFee + detailItem.price;
+  purchaseContainer.innerHTML = /* html */ `
+          <div class="product">
+            <div class="product-main">주문상품 1개</div>
+            <div class="product-detail">
+              <div class="product-tag">${detailItem.tags}</div>
+              <div class="product-container">
+                <img
+                  src=${detailItem.thumbnail}
+                  width="100px"
+                  height="100px"
+                  alt=""
+                />
+                <div class="product-description">
+                  <div class="product-title">${detailItem.title}</div>
+                  <div class="product-option">기본/1개</div>
+                  <div class="product-price">${detailItem.price.toLocaleString()}원</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="address">
+            <div class="address-title">배송지</div>
+            <form>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">우편번호</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="우편번호를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">주소지</div>
+                <input
+                  class="purchase-content-input"
+                  placeholder="주소를 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">배송 메모</div>
+                <select class="purchase-content-selector" type="button">
+                  <option value="default">배송 메세지를 선택해주세요.</option>
+                  <option value="purchase-item">
+                    배송 전에 미리 연락 바랍니다.
+                  </option>
+                  <option value="purchase-item">
+                    부재시 경비실에 맡겨 주세요.
+                  </option>
+                  <option value="purchase-item">
+                    부재시 전화 주시거나 문자 남겨 주세요.
+                  </option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="buyer">
+            <div class="buyer-title">주문자</div>
+            <form>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">주문자</div>
+                <input
+                  class="address-content-input"
+                  placeholder="이름을 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">이메일</div>
+                <input
+                  class="address-content-input"
+                  placeholder="이메일을 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">휴대폰</div>
+                <input
+                  class="address-content-input"
+                  placeholder="전화번호를 입력해주세요"
+                />
+              </div>
+            </form>
+          </div>
+          <!-- </div> -->
+          <div class="payment-amount">
+            <div class="payment-amount-title">결제 금액</div>
+            <div class="payment-amount-detail">
+              <div class="payment-amount-content">
+                <div class="payment-amount-content-subjcet">총 상품 금액</div>
+                <div class="payment-amount-content-detail">${detailItem.price.toLocaleString()}원</div>
+              </div>
+              <div class="payment-amount-content">
+                <div class="payment-amount-content-subjcet">배송비</div>
+                <div class="payment-amount-content-detail">${shippingFee.toLocaleString()}원</div>
+              </div>
+              <div class="payment-amount-content">
+                <div class="payment-amount-content-subjcet">총 결제 금액</div>
+                <div class="payment-amount-content-detail">${totalPrice.toLocaleString()}원</div>
+              </div>
+            </div>
+          </div>
+          <div class="payment-method">
+            <div class="payment-method-title">결제 수단</div>
+            <div class="payment-method-select-card"></div>
+            <ul class="payment-method-cfm-msg">
+              <li>
+                - 최소 결제 가능 금액은 총 결제 금액에서 배송비를 제외한
+                금액입니다.
+              </li>
+              <li>
+                - 소액 결제의 경우 PG사 정책에 따라 결제 금액 제한이 있을 수
+                있습니다.
+              </li>
+            </ul>
+          </div>
+          <div class="payment-cfm"></div>
+          <div class="payment-cfm-btn">
+            <button>총 ${totalPrice.toLocaleString()}원 결제하기</button>
+          </div>
+  `;
 }
