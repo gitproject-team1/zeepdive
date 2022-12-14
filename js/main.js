@@ -10,7 +10,11 @@ import {
 import { authLogin, editUser } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
-import { renderMainItems, renderCategoryPages } from "./render.js";
+import {
+  renderMainItems,
+  renderCategoryPages,
+  renderDetailPages,
+} from "./render.js";
 import {
   submitEl,
   loginBtn,
@@ -28,15 +32,15 @@ import {
   bankSelectEl,
   accountListUl,
   removeSectionBtn,
-  addSectionBtn
+  addSectionBtn,
 } from "./store.js";
 import {
   renderUserAccount,
   gnbBtnClick,
   bankSelelectEvent,
   accountAddSubmit,
-  removeAccountFnc
-} from "./account.js"
+  removeAccountFnc,
+} from "./account.js";
 
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
@@ -47,6 +51,7 @@ const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
 const footerEl = document.querySelector("footer");
 const categorypgEl = document.querySelector(".category-page");
+const purchasepgEl = document.querySelector(".purchase-page");
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
@@ -103,12 +108,13 @@ async function router() {
   const routePath = location.hash;
   // 초기화면
   if (routePath === "") {
-    detailPageEl.style.display = "block";
+    detailPageEl.style.display = "none";
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     footerEl.style.display = "none";
     categorypgEl.style.display = "none";
+    purchasepgEl.style.display = "none";
     await renderMainItems();
     mainPgEl.style.display = "block";
     footerEl.style.display = "block";
@@ -119,12 +125,16 @@ async function router() {
     adminPgEl.style.display = "none";
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
+    purchasepgEl.style.display = "none";
     //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
+    detailPageEl.style.display = "block";
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
-    detailPageEl.style.display = "block";
+    purchasepgEl.style.display = "none";
+    categorypgEl.style.display = "none";
+    await renderDetailPages(routePath.split("/")[2]);
     categorypgEl.style.display = "none";
     //관리자 페이지
   } else if (routePath.includes("#/admin")) {
@@ -132,6 +142,7 @@ async function router() {
     const email = await authLogin();
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
+    purchasepgEl.style.display = "none";
     //만약 관리자라면,
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
@@ -148,42 +159,39 @@ async function router() {
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
-    categorypgEl.style.display = "block";
     // category url에서 파싱
     console.log(routePath);
     const category = routePath.split("/")[2];
     let searchKeyword = routePath.split("/")[3];
     searchKeyword = decodeURIComponent(searchKeyword);
     await renderCategoryPages(category, searchKeyword);
+    categorypgEl.style.display = "block";
   }
 }
 
 // user-info창에서 은행을 선택하면 생기는 이벤트
-bankSelectEl.addEventListener('change', (event) => {
-  event.preventDefault()
-  bankSelelectEvent()
-})
-bankSubmitBtn.addEventListener('click', (event) => {
-  event.preventDefault()
-  accountAddSubmit()
-})
+bankSelectEl.addEventListener("change", (event) => {
+  event.preventDefault();
+  bankSelelectEvent();
+});
+bankSubmitBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  accountAddSubmit();
+});
 
+removeSectionBtn.addEventListener("click", function chacngeSection() {
+  renderUserAccount();
+  const clickValue = removeSectionBtn.classList.contains("on");
+  gnbBtnClick("remove", clickValue);
+  removeEventListener("click", chacngeSection);
+});
 
-removeSectionBtn.addEventListener('click', function chacngeSection () {
-  renderUserAccount()
-  const clickValue = removeSectionBtn.classList.contains('on')
-  gnbBtnClick('remove', clickValue)
-  removeEventListener('click',chacngeSection)
-})
+addSectionBtn.addEventListener("click", () => {
+  const clickValue = addSectionBtn.classList.contains("on");
+  gnbBtnClick("add", clickValue);
+});
 
-addSectionBtn.addEventListener('click', () => {
-  const clickValue = addSectionBtn.classList.contains('on')
-  gnbBtnClick('add', clickValue)
-})
-
-const removeAccountBtn = document.querySelector('.remove-account')
-removeAccountBtn.addEventListener('click', ()=>{
-  removeAccountFnc()
-})
-
-
+const removeAccountBtn = document.querySelector(".remove-account");
+removeAccountBtn.addEventListener("click", () => {
+  removeAccountFnc();
+});

@@ -1,6 +1,6 @@
 import { mainPgEl } from "./main.js";
-import { getItem } from "./requests.js";
-// import { searchInput } from "./main.js";
+import { getItem, getDetailItem } from "./requests.js";
+import { detailContainer } from "./store.js";
 
 //tags 별로 분류
 async function filterCategories(search = "") {
@@ -62,6 +62,7 @@ export async function renderMainItems() {
       const itemListContainer = document.createElement("div");
       itemListContainer.classList.add("itemlist-container");
       itemListContainer.innerHTML = /* html */ `
+      <a href="#/detail/${tagsEl[Math.floor(i)][j].id}">
 				<div class="itemlist-image">
 					<img
 						src=${tagsEl[Math.floor(i)][j].thumbnail}
@@ -75,6 +76,7 @@ export async function renderMainItems() {
             j
           ].price.toLocaleString()}원</div>
 				</div>
+        </a>
 			</div>
 			`;
       itemList.appendChild(itemListContainer);
@@ -91,15 +93,17 @@ export async function renderCategoryPages(category, search = "") {
   document.querySelector(".category-title").textContent =
     filteredItems[categoryMap[category]][0].tags;
   const itemList = document.querySelector(".category-itemlist > .itemlist");
+  itemList.innerHTML = "";
   for (let j = 0; j < filteredItems[categoryMap[category]].length; j++) {
     const itemListContainer = document.createElement("div");
     itemListContainer.classList.add("itemlist-container");
     itemListContainer.innerHTML = /* html */ `
+    <a href="#/detail/${filteredItems[categoryMap[category]][j].id}">
       <div class="itemlist-image">
-        <img
-          src=${filteredItems[categoryMap[category]][j].thumbnail}
-          alt=${filteredItems[categoryMap[category]][j].tags}이미지
-        />
+          <img
+            src=${filteredItems[categoryMap[category]][j].thumbnail}
+            alt=${filteredItems[categoryMap[category]][j].tags}이미지
+          />
       </div>
       <div class="itemlist-detail">
         <div class="itemlist-tag">${
@@ -112,8 +116,96 @@ export async function renderCategoryPages(category, search = "") {
           j
         ].price.toLocaleString()}원</div>
       </div>
+      </a>
     </div>
     `;
     itemList.appendChild(itemListContainer);
   }
+}
+
+//상세페이지
+export async function renderDetailPages(itemId) {
+  const detailItem = await getDetailItem(itemId);
+  console.log(detailItem);
+  detailContainer.innerHTML = /* html */ `
+  <div class="detail-view">
+    <div class="thumnail">
+      <img
+        src=${detailItem.thumbnail}
+        alt="${detailItem.title}상품 상세 사진"
+      />
+    </div>
+    <div class="funiture-summary">
+      <div class="furniture-tag">${detailItem.tags}</div>
+      <div class="furniture-title">${detailItem.title}</div>
+      <div class="furniture-price">${detailItem.price.toLocaleString()}원</div>
+      <div class="item-addinfo">
+        <div class="add-info-title">혜택</div>
+        <div class="add-info-content">최대 ${
+          Number(detailItem.price) * 0.01
+        }P 적립 (회원 1% 적용)</div>
+      </div>
+      <div class="item-addinfo">
+        <div class="add-info-title">배송비</div>
+        <div class="add-info-content">3,500원 (100,000원 이상 구매하면 배송비 무료!)</div>
+      </div>
+      <div class="item-addinfo">
+        <div class="add-info-title">교환/반품</div>
+        <div class="add-del-info-content">
+          배송/교환/반품 안내 자세히 보기
+          <span class="material-symbols-outlined"> chevron_right </span>
+        </div>
+      </div>
+      <div class="border-line"></div>
+      <div class="buying-option">
+        <p>옵션 선택</p>
+        <select class="product-selector" type="button">
+          <option value="default">기본</option>
+          <option value="single-item">단품</option>
+        </select>
+      </div>
+      <div class="buying-button">
+        <div>
+          <button type="button" class="option-cart">장바구니 담기</button>
+        </div>
+        <div>
+          <button type="button" class="option-buynow">바로 구매</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="furniture-container">
+    <div class="furniture-detail-view">
+      <h2>제품 설명</h2>
+    </div>
+  </div>
+  <div class="furniture-detail-img">
+    <img
+      src=${detailItem.photo}
+      alt="${detailItem.title}제품 상세 사진"
+    />
+  </div>
+  <div class="return-policy">
+    <img
+      src="https://image.ggumim.co.kr/proxy/20200916100508sKzPhMHtvd.jpeg/aHR0cDovL2ptczgxNS5jYWZlMjQuY29tL2ltZy9kZXRhaWwvY3VtYW1hX2FzLmpwZw"
+      alt="반품 사진"
+    />
+  </div>
+  <div class="qna-container">
+    <div class="qna-title">
+      <h2>Q & A 상품 문의</h2>
+      <button type="button">Q&A 작성하기</button>
+    </div>
+    <div class="qna-content">작성된 Q & A가 없습니다</div>
+  </div>
+
+  
+  `;
+  const delInfoBtnEl = document.querySelector(".add-del-info-content");
+  const shipElement = document.querySelector(".return-policy");
+  delInfoBtnEl.addEventListener("click", () =>
+    shipElement.scrollIntoView({
+      behavior: "smooth",
+    })
+  );
 }
