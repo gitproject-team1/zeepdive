@@ -22,7 +22,6 @@
     "@parcel/transformer-sass": "^2.8.1",
     "parcel": "^2.8.1"
   },
-  "main": "index.js",
   "dependencies": {
     "-": "^0.0.1"
   }
