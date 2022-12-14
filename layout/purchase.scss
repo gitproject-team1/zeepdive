@@ -158,8 +158,9 @@
       rgb(255, 116, 115)
     );
     &:hover {
-      transition: all 0.4s ease-out 0s;
+      // transition: all 0.4s ease-out 0s;
       background-position: 100% center, 0% center;
+      background: #dd6060;
     }
   }
 }

@@ -219,6 +219,7 @@ export async function renderDetailPages(itemId) {
   );
 }
 
+//구매 페이지
 export async function renderPurchasePages(itemId) {
   const detailItem = await getDetailItem(itemId);
   const purchaseContainer = document.querySelector(".purchase-inner");
@@ -230,7 +231,9 @@ export async function renderPurchasePages(itemId) {
           <div class="product">
             <div class="product-main">주문상품 1개</div>
             <div class="product-detail">
-              <div class="product-tag">${detailItem.tags}</div>
+              <div class="product-tag" style="font-size:11px; color:#646f7c; font-weight:600" >${
+                detailItem.tags
+              }</div>
               <div class="product-container">
                 <img
                   src=${detailItem.thumbnail}
@@ -319,14 +322,20 @@ export async function renderPurchasePages(itemId) {
                 <div class="payment-amount-content-detail">${shippingFee.toLocaleString()}원</div>
               </div>
               <div class="payment-amount-content">
-                <div class="payment-amount-content-subjcet">총 결제 금액</div>
-                <div class="payment-amount-content-detail">${totalPrice.toLocaleString()}원</div>
+                <div class="payment-amount-content-subjcet" >총 결제 금액</div>
+                <div class="payment-amount-content-detail" style="color:red">${totalPrice.toLocaleString()}원</div>
               </div>
             </div>
           </div>
           <div class="payment-method">
             <div class="payment-method-title">결제 수단</div>
-            <div class="payment-method-select-card"></div>
+            <div class="payment-method-select-card">
+              <img src="./img/WooriBank.png" alt="">
+              <img src="./img/kakaoBank.jpg" alt="">
+              <img src="./img/HanaBank.webp" alt="">
+              <img src="./img/ShinhanBank.jpg" alt="">
+              <img src="./img/nonghyubBank.png" alt="">
+            </div>
             <ul class="payment-method-cfm-msg">
               <li>
                 - 최소 결제 가능 금액은 총 결제 금액에서 배송비를 제외한
