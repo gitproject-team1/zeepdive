@@ -1,6 +1,6 @@
 import { mainPgEl } from "./main.js";
 import { getItem, getDetailItem } from "./requests.js";
-import { detailContainer } from "./store.js";
+import { detailContainer, userModalContent, userModal } from "./store.js";
 
 //tags 별로 분류
 async function filterCategories(search = "") {
@@ -89,10 +89,11 @@ export async function renderMainItems() {
 
 //category별 페이지 렌더링
 export async function renderCategoryPages(category, search = "") {
+  const noItemImg = document.querySelector(".no-result");
+  noItemImg.style.display = "none";
   const categoryMap = { christmas: 0, plant: 1, digital: 2, drawer: 3, all: 4 };
   const filteredItems = await filterCategories(search);
-  console.log(filteredItems[categoryMap[category]]);
-  console.log(category);
+  // 검색을 이용하면 전체 카테고리에서 검색.
   if (category !== "all") {
     document.querySelector(".category-title").textContent =
       filteredItems[categoryMap[category]][0].tags;
@@ -101,6 +102,11 @@ export async function renderCategoryPages(category, search = "") {
   }
   const itemList = document.querySelector(".category-itemlist > .itemlist");
   itemList.innerHTML = "";
+  // 검색결과 없을때 이미지 띄우기
+  if (filteredItems[categoryMap[category]].length === 0) {
+    noItemImg.style.display = "flex";
+    return;
+  }
   for (let j = 0; j < filteredItems[categoryMap[category]].length; j++) {
     const itemListContainer = document.createElement("div");
     itemListContainer.classList.add("itemlist-container");
@@ -176,9 +182,7 @@ export async function renderDetailPages(itemId) {
           <button type="button" class="option-cart">장바구니 담기</button>
         </div>
         <div>
-          <a href = "#/purchase/${detailItem.id}">
-            <button type="button" class="option-buynow">바로 구매</button>
-          </a>
+          <button type="button" class="option-buynow">바로 구매</button>
         </div>
       </div>
     </div>
@@ -210,6 +214,26 @@ export async function renderDetailPages(itemId) {
 
   
   `;
+  const optionBtn = document.querySelector(".option-cart");
+  const optionBuynow = document.querySelector(".option-buynow");
+
+  // 로그인안했을때 물건을 사려하면... 방어코드 추가.
+  optionBtn.addEventListener("click", () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      userModalContent.innerHTML = `로그인을 해주세요.`;
+      userModal.classList.add("show");
+    }
+  });
+  optionBuynow.addEventListener("click", () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      userModalContent.innerHTML = `로그인을 해주세요.`;
+      userModal.classList.add("show");
+    } else window.location = `#/purchase/${detailItem.id}`;
+  });
+
+  // 배송/환불/교환 관련 사진으로 바로 보내줌
   const delInfoBtnEl = document.querySelector(".add-del-info-content");
   const shipElement = document.querySelector(".return-policy");
   delInfoBtnEl.addEventListener("click", () =>
