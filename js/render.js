@@ -1,5 +1,5 @@
 import { mainPgEl, renderCartPages } from "./main.js";
-import { getItem, getDetailItem } from "./requests.js";
+import { getItem, getDetailItem, authLogin } from "./requests.js";
 import { detailContainer, userModalContent, userModal } from "./store.js";
 
 //tags 별로 분류
@@ -135,7 +135,7 @@ export async function renderCategoryPages(category, search = "") {
     itemList.appendChild(itemListContainer);
   }
 }
-
+export const email = "";
 //상세페이지
 export async function renderDetailPages(itemId) {
   const detailItem = await getDetailItem(itemId);
@@ -241,13 +241,13 @@ export async function renderDetailPages(itemId) {
       behavior: "smooth",
     })
   );
-
+  const email = await authLogin();
   // 장바구니 담기 버튼 클릭
   const optionCart = document.querySelector(".option-cart");
   optionCart.addEventListener("click", () => {
-    const cartIdArr = JSON.parse(localStorage.getItem("cartId")) || [];
+    const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
     cartIdArr.push(detailItem.id);
-    localStorage.setItem("cartId", JSON.stringify(cartIdArr));
+    localStorage.setItem(`cartId-${email}`, JSON.stringify(cartIdArr));
     renderCartPages();
   });
 }

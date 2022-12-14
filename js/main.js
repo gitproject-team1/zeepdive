@@ -34,6 +34,7 @@ import {
   accountListUl,
   removeSectionBtn,
   addSectionBtn,
+  cartItems,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -232,13 +233,14 @@ cartIcon.addEventListener("click", () => {
 });
 
 export async function renderCartPages() {
+  const email = await authLogin();
   let itemsPrice = 0;
-  const cartIdArr = JSON.parse(localStorage.getItem("cartId"));
+  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
   for (const id of cartIdArr) {
-    const cartItems = document.querySelector(".cart-items");
     const element = document.createElement("li");
     element.classList.add("cart-item");
     const getItems = await getDetailItem(id);
+    console.log(getItems);
     element.innerHTML = /* html */ `
         <img
           class="cart-img"
@@ -257,14 +259,15 @@ export async function renderCartPages() {
     itemsPrice += getItems.price;
     cartItems.appendChild(element);
   }
+  let deliveryFee = 3500;
   const singlePrice = document.querySelector(".single-price");
   singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
   const deliveryPrice = document.querySelector(".delivery-price");
-  if (itemsPrice >= 100000) deliveryPrice.textContent = "0원";
-  else deliveryPrice.textContent = "3,500원";
-  const deliveryFee = deliveryPrice.textContent;
+  if (itemsPrice >= 100000) {
+    deliveryFee = 0;
+    deliveryPrice.textContent = `${deliveryFee}원`;
+  } else deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
   const totalPrice = document.querySelector(".total-price");
   totalPrice.textContent =
     (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
 }
-// 장바구니.. 한명한명 달라야 한다.. 이게 말이 됨?
