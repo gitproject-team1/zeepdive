@@ -5,8 +5,9 @@ import {
   pwchange,
   autoLogin,
   userinfoClick,
+  loginModal,
 } from "./signup.js";
-import { authLogin, editUser } from "./requests.js";
+import { authLogin, editUser, getDetailItem } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
 import {
@@ -33,7 +34,6 @@ import {
   accountListUl,
   removeSectionBtn,
   addSectionBtn,
-  loginModal,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -53,6 +53,7 @@ const adminPgEl = document.querySelector(".admin-page");
 const footerEl = document.querySelector("footer");
 const categorypgEl = document.querySelector(".category-page");
 const purchasepgEl = document.querySelector(".purchase-page");
+const cartPgEl = document.querySelector(".cart-page");
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
@@ -115,6 +116,7 @@ async function router() {
     adminPgEl.style.display = "none";
     footerEl.style.display = "none";
     categorypgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     // purchasepgEl.style.display = "none";
     await renderMainItems();
     mainPgEl.style.display = "block";
@@ -127,6 +129,7 @@ async function router() {
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
     detailPageEl.style.display = "block";
@@ -138,6 +141,7 @@ async function router() {
     // id url에서 파싱해서 넘김
     await renderDetailPages(routePath.split("/")[2]);
     categorypgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     //관리자 페이지
   } else if (routePath.includes("#/admin")) {
     // 관리자인지 확인
@@ -145,6 +149,7 @@ async function router() {
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     //만약 관리자라면,
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
@@ -162,6 +167,7 @@ async function router() {
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     // category url에서 파싱
     console.log(routePath);
     const category = routePath.split("/")[2];
@@ -169,6 +175,7 @@ async function router() {
     searchKeyword = decodeURIComponent(searchKeyword);
     await renderCategoryPages(category, searchKeyword);
     categorypgEl.style.display = "block";
+    cartPgEl.style.display = "none";
     // 제품 구매 페이지
   } else if (routePath.includes("#/purchase")) {
     detailPageEl.style.display = "none";
@@ -178,15 +185,17 @@ async function router() {
     categorypgEl.style.display = "none";
     await renderPurchasePages(routePath.split("/")[2]);
     purchasepgEl.style.display = "block";
+    cartPgEl.style.display = "none";
+    // 장바구니 페이지
+  } else if (routePath.includes("#/cart")) {
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
+    detailPageEl.style.display = "none";
+    categorypgEl.style.display = "none";
+    purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "block";
   }
-  // else if (routePath.includes("#/cart")) {
-  //   mainPgEl.style.display = "none";
-  //   userPgEl.style.display = "none";
-  //   adminPgEl.style.display = "none";
-  //   detailPageEl.style.display = "none";
-  //   categorypgEl.style.display = "none";
-  //   purchasepgEl.style.display = "none";
-  // }
 }
 
 // user-info창에서 은행을 선택하면 생기는 이벤트
@@ -215,3 +224,47 @@ const removeAccountBtn = document.querySelector(".remove-account");
 removeAccountBtn.addEventListener("click", () => {
   removeAccountFnc();
 });
+
+// ============ 장바구니 ============
+const cartIcon = document.querySelector(".cart-icon");
+cartIcon.addEventListener("click", () => {
+  window.location = "#/cart";
+});
+
+export async function renderCartPages() {
+  let itemsPrice = 0;
+  const cartIdArr = JSON.parse(localStorage.getItem("cartId"));
+  for (const id of cartIdArr) {
+    const cartItems = document.querySelector(".cart-items");
+    const element = document.createElement("li");
+    element.classList.add("cart-item");
+    const getItems = await getDetailItem(id);
+    element.innerHTML = /* html */ `
+        <img
+          class="cart-img"
+          src=${getItems.thumbnail}
+          alt="cart-img"
+        />
+        <p class="cart-title">${getItems.title}</p>
+        <p class="cart-count">1</p>
+        <p class="cart-price">${getItems.price.toLocaleString()}원</p>
+        <img
+          class="cart-delete"
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yMSA5Ljc2MiAyMC4yMzggOSAxNSAxNC4yMzggOS43NjIgOSA5IDkuNzYyIDE0LjIzOCAxNSA5IDIwLjIzOGwuNzYyLjc2MkwxNSAxNS43NjIgMjAuMjM4IDIxbC43NjItLjc2MkwxNS43NjIgMTV6IiBmaWxsPSIjQ0NDIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KPC9zdmc+Cg=="
+          alt="cart-delete"
+        />
+          `;
+    itemsPrice += getItems.price;
+    cartItems.appendChild(element);
+  }
+  const singlePrice = document.querySelector(".single-price");
+  singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
+  const deliveryPrice = document.querySelector(".delivery-price");
+  if (itemsPrice >= 100000) deliveryPrice.textContent = "0원";
+  else deliveryPrice.textContent = "3,500원";
+  const deliveryFee = deliveryPrice.textContent;
+  const totalPrice = document.querySelector(".total-price");
+  totalPrice.textContent =
+    (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
+}
+// 장바구니.. 한명한명 달라야 한다.. 이게 말이 됨?

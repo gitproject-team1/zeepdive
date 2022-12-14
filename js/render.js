@@ -1,4 +1,4 @@
-import { mainPgEl } from "./main.js";
+import { mainPgEl, renderCartPages } from "./main.js";
 import { getItem, getDetailItem } from "./requests.js";
 import { detailContainer, userModalContent, userModal } from "./store.js";
 
@@ -241,6 +241,15 @@ export async function renderDetailPages(itemId) {
       behavior: "smooth",
     })
   );
+
+  // 장바구니 담기 버튼 클릭
+  const optionCart = document.querySelector(".option-cart");
+  optionCart.addEventListener("click", () => {
+    const cartIdArr = JSON.parse(localStorage.getItem("cartId")) || [];
+    cartIdArr.push(detailItem.id);
+    localStorage.setItem("cartId", JSON.stringify(cartIdArr));
+    renderCartPages();
+  });
 }
 
 export async function renderPurchasePages(itemId) {
