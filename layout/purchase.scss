@@ -1,5 +1,6 @@
 //구매페이지
 .purchase-page {
+  display: none;
   box-sizing: border-box;
   position: relative;
   width: 860px;
@@ -23,7 +24,8 @@
 .address,
 .buyer,
 .payment-amount,
-.payment-method {
+.payment-method,
+.product {
   width: 100%;
   height: auto;
   background: rgb(255, 255, 255);
@@ -32,6 +34,7 @@
   box-sizing: border-box;
   .address-title,
   .buyer-title,
+  .product-main,
   .payment-amount-title,
   .payment-method-title {
     color: rgb(40, 50, 60);
@@ -41,13 +44,45 @@
   }
 }
 
+.product-detail {
+  .product-tag {
+    font-size: 16px;
+  }
+  .product-container {
+    display: flex;
+    margin: 5px 0 10px;
+    img {
+      border-radius: 5px;
+    }
+    .product-description {
+      margin: 0 0 0 10px;
+      .product-title,
+      .product-option,
+      .product-price {
+        line-height: 1.428;
+        font-weight: 400;
+        margin: 4px 0 1px;
+        font-size: 13px;
+      }
+      .product-option {
+        color: rgb(144, 164, 174);
+      }
+    }
+  }
+}
+
 .purchase-content,
 .payment-amount-content {
   display: flex;
   flex-direction: row;
   margin: 0px 0px 15px;
+  .purchase-content-selector {
+    width: 614.33px;
+    border: 1px solid rgb(233, 235, 238);
+    border-radius: 4px;
+  }
   .purchase-content-subject,
-  .payment-amount-content-subjcet {
+  .payment-amount-content-subject {
     width: 22%;
     height: 35px;
     display: flex;
