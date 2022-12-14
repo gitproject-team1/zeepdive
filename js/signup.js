@@ -33,7 +33,6 @@ const state = {
   password: "",
   displayName: "",
 };
-
 // 로그인/회원가입 모달 visibility 조정
 export async function loginModal() {
   if (loginBtnEl.textContent === "로그인/가입") {
@@ -57,9 +56,9 @@ export async function loginModal() {
         validationStyle(pwLengthMsg, "remove", signupPwBox, "#333");
         validationStyle(pwErrorMsg, "remove", signupRepwBox, "#333");
         emailInputEl.value = "";
-        passwordInputEl = "";
-        passwordcheckEl = "";
-        displayNameInputEl = "";
+        passwordInputEl.value = "";
+        passwordcheckEl.value = "";
+        displayNameInputEl.value = "";
       });
     });
   }
