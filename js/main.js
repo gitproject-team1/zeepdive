@@ -14,6 +14,7 @@ import {
   renderMainItems,
   renderCategoryPages,
   renderDetailPages,
+  renderPurchasePages,
 } from "./render.js";
 import {
   submitEl,
@@ -114,7 +115,7 @@ async function router() {
     adminPgEl.style.display = "none";
     footerEl.style.display = "none";
     categorypgEl.style.display = "none";
-    purchasepgEl.style.display = "none";
+    // purchasepgEl.style.display = "none";
     await renderMainItems();
     mainPgEl.style.display = "block";
     footerEl.style.display = "block";
@@ -134,6 +135,7 @@ async function router() {
     adminPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
     categorypgEl.style.display = "none";
+    // id url에서 파싱해서 넘김
     await renderDetailPages(routePath.split("/")[2]);
     categorypgEl.style.display = "none";
     //관리자 페이지
@@ -159,6 +161,7 @@ async function router() {
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
+    purchasepgEl.style.display = "none";
     // category url에서 파싱
     console.log(routePath);
     const category = routePath.split("/")[2];
@@ -166,6 +169,15 @@ async function router() {
     searchKeyword = decodeURIComponent(searchKeyword);
     await renderCategoryPages(category, searchKeyword);
     categorypgEl.style.display = "block";
+    // 제품 구매 페이지
+  } else if (routePath.includes("#/purchase")) {
+    detailPageEl.style.display = "none";
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
+    categorypgEl.style.display = "none";
+    await renderPurchasePages(routePath.split("/")[2]);
+    purchasepgEl.style.display = "block";
   }
 }
 
