@@ -2,7 +2,6 @@ import { swiper } from "./swiper.js";
 import {
   createSubmitEvent,
   createLoginEvent,
-  loginModal,
   pwchange,
   autoLogin,
   userinfoClick,
@@ -34,6 +33,7 @@ import {
   accountListUl,
   removeSectionBtn,
   addSectionBtn,
+  loginModal,
 } from "./store.js";
 import {
   renderUserAccount,
