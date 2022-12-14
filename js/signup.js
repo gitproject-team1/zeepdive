@@ -57,9 +57,9 @@ export async function loginModal() {
         validationStyle(pwLengthMsg, "remove", signupPwBox, "#333");
         validationStyle(pwErrorMsg, "remove", signupRepwBox, "#333");
         emailInputEl.value = "";
-        passwordInputEl = "";
-        passwordcheckEl = "";
-        displayNameInputEl = "";
+        passwordInputEl.value = "";
+        passwordcheckEl.value = "";
+        displayNameInputEl.value = "";
       });
     });
   }
