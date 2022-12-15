@@ -5,7 +5,7 @@
 @import "recent.scss";
 
 header {
-  width: 100vw;
+  // width: 100vw;
   height: 70px;
   position: sticky;
   top: 0;
@@ -561,4 +561,10 @@ main {
       }
     }
   }
+}
+
+.no-result {
+  // width: 100px;
+  display: flex;
+  justify-content: center;
 }
