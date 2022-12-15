@@ -27,24 +27,24 @@ export const swiper = new Swiper(".mySwiper1", {
   },
 });
 
-export const accountSwiper = new Swiper(".account-swiper", {
-  navigation: {
-    nextEl: ".account-swiper .swiper-button-next",
-    prevEl: ".account-swiper .swiper-button-prev",
-  },
-  slidesPerView: 3,
-  centeredSlides: true,
-  spaceBetween: 30,
-  on: {
-    slideChange: function () {
-      console.log(availableIndex);
-      const currentPayment = document.querySelector(".payment-selected");
-      const available = availableIndex.includes(this.realIndex)
-        ? "가능"
-        : "불가능";
-      currentPayment.textContent = `선택된 계좌: ${
-        bankMatch[this.realIndex]
-      } (${available})`;
-    },
-  },
-});
+// export const accountSwiper = new Swiper(".account-swiper", {
+//   navigation: {
+//     nextEl: ".account-swiper .swiper-button-next",
+//     prevEl: ".account-swiper .swiper-button-prev",
+//   },
+//   slidesPerView: 3,
+//   centeredSlides: true,
+//   spaceBetween: 30,
+//   on: {
+//     slideChange: function () {
+//       console.log(availableIndex);
+//       const currentPayment = document.querySelector(".payment-selected");
+//       const available = availableIndex.includes(this.realIndex)
+//         ? "가능"
+//         : "불가능";
+//       currentPayment.textContent = `선택된 계좌: ${
+//         bankMatch[this.realIndex]
+//       } (${available})`;
+//     },
+//   },
+// });

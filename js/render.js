@@ -9,6 +9,13 @@ import {
   deliveryPrice,
   totalPrice,
 } from "./store.js";
+import kbank from "../img/kbank.png";
+import hana from "../img/hana.png";
+import kakao from "../img/kakao.png";
+import nong from "../img/nong.png";
+import shinhan from "../img/shinhan.png";
+import woori from "../img/woori.png";
+import kb from "../img/kb.png";
 
 export const availableIndex = [];
 
@@ -295,6 +302,7 @@ export async function renderPurchasePages(itemId) {
 
   const detailItem = await getDetailItem(itemId);
   const purchaseContainer = document.querySelector(".purchase-inner");
+
   // 배송비는 가격이 10만이상이면 무료 아니면 3500원
   let shippingFee = 3500;
   if (detailItem.price >= 100000) shippingFee = 0;
@@ -404,6 +412,58 @@ export async function renderPurchasePages(itemId) {
             <div class="payment-method-title">결제 수단</div>
             <span class = "payment-selected">선택된 계좌: 케이뱅크 (${availableFirst})</span>
           </div>
+                <!-- 결제 계좌 선택 창 -->
+          <div class="payment-method-select-card">
+            <div class="swiper account-swiper">
+              <ul class="swiper-wrapper">
+                <li class="swiper-slide">
+                  <img src="${kbank}" width="210" height="140" alt="k뱅크" />
+                  <p class="account-description">케이뱅크</p>
+                </li>
+                <li class="swiper-slide">
+                  <img src="${hana}" width="210" height="140" alt="하나카드" />
+                  <p class="account-description">하나은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img
+                    src="${kakao}"
+                    width="210"
+                    height="140"
+                    alt="카뱅카드"
+                  />
+                  <p class="account-description">카카오뱅크</p>
+                </li>
+                <li class="swiper-slide">
+                  <img src="${nong}" width="210" height="140" alt="농협카드" />
+                  <p class="account-description">NH농협은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img
+                    src="${shinhan}"
+                    width="210"
+                    height="140"
+                    alt="신한카드"
+                  />
+                  <p class="account-description">신한은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img
+                    src="${woori}"
+                    width="210"
+                    height="140"
+                    alt="우리카드"
+                  />
+                  <p class="account-description">우리은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img src="${kb}" width="210" height="140" alt="국민카드" />
+                  <p class="account-description">KB국민은행</p>
+                </li>
+              </ul>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+            </div>
+          </div>
           <div class= "payment-method account-select">
             <ul class="payment-method-cfm-msg">
               <li>
@@ -421,9 +481,33 @@ export async function renderPurchasePages(itemId) {
             </div>
           </div>
   `;
+
+  // swiper를 여기서 선언해주면 작동한다. 이때 불러오기때문. 추후 더 조사.
+  const accountSwiper = new Swiper(".account-swiper", {
+    navigation: {
+      nextEl: ".account-swiper .swiper-button-next",
+      prevEl: ".account-swiper .swiper-button-prev",
+    },
+    slidesPerView: 3,
+    centeredSlides: true,
+    spaceBetween: 30,
+    on: {
+      slideChange: function () {
+        console.log(availableIndex);
+        const currentPayment = document.querySelector(".payment-selected");
+        const available = availableIndex.includes(this.realIndex)
+          ? "가능"
+          : "불가능";
+        currentPayment.textContent = `선택된 계좌: ${
+          bankMatch[this.realIndex]
+        } (${available})`;
+      },
+    },
+  });
   // 결제 카드 렌더링하기.
   const paymentMethod = document.querySelector(".payment-method");
   const accountSelect = document.querySelector(".payment-method-select-card");
+  console.log(accountSelect);
   const accountImgs = accountSelect.querySelectorAll("img");
   // 사용가능한 카드는 색깔을 입혀줌
   for (const account of availableAccounts) {
@@ -432,7 +516,6 @@ export async function renderPurchasePages(itemId) {
   }
   paymentMethod.after(accountSelect);
   accountSelect.style.display = "block";
-
   //우편번호 찾기
   const postalCodeBtnEl = document.querySelector(".postalcode-find-btn");
   const postcodeEl = document.getElementById("sample6_postcode");
@@ -584,6 +667,57 @@ export async function renderCartPurchase(items) {
             <div class="payment-method-title">결제 수단</div>
             <span class = "payment-selected">선택된 계좌: 케이뱅크 (${availableFirst})</span>
           </div>
+          <div class="payment-method-select-card">
+            <div class="swiper account-swiper">
+              <ul class="swiper-wrapper">
+                <li class="swiper-slide">
+                  <img src="${kbank}" width="210" height="140" alt="k뱅크" />
+                  <p class="account-description">케이뱅크</p>
+                </li>
+                <li class="swiper-slide">
+                  <img src="${hana}" width="210" height="140" alt="하나카드" />
+                  <p class="account-description">하나은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img
+                    src="${kakao}"
+                    width="210"
+                    height="140"
+                    alt="카뱅카드"
+                  />
+                  <p class="account-description">카카오뱅크</p>
+                </li>
+                <li class="swiper-slide">
+                  <img src="${nong}" width="210" height="140" alt="농협카드" />
+                  <p class="account-description">NH농협은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img
+                    src="${shinhan}"
+                    width="210"
+                    height="140"
+                    alt="신한카드"
+                  />
+                  <p class="account-description">신한은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img
+                    src="${woori}"
+                    width="210"
+                    height="140"
+                    alt="우리카드"
+                  />
+                  <p class="account-description">우리은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img src="${kb}" width="210" height="140" alt="국민카드" />
+                  <p class="account-description">KB국민은행</p>
+                </li>
+              </ul>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+            </div>
+          </div>
           <div class= "payment-method account-select">
             <ul class="payment-method-cfm-msg">
               <li>
@@ -623,6 +757,29 @@ export async function renderCartPurchase(items) {
     cartDetailItems.append(productTag, productContainer);
   }
 
+  //swiper를 여기에 선언해야 동작
+  const accountSwiper = new Swiper(".account-swiper", {
+    navigation: {
+      nextEl: ".account-swiper .swiper-button-next",
+      prevEl: ".account-swiper .swiper-button-prev",
+    },
+    slidesPerView: 3,
+    centeredSlides: true,
+    spaceBetween: 30,
+    on: {
+      slideChange: function () {
+        console.log(availableIndex);
+        const currentPayment = document.querySelector(".payment-selected");
+        const available = availableIndex.includes(this.realIndex)
+          ? "가능"
+          : "불가능";
+        currentPayment.textContent = `선택된 계좌: ${
+          bankMatch[this.realIndex]
+        } (${available})`;
+      },
+    },
+  });
+
   // 결제 카드 렌더링하기.
   const paymentMethod = document.querySelector(".payment-method");
   const accountSelect = document.querySelector(".payment-method-select-card");
@@ -634,7 +791,6 @@ export async function renderCartPurchase(items) {
   }
   paymentMethod.after(accountSelect);
   accountSelect.style.display = "block";
-
   //우편번호 찾기
   const postalCodeBtnEl = document.querySelector(".postalcode-find-btn");
   const postcodeEl = document.getElementById("sample6_postcode");

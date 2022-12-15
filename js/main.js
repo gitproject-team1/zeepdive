@@ -1,4 +1,4 @@
-import { swiper, accountSwiper } from "./swiper.js";
+import { swiper } from "./swiper.js";
 import {
   createSubmitEvent,
   createLoginEvent,
