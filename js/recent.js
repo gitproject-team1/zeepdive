@@ -26,11 +26,11 @@ export async function recentItemSet() {
     local.setItem('recentId',JSON.stringify(recentIdArr))
   }
 }
-let localRecentList = ''
 
+let localRecentList = ''
 export async function renderRecent () {
   const recentIdArr = JSON.parse(local.getItem('recentId'))
-  if(localRecentList.length === 0){
+  if(recentIdArr === null){
     recentlyViewUlEl.innerHTML = ' <li class="none-recent">최근 본 상품이 없습니다!</li>'
     console.log("없음",localRecentList)
   } else {

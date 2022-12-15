@@ -211,4 +211,4 @@ removeAccountBtn.addEventListener("click", () => {
 });
 window.addEventListener("hashchange", renderRecent);
 renderRecent()
-// window.localStorage.removeItem('recentId')
+
