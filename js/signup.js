@@ -29,7 +29,7 @@ import {
   cartItems,
 } from "./store.js";
 import { editUser, authLogin } from "./requests.js";
-import { renderCartPages } from "./main.js";
+import { renderCartPages } from "./render.js";
 const state = {
   email: "",
   password: "",

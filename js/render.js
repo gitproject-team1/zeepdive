@@ -1,6 +1,11 @@
-import { mainPgEl, renderCartPages } from "./main.js";
+import { mainPgEl } from "./main.js";
 import { getItem, getDetailItem, authLogin } from "./requests.js";
-import { detailContainer, userModalContent, userModal } from "./store.js";
+import {
+  detailContainer,
+  userModalContent,
+  userModal,
+  cartItems,
+} from "./store.js";
 
 //tags 별로 분류
 async function filterCategories(search = "") {
@@ -241,14 +246,31 @@ export async function renderDetailPages(itemId) {
       behavior: "smooth",
     })
   );
-  const email = await authLogin();
   // 장바구니 담기 버튼 클릭
   const optionCart = document.querySelector(".option-cart");
-  optionCart.addEventListener("click", () => {
+  optionCart.addEventListener("click", async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      userModalContent.innerHTML = `로그인을 해주세요.`;
+      userModal.classList.add("show");
+      return;
+    }
+    const email = await authLogin();
     const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
+    console.log(cartIdArr);
+    for (const cartIdEl of cartIdArr) {
+      if (cartIdEl === detailItem.id) {
+        userModalContent.innerHTML = `이미 장바구니에 담긴 상품입니다.`;
+        userModal.classList.add("show");
+        return;
+      }
+    }
     cartIdArr.push(detailItem.id);
     localStorage.setItem(`cartId-${email}`, JSON.stringify(cartIdArr));
-    renderCartPages();
+    cartItems.innerHTML = "";
+    await renderCartPages();
+    userModalContent.innerHTML = `장바구니에 상품을 담았습니다.`;
+    userModal.classList.add("show");
   });
 }
 
@@ -376,4 +398,44 @@ export async function renderPurchasePages(itemId) {
             <button>총 ${totalPrice.toLocaleString()}원 결제하기</button>
           </div>
   `;
+}
+// 장바구니 페이지
+export async function renderCartPages() {
+  const email = await authLogin();
+  let itemsPrice = 0;
+  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
+  for (const id of cartIdArr) {
+    const element = document.createElement("li");
+    element.classList.add("cart-item");
+    const getItems = await getDetailItem(id);
+    console.log(getItems);
+    element.innerHTML = /* html */ `
+        <img
+          class="cart-img"
+          src=${getItems.thumbnail}
+          alt="cart-img"
+        />
+        <p class="cart-title">${getItems.title}</p>
+        <p class="cart-count">1</p>
+        <p class="cart-price">${getItems.price.toLocaleString()}원</p>
+        <img
+          class="cart-delete"
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yMSA5Ljc2MiAyMC4yMzggOSAxNSAxNC4yMzggOS43NjIgOSA5IDkuNzYyIDE0LjIzOCAxNSA5IDIwLjIzOGwuNzYyLjc2MkwxNSAxNS43NjIgMjAuMjM4IDIxbC43NjItLjc2MkwxNS43NjIgMTV6IiBmaWxsPSIjQ0NDIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KPC9zdmc+Cg=="
+          alt="cart-delete"
+        />
+          `;
+    itemsPrice += getItems.price;
+    cartItems.appendChild(element);
+  }
+  let deliveryFee = 3500;
+  const singlePrice = document.querySelector(".single-price");
+  singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
+  const deliveryPrice = document.querySelector(".delivery-price");
+  if (itemsPrice >= 100000) {
+    deliveryFee = 0;
+    deliveryPrice.textContent = `${deliveryFee}원`;
+  } else deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
+  const totalPrice = document.querySelector(".total-price");
+  totalPrice.textContent =
+    (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
 }

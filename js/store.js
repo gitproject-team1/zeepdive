@@ -75,3 +75,4 @@ export const addSectionBtn = document.querySelector(".bank-add-gnb");
 
 // 장바구니
 export const cartItems = document.querySelector(".cart-items");
+export const cartIcon = document.querySelector(".cart-icon");

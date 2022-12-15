@@ -35,6 +35,7 @@ import {
   removeSectionBtn,
   addSectionBtn,
   cartItems,
+  cartIcon,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -43,7 +44,7 @@ import {
   accountAddSubmit,
   removeAccountFnc,
 } from "./account.js";
-
+import { cartIconClick } from "./cart.js";
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
 
@@ -227,47 +228,4 @@ removeAccountBtn.addEventListener("click", () => {
 });
 
 // ============ 장바구니 ============
-const cartIcon = document.querySelector(".cart-icon");
-cartIcon.addEventListener("click", () => {
-  window.location = "#/cart";
-});
-
-export async function renderCartPages() {
-  const email = await authLogin();
-  let itemsPrice = 0;
-  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
-  for (const id of cartIdArr) {
-    const element = document.createElement("li");
-    element.classList.add("cart-item");
-    const getItems = await getDetailItem(id);
-    console.log(getItems);
-    element.innerHTML = /* html */ `
-        <img
-          class="cart-img"
-          src=${getItems.thumbnail}
-          alt="cart-img"
-        />
-        <p class="cart-title">${getItems.title}</p>
-        <p class="cart-count">1</p>
-        <p class="cart-price">${getItems.price.toLocaleString()}원</p>
-        <img
-          class="cart-delete"
-          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yMSA5Ljc2MiAyMC4yMzggOSAxNSAxNC4yMzggOS43NjIgOSA5IDkuNzYyIDE0LjIzOCAxNSA5IDIwLjIzOGwuNzYyLjc2MkwxNSAxNS43NjIgMjAuMjM4IDIxbC43NjItLjc2MkwxNS43NjIgMTV6IiBmaWxsPSIjQ0NDIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KPC9zdmc+Cg=="
-          alt="cart-delete"
-        />
-          `;
-    itemsPrice += getItems.price;
-    cartItems.appendChild(element);
-  }
-  let deliveryFee = 3500;
-  const singlePrice = document.querySelector(".single-price");
-  singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
-  const deliveryPrice = document.querySelector(".delivery-price");
-  if (itemsPrice >= 100000) {
-    deliveryFee = 0;
-    deliveryPrice.textContent = `${deliveryFee}원`;
-  } else deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
-  const totalPrice = document.querySelector(".total-price");
-  totalPrice.textContent =
-    (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
-}
+cartIcon.addEventListener("click", cartIconClick);
