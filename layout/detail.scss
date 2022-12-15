@@ -169,9 +169,15 @@
       color: white;
       font-weight: 700;
       font-size: 16px;
+      cursor: pointer;
+      &:hover {
+        background: #dd6060;
+        transition: all 0.2s ease-out;
+      }
     }
     h2 {
       font-size: 30px;
+      margin: auto 0;
     }
     .qna-content {
       display: flex;
