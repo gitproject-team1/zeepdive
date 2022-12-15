@@ -43,6 +43,7 @@ import {
   removeAccountFnc,
 } from "./account.js";
 
+import {renderRecent ,recentItemSet} from "./recent"
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
 
@@ -135,6 +136,7 @@ async function router() {
     adminPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
     categorypgEl.style.display = "none";
+    recentItemSet()
     // id url에서 파싱해서 넘김
     await renderDetailPages(routePath.split("/")[2]);
     categorypgEl.style.display = "none";
@@ -207,3 +209,6 @@ const removeAccountBtn = document.querySelector(".remove-account");
 removeAccountBtn.addEventListener("click", () => {
   removeAccountFnc();
 });
+window.addEventListener("hashchange", renderRecent);
+renderRecent()
+// window.localStorage.removeItem('recentId')

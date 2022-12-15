@@ -168,7 +168,6 @@ function createAccountList(acId, acName, acNum, acBalance, isAccount) {
         <span class="balance">₩ ${acBal}</span>
       `
   }
-
   accountListUl.append(createList)
 }
 

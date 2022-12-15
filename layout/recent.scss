@@ -26,23 +26,37 @@ aside.recently-view{
       overflow: hidden;
       width: 80px; height: 80px;
       left: 10px;
+      transition: all 3s;
       &:hover{
         overflow: visible;
       }
+      &.none-recent{
+        background-color: #333;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 15px;
+      }
       div{
-        width: 200px;
+        width: 300px;
         height: 80px;
-        padding: 10px; 
+        padding: 10px 80px 10px 10px; 
         box-sizing: border-box;
         position: absolute;
         top: 0;
-        left: -200px;
-        background-color: #000000ca;
+        right: 0;
+        background-color: #00000000;
+        border-radius: 5px;
+        &:hover{
+          background-color: #000000aa;
+        }
         p{
           overflow: hidden; 
           white-space: nowrap; 
           text-overflow: ellipsis;
-          text-align: right;
+          text-align: left;
           color: #fff;
           margin-top: 8px;
         }
