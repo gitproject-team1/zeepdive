@@ -5,6 +5,9 @@ import {
   userModalContent,
   userModal,
   cartItems,
+  singlePrice,
+  deliveryPrice,
+  totalPrice,
 } from "./store.js";
 
 //tags 별로 분류
@@ -257,7 +260,6 @@ export async function renderDetailPages(itemId) {
     }
     const email = await authLogin();
     const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
-    console.log(cartIdArr);
     for (const cartIdEl of cartIdArr) {
       if (cartIdEl === detailItem.id) {
         userModalContent.innerHTML = `이미 장바구니에 담긴 상품입니다.`;
@@ -400,42 +402,74 @@ export async function renderPurchasePages(itemId) {
   `;
 }
 // 장바구니 페이지
+let itemsPrice = 0;
 export async function renderCartPages() {
   const email = await authLogin();
-  let itemsPrice = 0;
   const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
+  const promises = [];
   for (const id of cartIdArr) {
+    promises.push(getDetailItem(id));
+  }
+  let promiseItems = await Promise.all(promises);
+  itemsPrice = 0;
+  for (const item of promiseItems) {
     const element = document.createElement("li");
     element.classList.add("cart-item");
-    const getItems = await getDetailItem(id);
-    console.log(getItems);
+    const attr = document.createAttribute("data-id");
+    attr.value = item.id;
+    element.setAttributeNode(attr);
     element.innerHTML = /* html */ `
         <img
           class="cart-img"
-          src=${getItems.thumbnail}
+          src=${item.thumbnail}
           alt="cart-img"
         />
-        <p class="cart-title">${getItems.title}</p>
+        <p class="cart-title">${item.title}</p>
         <p class="cart-count">1</p>
-        <p class="cart-price">${getItems.price.toLocaleString()}원</p>
+        <p class="cart-price">${item.price.toLocaleString()}원</p>
         <img
           class="cart-delete"
           src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yMSA5Ljc2MiAyMC4yMzggOSAxNSAxNC4yMzggOS43NjIgOSA5IDkuNzYyIDE0LjIzOCAxNSA5IDIwLjIzOGwuNzYyLjc2MkwxNSAxNS43NjIgMjAuMjM4IDIxbC43NjItLjc2MkwxNS43NjIgMTV6IiBmaWxsPSIjQ0NDIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KPC9zdmc+Cg=="
           alt="cart-delete"
         />
           `;
-    itemsPrice += getItems.price;
+    itemsPrice += item.price;
     cartItems.appendChild(element);
+    const cartDelete = element.querySelector(".cart-delete");
+    cartDelete.addEventListener("click", (event) => {
+      deleteCartItems(event);
+      renderPrice();
+    });
   }
+  renderPrice();
+}
+
+function renderPrice() {
   let deliveryFee = 3500;
-  const singlePrice = document.querySelector(".single-price");
   singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
-  const deliveryPrice = document.querySelector(".delivery-price");
   if (itemsPrice >= 100000) {
     deliveryFee = 0;
     deliveryPrice.textContent = `${deliveryFee}원`;
   } else deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
-  const totalPrice = document.querySelector(".total-price");
   totalPrice.textContent =
     (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
+}
+
+async function deleteCartItems(event) {
+  const incartItem = event.currentTarget.closest(".cart-item");
+  const incartPrice = event.currentTarget.previousElementSibling.innerHTML;
+  const num = /[^0-9]/g;
+  itemsPrice = itemsPrice - incartPrice.replace(num, "");
+  console.log(itemsPrice);
+  cartItems.removeChild(incartItem);
+  const email = await authLogin();
+  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
+  const arr = cartIdArr.filter((cartIdEl) => {
+    return incartItem.dataset.id !== cartIdEl;
+  });
+  if (arr.length === 0) {
+    localStorage.removeItem(`cartId-${email}`);
+    return;
+  }
+  localStorage.setItem(`cartId-${email}`, JSON.stringify(arr));
 }
