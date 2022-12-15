@@ -29,6 +29,16 @@ const bankCode = {
   "004": 6,
 };
 
+const bankMatch = {
+  0: "케이뱅크",
+  1: "하나은행",
+  2: "카카오뱅크",
+  3: "NH농협은행",
+  4: "신한은행",
+  5: "우리은행",
+  6: "KB국민은행",
+};
+
 //tags 별로 분류
 async function filterCategories(search = "") {
   const items = await getItem();
