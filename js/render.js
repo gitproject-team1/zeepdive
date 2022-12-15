@@ -269,8 +269,6 @@ export async function renderDetailPages(itemId) {
     }
     cartIdArr.push(detailItem.id);
     localStorage.setItem(`cartId-${email}`, JSON.stringify(cartIdArr));
-    cartItems.innerHTML = "";
-    await renderCartPages();
     userModalContent.innerHTML = `장바구니에 상품을 담았습니다.`;
     userModal.classList.add("show");
   });

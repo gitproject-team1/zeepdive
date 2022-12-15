@@ -15,6 +15,7 @@ import {
   renderCategoryPages,
   renderDetailPages,
   renderPurchasePages,
+  renderCartPages,
 } from "./render.js";
 import {
   submitEl,
@@ -36,6 +37,7 @@ import {
   addSectionBtn,
   cartIcon,
   cartOrderBtn,
+  cartItems,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -198,6 +200,8 @@ async function router() {
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartItems.innerHTML = "";
+    await renderCartPages();
     cartPgEl.style.display = "block";
   }
 }

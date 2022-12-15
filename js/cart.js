@@ -1,5 +1,5 @@
 import { userModalContent, userModal } from "./store.js";
-
+import { renderCartPages } from "./render.js";
 export async function cartIconClick() {
   const token = localStorage.getItem("token");
   if (!token) {

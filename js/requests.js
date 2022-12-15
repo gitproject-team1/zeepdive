@@ -5,6 +5,7 @@ import {
   userModal,
   userModalContent,
   loginErrorBox,
+  emailOverlapError,
 } from "./store.js";
 
 const API_KEY = `FcKdtJs202209`;
@@ -28,8 +29,13 @@ export async function signup(email, password, displayName) {
       }),
     }
   );
+  if (!res.ok) {
+    showErrorBox(emailOverlapError);
+    return;
+  }
   const json = await res.json();
   console.log("Response:", json);
+  location.reload();
 }
 
 // 로그인 api
