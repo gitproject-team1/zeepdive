@@ -571,18 +571,26 @@ main {
 }
 
 .payment-method-select-card {
-  display: none;
-}
-
-.account-swiper {
   background-color: #fff;
-  display: flex;
-  justify-content: center;
-  .swiper-slide {
-    margin: 0 5px;
-    // 사용불가한 카드는 흑백으로 처리할것임.
-    img {
-      filter: grayscale(100%);
+  padding: 15px;
+  padding-bottom: 40px;
+  display: none;
+  .account-swiper {
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    .swiper-slide {
+      margin: 0 5px;
+      // 사용불가한 카드는 흑백으로 처리할것임.
+      img {
+        filter: grayscale(100%);
+      }
+      .account-description {
+        margin-top: 10px;
+        text-align: center;
+        margin-right: 35px;
+        // margin-left: 65px;
+      }
     }
   }
 }
