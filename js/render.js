@@ -322,7 +322,7 @@ export async function renderPurchasePages(itemId) {
               <input type="text" class = "address-input" id="sample6_address" placeholder="주소">
               <input type="text" class = "address-input" id="sample6_detailAddress" placeholder="상세주소">
               <input type="text" class = "address-input" id="sample6_extraAddress" placeholder="참고항목">
-               </div>
+              </div>
             </div>
               <div class="purchase-content">
                 <div class="purchase-content-subject">주소지</div>
@@ -496,9 +496,16 @@ export async function renderCartPages() {
     itemsPrice += item.price;
     cartItems.appendChild(element);
     const cartDelete = element.querySelector(".cart-delete");
+    const cartTitle = element.querySelector(".cart-title");
+    console.log(cartTitle);
     cartDelete.addEventListener("click", (event) => {
       deleteCartItems(event);
       renderPrice();
+    });
+    cartTitle.addEventListener("click", async (event) => {
+      const incartItem = event.currentTarget.closest(".cart-item");
+
+      await renderDetailPages(incartItem.dataset.id);
     });
   }
   renderPrice();
@@ -520,7 +527,6 @@ async function deleteCartItems(event) {
   const incartPrice = event.currentTarget.previousElementSibling.innerHTML;
   const num = /[^0-9]/g;
   itemsPrice = itemsPrice - incartPrice.replace(num, "");
-  console.log(itemsPrice);
   cartItems.removeChild(incartItem);
   const email = await authLogin();
   const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
@@ -529,6 +535,11 @@ async function deleteCartItems(event) {
   });
   if (arr.length === 0) {
     localStorage.removeItem(`cartId-${email}`);
+    cartItems.innerHTML = /* html */ `
+      <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
+    `;
+    deliveryPrice.textContent = "0원";
+    totalPrice.textContent = "0원";
     return;
   }
   localStorage.setItem(`cartId-${email}`, JSON.stringify(arr));

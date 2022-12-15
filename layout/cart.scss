@@ -8,10 +8,9 @@ section.cart-inner {
     padding-bottom: 30px;
     color: #333;
     font-size: 28px;
-    text-align: center;
+    margin-left: 515px;
   }
   div.cart-container {
-    // width: 1050px;
     height: 942px;
     display: flex;
     justify-content: center;
@@ -21,6 +20,13 @@ section.cart-inner {
     }
     ul.cart-items {
       border-top: 1px solid #333;
+      p.cart-empty {
+        padding: 115px 0px;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: rgb(181, 181, 181);
+      }
       li.cart-item {
         border-bottom: 1px solid #ddd;
         display: flex;
