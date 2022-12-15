@@ -155,7 +155,6 @@ export async function renderCategoryPages(category, search = "") {
     itemList.appendChild(itemListContainer);
   }
 }
-export const email = "";
 //상세페이지
 export async function renderDetailPages(itemId) {
   const detailItem = await getDetailItem(itemId);
@@ -475,6 +474,209 @@ export async function renderPurchasePages(itemId) {
     }).open();
   });
 }
+
+// 장바구니에서 바로 전체 구매 렌더링
+export async function renderCartPurchase(items) {
+  // 결제 가능카드 불러오기
+  const availableAccounts = await getAccounts();
+  const availableFirst = availableAccounts.includes(0) ? "가능" : "불가능";
+  let detailItems = [];
+  for (const item of items) {
+    detailItems.push(getDetailItem(item));
+  }
+  detailItems = await Promise.all(detailItems);
+  console.log(detailItems);
+  const purchaseContainer = document.querySelector(".purchase-inner");
+  // 배송비는 총 가격이 10만이상이면 무료 아니면 3500원
+  let shippingFee = 3500;
+  let sumPrice = 0;
+  detailItems.forEach((item) => {
+    sumPrice += item.price;
+  });
+  if (sumPrice >= 100000) shippingFee = 0;
+  const totalPrice = shippingFee + sumPrice;
+  purchaseContainer.innerHTML = /* html */ `
+          <div class="product">
+            <div class="product-main">주문상품 ${detailItems.length}개</div>
+            <div class="product-detail">
+            </div>
+          </div>
+          <div class="address">
+            <div class="address-title">배송지</div>
+            <form>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">우편번호</div>
+                <div class="postal-code-1">
+                <input type="text" id="sample6_postcode" class="postalcode" placeholder="우편번호">
+                <input type="button" class = "postalcode-find-btn" value="우편번호 찾기">
+                </div>
+              </div>
+              <div class="purchase-content">
+              <div class="purchase-content-subject">주소지</div>
+              <div class="postal-code-2 ">
+              <input type="text" class = "address-input" id="sample6_address" placeholder="주소">
+              <input type="text" class = "address-input" id="sample6_detailAddress" placeholder="상세주소">
+              <input type="text" class = "address-input" id="sample6_extraAddress" placeholder="참고항목">
+              </div>
+            </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">배송 메모</div>
+                <select class="purchase-content-selector" type="button">
+                  <option value="default">배송 메세지를 선택해주세요.</option>
+                  <option value="purchase-item">
+                    배송 전에 미리 연락 바랍니다.
+                  </option>
+                  <option value="purchase-item">
+                    부재시 경비실에 맡겨 주세요.
+                  </option>
+                  <option value="purchase-item">
+                    부재시 전화 주시거나 문자 남겨 주세요.
+                  </option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="buyer">
+            <div class="buyer-title">주문자</div>
+            <form>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">주문자</div>
+                <input
+                  class="address-content-input"
+                  placeholder="이름을 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">이메일</div>
+                <input
+                  class="address-content-input"
+                  placeholder="이메일을 입력해주세요"
+                />
+              </div>
+              <div class="purchase-content">
+                <div class="purchase-content-subject">휴대폰</div>
+                <input
+                  class="address-content-input"
+                  placeholder="전화번호를 입력해주세요"
+                />
+              </div>
+            </form>
+          </div>
+          <!-- </div> -->
+          <div class="payment-amount">
+            <div class="payment-amount-title">결제 금액</div>
+            <div class="payment-amount-detail">
+              <div class="payment-amount-content">
+                <div class="payment-amount-content-subjcet">총 상품 금액</div>
+                <div class="payment-amount-content-detail">${sumPrice.toLocaleString()}원</div>
+              </div>
+              <div class="payment-amount-content">
+                <div class="payment-amount-content-subjcet">배송비</div>
+                <div class="payment-amount-content-detail">${shippingFee.toLocaleString()}원</div>
+              </div>
+              <div class="payment-amount-content">
+                <div class="payment-amount-content-subjcet" >총 결제 금액</div>
+                <div class="payment-amount-content-detail" style="color:red">${totalPrice.toLocaleString()}원</div>
+              </div>
+            </div>
+          </div>
+          <div class="payment-method">
+            <div class="payment-method-title">결제 수단</div>
+            <span class = "payment-selected">선택된 계좌: 케이뱅크 (${availableFirst})</span>
+          </div>
+          <div class= "payment-method account-select">
+            <ul class="payment-method-cfm-msg">
+              <li>
+                - 최소 결제 가능 금액은 총 결제 금액에서 배송비를 제외한
+                금액입니다.
+              </li>
+              <li>
+                - 소액 결제의 경우 PG사 정책에 따라 결제 금액 제한이 있을 수
+                있습니다.
+              </li>
+            </ul>
+            <div class="payment-cfm"></div>
+            <div class="payment-cfm-btn">
+              <button>총 ${totalPrice.toLocaleString()}원 결제하기</button>
+            </div>
+          </div>
+  `;
+  const cartDetailItems = document.querySelector(".product-detail");
+  for (const item of detailItems) {
+    const productTag = document.createElement("div");
+    productTag.classList.add("product-tag");
+    const productContainer = document.createElement("div");
+    productContainer.classList.add("product-container");
+    productContainer.innerHTML = /* html */ `
+      <img
+        src=${item.thumbnail}
+        width="100px"
+        height="100px"
+        alt="썸네일"
+      />
+      <div class="product-description">
+        <div class="product-title">${item.title}</div>
+        <div class="product-option">기본/1개</div>
+        <div class="product-price">${item.price.toLocaleString()}원</div>
+      </div>
+    `;
+    cartDetailItems.append(productTag, productContainer);
+  }
+
+  // 결제 카드 렌더링하기.
+  const paymentMethod = document.querySelector(".payment-method");
+  const accountSelect = document.querySelector(".payment-method-select-card");
+  const accountImgs = accountSelect.querySelectorAll("img");
+  // 사용가능한 카드는 색깔을 입혀줌
+  for (const account of availableAccounts) {
+    accountImgs[bankCode[account.bankCode]].style.filter = "grayscale(0%)";
+    availableIndex.push(bankCode[account.bankCode]);
+  }
+  paymentMethod.after(accountSelect);
+  accountSelect.style.display = "block";
+
+  //우편번호 찾기
+  const postalCodeBtnEl = document.querySelector(".postalcode-find-btn");
+  const postcodeEl = document.getElementById("sample6_postcode");
+  const extraAddress = document.getElementById("sample6_extraAddress");
+  const addressEl = document.getElementById("sample6_address");
+  const detailAddressEl = document.getElementById("sample6_detailAddress");
+
+  postalCodeBtnEl.addEventListener("click", () => {
+    new daum.Postcode({
+      oncomplete: function (data) {
+        var addr = ""; // 주소 변수
+        var extraAddr = ""; // 참고항목 변수
+
+        if (data.userSelectedType === "R") {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+
+        if (data.userSelectedType === "R") {
+          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+            extraAddr += data.bname;
+          }
+          if (data.buildingName !== "" && data.apartment === "Y") {
+            extraAddr +=
+              extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
+          }
+          if (extraAddr !== "") {
+            extraAddr = " (" + extraAddr + ")";
+          }
+          extraAddress.value = extraAddr;
+        } else {
+          extraAddress.value = "";
+        }
+        postcodeEl.value = data.zonecode;
+        addressEl.value = addr;
+        detailAddressEl.focus();
+      },
+    }).open();
+  });
+}
+
 // 장바구니 페이지
 let itemsPrice = 0;
 export async function renderCartPages() {
