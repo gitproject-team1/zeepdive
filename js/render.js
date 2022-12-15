@@ -10,6 +10,8 @@ import {
   totalPrice,
 } from "./store.js";
 
+export const availableIndex = [];
+
 const bankCode = {
   "089": 0,
   "081": 1,
@@ -288,6 +290,10 @@ export async function renderDetailPages(itemId) {
 
 //구매 페이지
 export async function renderPurchasePages(itemId) {
+  // 결제 가능카드 불러오기
+  const availableAccounts = await getAccounts();
+  const availableFirst = availableAccounts.includes(0) ? "가능" : "불가능";
+
   const detailItem = await getDetailItem(itemId);
   const purchaseContainer = document.querySelector(".purchase-inner");
   // 배송비는 가격이 10만이상이면 무료 아니면 3500원
@@ -397,7 +403,7 @@ export async function renderPurchasePages(itemId) {
           </div>
           <div class="payment-method">
             <div class="payment-method-title">결제 수단</div>
-            <span class = "payment-selected">선택된 계좌: 케이뱅크</span>
+            <span class = "payment-selected">선택된 계좌: 케이뱅크 (${availableFirst})</span>
           </div>
           <div class= "payment-method account-select">
             <ul class="payment-method-cfm-msg">
@@ -420,10 +426,10 @@ export async function renderPurchasePages(itemId) {
   const paymentMethod = document.querySelector(".payment-method");
   const accountSelect = document.querySelector(".payment-method-select-card");
   const accountImgs = accountSelect.querySelectorAll("img");
-  const availableAccounts = await getAccounts();
   // 사용가능한 카드는 색깔을 입혀줌
   for (const account of availableAccounts) {
     accountImgs[bankCode[account.bankCode]].style.filter = "grayscale(0%)";
+    availableIndex.push(bankCode[account.bankCode]);
   }
   paymentMethod.after(accountSelect);
   accountSelect.style.display = "block";

@@ -1,4 +1,7 @@
-const bankCode = {
+import { getAccounts } from "./requests.js";
+import { availableIndex } from "./render.js";
+
+const bankMatch = {
   0: "케이뱅크",
   1: "하나은행",
   2: "카카오뱅크",
@@ -34,8 +37,14 @@ export const accountSwiper = new Swiper(".account-swiper", {
   spaceBetween: 30,
   on: {
     slideChange: function () {
+      console.log(availableIndex);
       const currentPayment = document.querySelector(".payment-selected");
-      currentPayment.textContent = `선택된 계좌: ${bankCode[this.realIndex]}`;
+      const available = availableIndex.includes(this.realIndex)
+        ? "가능"
+        : "불가능";
+      currentPayment.textContent = `선택된 계좌: ${
+        bankMatch[this.realIndex]
+      } (${available})`;
     },
   },
 });
