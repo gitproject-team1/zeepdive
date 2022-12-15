@@ -5,6 +5,7 @@ import {
   pwchange,
   autoLogin,
   userinfoClick,
+  loginModal,
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
@@ -33,7 +34,6 @@ import {
   accountListUl,
   removeSectionBtn,
   addSectionBtn,
-  loginModal,
 } from "./store.js";
 import {
   renderUserAccount,
