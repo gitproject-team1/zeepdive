@@ -78,8 +78,9 @@
             <li>
               <a href="javascript:void(0)"
                 ><img
+                  class="cart-icon"
                   src="	https://cdn.ggumim.co.kr/storage/20220405154434B4uwWl2qr6.png"
-                  alt="cart-img"
+                  alt="cart-icon"
               /></a>
             </li>
             <li><button type="button" class="login"></button></li>
@@ -364,6 +365,34 @@
     </article>
 
     <!--./구매 페이지-->
+    <!-- 장바구니 -->
+    <article class="cart-page">
+      <section class="cart-inner">
+        <h2>장바구니</h2>
+        <div class="cart-container">
+          <div class="cart-left">
+            <ul class="cart-items">
+              <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
+            </ul>
+          </div>
+          <div class="cart-right">
+            <div class="item-price">
+              <p>상품금액</p>
+              <span class="single-price">0원</span>
+            </div>
+            <div class="item-price">
+              <p>배송비</p>
+              <span class="delivery-price">0원</span>
+            </div>
+            <div class="item-price">
+              <p>결제예정금액</p>
+              <span class="total-price">0원</span>
+            </div>
+            <button class="cart-order-btn">주문하기</button>
+          </div>
+        </div>
+      </section>
+    </article>
 
     <div class="back-ground">배경 필터</div>
     <section class="login-modal">
@@ -499,8 +528,7 @@
     </footer>
     <aside class="recently-view">
       <h4>최근 본 상품</h4>
-      <ul class="recently-view-list">
-      </ul>
+      <ul class="recently-view-list"></ul>
     </aside>
 
     <!-- Alert 모달창 -->

@@ -26,8 +26,10 @@ import {
   signupRepwBox,
   exptext,
   signupErrorBox,
+  cartItems,
 } from "./store.js";
 import { editUser, authLogin } from "./requests.js";
+import { renderCartPages } from "./render.js";
 const state = {
   email: "",
   password: "",
@@ -233,6 +235,12 @@ export async function autoLogin() {
     await authLogin();
   } else {
     loginBtnEl.textContent = "로그인/가입";
+  }
+  const email = await authLogin();
+  const cartItem = localStorage.getItem(`cartId-${email}`);
+  if (cartItem) {
+    cartItems.innerHTML = "";
+    await renderCartPages();
   }
   // 만료시간 체크는 계속
   getItemWithExpireTime("token");
