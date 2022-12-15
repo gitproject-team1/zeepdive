@@ -568,3 +568,20 @@ main {
   display: flex;
   justify-content: center;
 }
+
+.payment-method-select-card {
+  display: none;
+}
+
+.account-swiper {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  .swiper-slide {
+    margin: 0 5px;
+    // 사용불가한 카드는 흑백으로 처리할것임.
+    img {
+      filter: grayscale(100%);
+    }
+  }
+}
