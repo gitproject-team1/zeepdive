@@ -5,20 +5,19 @@ const recentlyViewUlEl = document.querySelector(".recently-view-list");
 
 export async function recentItemSet() {
   let cnt = 0;
-  const href = window.location.href.substring(31);
-  console.log(local);
+  const tmpId = location.hash.split("/")[2];
   if (local.getItem("recentId") === null) {
-    local.setItem("recentId", JSON.stringify([href]));
+    local.setItem("recentId", JSON.stringify([tmpId]));
   } else {
     const recentIdArr = JSON.parse(local.getItem("recentId"));
     for (const x of recentIdArr) {
-      if (x === href) {
+      if (x === tmpId) {
         ++cnt;
         break;
       }
     }
     if (cnt === 0) {
-      recentIdArr.push(href);
+      recentIdArr.push(tmpId);
     }
     if (recentIdArr.length > 3) {
       recentIdArr.shift();
