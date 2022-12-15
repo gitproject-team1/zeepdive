@@ -11,7 +11,7 @@ export const passwordInputEl = document.getElementById("signup-pw");
 export const passwordcheckEl = document.getElementById("signup-repw");
 export const displayNameInputEl = document.getElementById("signup-name");
 export const signupErrorBox = document.querySelector(".signup-error-box");
-
+export const emailOverlapError = document.querySelector(".email-overlap-error");
 // login elements
 export const loginErrorBox = document.querySelector(".login-error-box");
 export const loginBtn = document.querySelector(".login-btn");
