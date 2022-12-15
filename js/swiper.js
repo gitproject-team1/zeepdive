@@ -16,13 +16,11 @@ export const swiper = new Swiper(".mySwiper1", {
 
 export const accountSwiper = new Swiper(".account-swiper", {
   loop: "true",
-  pagination: {
-    el: ".account-swiper .swiper-pagination",
-    type: "fraction",
-  },
   navigation: {
     nextEl: ".account-swiper .swiper-button-next",
     prevEl: ".account-swiper .swiper-button-prev",
   },
   slidesPerView: 3,
+  centeredSlides: true,
+  // spaceBetween: 10,
 });
