@@ -72,3 +72,10 @@ export const bankSelectEl = document.querySelector(".bank-select");
 export const accountListUl = document.querySelector(".account-lists");
 export const removeSectionBtn = document.querySelector(".bank-remove-gnb");
 export const addSectionBtn = document.querySelector(".bank-add-gnb");
+
+// 장바구니
+export const cartItems = document.querySelector(".cart-items");
+export const cartIcon = document.querySelector(".cart-icon");
+export const singlePrice = document.querySelector(".single-price");
+export const deliveryPrice = document.querySelector(".delivery-price");
+export const totalPrice = document.querySelector(".total-price");

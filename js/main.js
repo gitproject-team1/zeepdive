@@ -7,7 +7,7 @@ import {
   userinfoClick,
   renderLoginModal,
 } from "./signup.js";
-import { authLogin, editUser } from "./requests.js";
+import { authLogin, editUser, getDetailItem } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
 import {
@@ -34,6 +34,8 @@ import {
   accountListUl,
   removeSectionBtn,
   addSectionBtn,
+  cartItems,
+  cartIcon,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -42,8 +44,8 @@ import {
   accountAddSubmit,
   removeAccountFnc,
 } from "./account.js";
-
-import {renderRecent ,recentItemSet} from "./recent"
+import { cartIconClick } from "./cart.js";
+import { renderRecent, recentItemSet } from "./recent";
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
 
@@ -54,6 +56,7 @@ const adminPgEl = document.querySelector(".admin-page");
 const footerEl = document.querySelector("footer");
 const categorypgEl = document.querySelector(".category-page");
 const purchasepgEl = document.querySelector(".purchase-page");
+const cartPgEl = document.querySelector(".cart-page");
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
@@ -116,6 +119,7 @@ async function router() {
     adminPgEl.style.display = "none";
     footerEl.style.display = "none";
     categorypgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     // purchasepgEl.style.display = "none";
     await renderMainItems();
     mainPgEl.style.display = "block";
@@ -128,6 +132,7 @@ async function router() {
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
     detailPageEl.style.display = "block";
@@ -136,10 +141,11 @@ async function router() {
     adminPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
     categorypgEl.style.display = "none";
-    recentItemSet()
+    recentItemSet();
     // id url에서 파싱해서 넘김
     await renderDetailPages(routePath.split("/")[2]);
     categorypgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     //관리자 페이지
   } else if (routePath.includes("#/admin")) {
     // 관리자인지 확인
@@ -147,6 +153,7 @@ async function router() {
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     //만약 관리자라면,
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
@@ -164,6 +171,7 @@ async function router() {
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     // category url에서 파싱
     console.log(routePath);
     const category = routePath.split("/")[2];
@@ -171,6 +179,7 @@ async function router() {
     searchKeyword = decodeURIComponent(searchKeyword);
     await renderCategoryPages(category, searchKeyword);
     categorypgEl.style.display = "block";
+    cartPgEl.style.display = "none";
     // 제품 구매 페이지
   } else if (routePath.includes("#/purchase")) {
     detailPageEl.style.display = "none";
@@ -180,6 +189,16 @@ async function router() {
     categorypgEl.style.display = "none";
     await renderPurchasePages(routePath.split("/")[2]);
     purchasepgEl.style.display = "block";
+    cartPgEl.style.display = "none";
+    // 장바구니 페이지
+  } else if (routePath.includes("#/cart")) {
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
+    detailPageEl.style.display = "none";
+    categorypgEl.style.display = "none";
+    purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "block";
   }
 }
 
@@ -210,5 +229,7 @@ removeAccountBtn.addEventListener("click", () => {
   removeAccountFnc();
 });
 window.addEventListener("hashchange", renderRecent);
-renderRecent()
+renderRecent();
 
+// ============ 장바구니 ============
+cartIcon.addEventListener("click", cartIconClick);
