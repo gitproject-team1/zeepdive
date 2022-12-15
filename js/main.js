@@ -34,8 +34,8 @@ import {
   accountListUl,
   removeSectionBtn,
   addSectionBtn,
-  cartItems,
   cartIcon,
+  cartOrderBtn,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -233,3 +233,8 @@ renderRecent();
 
 // ============ 장바구니 ============
 cartIcon.addEventListener("click", cartIconClick);
+cartOrderBtn.addEventListener("click", async () => {
+  const email = await authLogin();
+  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
+  console.log(cartIdArr);
+});
