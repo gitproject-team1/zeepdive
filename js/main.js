@@ -15,6 +15,7 @@ import {
   renderCategoryPages,
   renderDetailPages,
   renderPurchasePages,
+  renderCartPurchase,
   renderCartPages,
 } from "./render.js";
 import {
