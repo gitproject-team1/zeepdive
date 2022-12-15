@@ -5,7 +5,7 @@ import {
   pwchange,
   autoLogin,
   userinfoClick,
-  loginModal,
+  renderLoginModal,
 } from "./signup.js";
 import { authLogin, editUser, getDetailItem } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
@@ -73,7 +73,7 @@ firstNav.addEventListener("mouseout", () => {
 
 // ============ 인증 관련 ============
 // 로그인/회원가입 모달 visibility 조정
-loginBtnEl.addEventListener("click", loginModal);
+loginBtnEl.addEventListener("click", renderLoginModal);
 // 회원가입 전송
 submitEl.addEventListener("submit", createSubmitEvent);
 // 로그인
