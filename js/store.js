@@ -34,7 +34,6 @@ export const signupPwBox = document.querySelector(".signup-pw-box");
 export const signupRepwBox = document.querySelector(".signup-repw-box");
 export const pwLengthMsg = document.querySelector(".pw-length-msg");
 export const idErrorMsg = document.querySelector(".id-error-msg");
-
 export const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
 
 // user Info elements
@@ -79,3 +78,4 @@ export const cartIcon = document.querySelector(".cart-icon");
 export const singlePrice = document.querySelector(".single-price");
 export const deliveryPrice = document.querySelector(".delivery-price");
 export const totalPrice = document.querySelector(".total-price");
+export const cartOrderBtn = document.querySelector(".cart-order-btn");

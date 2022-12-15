@@ -498,7 +498,9 @@ export async function renderCartPages() {
           src=${item.thumbnail}
           alt="cart-img"
         />
-        <p class="cart-title">${item.title}</p>
+        <a href = "#/detail/${item.id}">
+          <p class="cart-title">${item.title}</p>
+        </a>
         <p class="cart-count">1</p>
         <p class="cart-price">${item.price.toLocaleString()}원</p>
         <img
@@ -510,16 +512,9 @@ export async function renderCartPages() {
     itemsPrice += item.price;
     cartItems.appendChild(element);
     const cartDelete = element.querySelector(".cart-delete");
-    const cartTitle = element.querySelector(".cart-title");
-    console.log(cartTitle);
     cartDelete.addEventListener("click", (event) => {
       deleteCartItems(event);
       renderPrice();
-    });
-    cartTitle.addEventListener("click", async (event) => {
-      const incartItem = event.currentTarget.closest(".cart-item");
-
-      await renderDetailPages(incartItem.dataset.id);
     });
   }
   renderPrice();
