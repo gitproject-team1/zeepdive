@@ -160,12 +160,12 @@ function createAccountList(acId, acName, acNum, acBalance, isAccount) {
       `
   } else {
     createList.id = acId
-    acBal = acBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const tmpacBalance = acBalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     createList.innerHTML = `
         <input type="checkbox" id="remove-check">
         <span class="bank-name">${acName}</span>
         <span class="acount-number">${acNum}</span>
-        <span class="balance">₩ ${acBal}</span>
+        <span class="balance">₩ ${tmpacBalance}</span>
       `
   }
 
