@@ -34,7 +34,7 @@ const state = {
   displayName: "",
 };
 // 로그인/회원가입 모달 visibility 조정
-export async function loginModal() {
+export async function renderLoginModal() {
   if (loginBtnEl.textContent === "로그인/가입") {
     backGround.style.visibility = "visible";
     loginModal.style.visibility = "visible";
