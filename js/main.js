@@ -1,15 +1,11 @@
-import { swiper } from "./swiper.js";
+import { swiper, accountSwiper } from "./swiper.js";
 import {
   createSubmitEvent,
   createLoginEvent,
   pwchange,
   autoLogin,
   userinfoClick,
-<<<<<<< HEAD
-  loginModal,
-=======
   renderLoginModal,
->>>>>>> 99d93104f363a9e44020eb9dfa557e76f1aa5cea
 } from "./signup.js";
 import { authLogin, editUser } from "./requests.js";
 import { renderAdminItems } from "./admin.js";

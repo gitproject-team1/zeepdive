@@ -33,6 +33,8 @@
     />
     <!-- style -->
     <link rel="stylesheet" href="./layout/style.scss" />
+    <!--postal code js-->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <!-- main.js -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="module" defer src="./js/main.js"></script>
@@ -294,8 +296,68 @@
     <article class="purchase-page">
       <section class="purchase-container">
         <div class="purchase-inner"></div>
+        <div class="payment-method-select-card">
+          <div class="swiper account-swiper">
+            <ul class="swiper-wrapper">
+              <li class="swiper-slide">
+                <img
+                  src="./img/kbank.png"
+                  width="150"
+                  height="100"
+                  alt="kb은행"
+                />
+              </li>
+              <li class="swiper-slide">
+                <img
+                  src="./img/hana.png"
+                  width="150"
+                  height="100"
+                  alt="kb은행"
+                />
+              </li>
+              <li class="swiper-slide">
+                <img
+                  src="./img/kakao.png"
+                  width="150"
+                  height="100"
+                  alt="kb은행"
+                />
+              </li>
+              <li class="swiper-slide">
+                <img
+                  src="./img/nong.png"
+                  width="150"
+                  height="100"
+                  alt="kb은행"
+                />
+              </li>
+              <li class="swiper-slide">
+                <img
+                  src="./img/shinhan.png"
+                  width="150"
+                  height="100"
+                  alt="kb은행"
+                />
+              </li>
+              <li class="swiper-slide">
+                <img
+                  src="./img/woori.png"
+                  width="150"
+                  height="100"
+                  alt="kb은행"
+                />
+              </li>
+              <li class="swiper-slide">
+                <img src="./img/kb.png" width="150" height="100" alt="kb은행" />
+              </li>
+            </ul>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+        </div>
       </section>
     </article>
+
     <!--./구매 페이지-->
 
     <div class="back-ground">배경 필터</div>
