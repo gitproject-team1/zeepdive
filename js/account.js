@@ -6,11 +6,8 @@ import {
 import {
   userModal,
   userModalContent,
-  bankSubmitBtn,
   bankSelectEl,
   accountListUl,
-  removeSectionBtn,
-  addSectionBtn
 } from "./store.js"
 // bank elements 
 
@@ -24,52 +21,52 @@ const bankSignatureEl = document.getElementById('account-signature')
 const addSection = document.querySelector('.bank-add-section')
 const removeSection = document.querySelector('.bank-remove-section')
 
+
 let accountNumber = ''
 let bankCode = ''
 
-export function bankSelelectEvent() {
+
+export function bankSelelectEvent(bankValue) {
   let digits = []
-  let select1 = bankSelectEl[bankSelectEl.selectedIndex].value
-  switch (select1) {
-    case 'none':
-      inputDisplay('none');
-      break;
-    case 'bank-nh':
+  switch (bankValue) {
+    case '농협은행':
       digits = [3, 4, 4, 2]
       bankCode = '011'
       inputDisplay('inline');
       break;
-    case 'bank-kb':
+    case '국민은행':
       digits = [3, 2, 4, 3]
       bankCode = '004'
       inputDisplay('inline');
       break;
-    case 'bank-sh':
+    case '신한은행':
       digits = [3, 3, 6]
       bankCode = '088'
       inputDisplay('inline');
       break;
-    case 'bank-kakao':
+    case '카카오뱅크':
       digits = [4, 2, 7]
       bankCode = '090'
       inputDisplay('inline');
       break;
-    case 'bank-woori':
+    case '우리은행':
       digits = [4, 3, 6]
       bankCode = '020'
       inputDisplay('inline');
       break;
-    case 'bank-hana':
+    case '하나은행':
       digits = [3, 6, 5]
       bankCode = '081'
       inputDisplay('inline');
       break;
-    case 'bank-kbank':
-      digits = [3, 6, 5]
-      bankCode = '081'
+    case '케이뱅크':
+      digits = [3, 3, 6]
+      bankCode = '089'
       inputDisplay('inline');
       break;
   }
+  const bankAccountN = document.querySelector('.select-bank');
+  bankAccountN.innerHTML = `${bankValue}`
 
   inputBankEl1.value = ''
   inputBankEl2.value = ''
@@ -125,7 +122,7 @@ export async function accountAddSubmit() {
       console.log(accountNumber)
     } else {
       console.log(accountNumber)
-      await addAccount(bankCode, accountNumber, bankPhoneNumEl.value, true)
+      await addAccount(bankCode, accountNumber, bankPhoneNumEl.value, bankSignatureEl.checked)
       accountNumber = ''
       bankPhoneNumEl.value = ''
       bankSignatureEl.checked = false
@@ -165,29 +162,10 @@ function createAccountList(acId, acName, acNum, acBalance, isAccount) {
         <input type="checkbox" id="remove-check">
         <span class="bank-name">${acName}</span>
         <span class="acount-number">${acNum}</span>
-        <span class="balance">₩ ${tmpacBalance}</span>
+        <span class="account-balance">₩ ${tmpacBalance}</span>
       `
   }
   accountListUl.append(createList)
-}
-
-export function gnbBtnClick(wBtn, bool) {
-  if (wBtn === 'add') {
-    if (!bool) {
-      addSectionBtn.classList.add('on')
-      removeSectionBtn.classList.remove('on')
-      addSection.style.display = 'block'
-      removeSection.style.display = 'none'
-    }
-  } else if (wBtn === 'remove') {
-
-    if (!bool) {
-      removeSectionBtn.classList.add('on')
-      addSectionBtn.classList.remove('on')
-      addSection.style.display = 'none'
-      removeSection.style.display = 'block'
-    }
-  }
 }
 
 export async function removeAccountFnc() {

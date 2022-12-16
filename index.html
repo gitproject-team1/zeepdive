@@ -140,48 +140,62 @@
           <!-- /.user-info -->
 
           <div class="bank-info">
-            <div class="bank-gnb">
-              <button class="bank-add-gnb on">계좌 연결</button>
-              <button class="bank-remove-gnb">계좌 해지</button>
-            </div>
             <!-- /.bank-info -->
             <section class="bank-add-section">
-              <h3>계좌 연결</h3>
+              <h3>계좌 관리</h3>
               <!-- bank-add-section -->
+              <strong>연결된 계좌</strong>
+              <ul class="account-lists"></ul>
+              <div class="remove-check-button-box">
+                <span>
+                  <label for="remove-sign">삭제 동의</label>
+                  <input type="checkbox" id="account-remove-sign" />
+                </span>
+                <button class="remove-account">선택계좌 해지하기</button>
+              </div>
+              <button class="add-account">계좌 연결</button>
               <form class="add-form">
-                <p class="account-box">
-                  <select class="bank-select">
-                    <option value="none">은행 선택</option>
-                    <option value="bank-nh">NH농협은행</option>
-                    <option value="bank-kb">KB국민은행</option>
-                    <option value="bank-sh">신한은행</option>
-                    <option value="bank-kakao">카카오뱅크</option>
-                    <option value="bank-woori">우리은행</option>
-                    <option value="bank-hana">하나은행</option>
-                    <option value="bank-kbank">케이뱅크</option>
-                  </select>
-                  <input
-                    type="text"
-                    pattern="[0-9]+"
-                    class="bank-add-1 bank-add-input"
-                  />
-                  <input
-                    type="text"
-                    pattern="[0-9]+"
-                    class="bank-add-2 bank-add-input"
-                  />
-                  <input
-                    type="text"
-                    pattern="[0-9]+"
-                    class="bank-add-3 bank-add-input"
-                  />
-                  <input
-                    type="text"
-                    pattern="[0-9]+"
-                    class="bank-add-4 bank-add-input"
-                  />
-                </p>
-                <!-- /.account-box -->
+                <ul class="add-top-head">
+                  <li><button class="bank-close-btn"><i class="fa-solid fa-circle-xmark"></i></button></li>
+                  <li><h4>계좌 연결</h4></li>
+                  <li></li>
+                </ul>
+                <fieldset class="bank-list">
+                  <input type="radio" name="bank-select" value="국민은행">
+                  <input type="radio" name="bank-select" value="우리은행">
+                  <input type="radio" name="bank-select" value="신한은행">
+                  <input type="radio" name="bank-select" value="농협은행">
+                  <input type="radio" name="bank-select" value="케이뱅크">
+                  <input type="radio" name="bank-select" value="카카오뱅크">
+                  <input type="radio" name="bank-select" value="하나은행">
+                </fieldset>
+                <fieldset class="add-account-box">
+                  <h5 class="select-bank">은행을 선택해주세요</h5>
+                  <p class="bank-account-num">계좌번호</p>
+                  <p class="account-box">
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-1 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-2 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-3 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-4 bank-add-input"
+                    />
+                  </p>
+                  <!-- /.account-box -->
+                </fieldset>
                 <p class="phone-box">
                   <label for="bank-phone-num">휴대폰 번호</label>
                   <input
@@ -194,10 +208,8 @@
                 </p>
                 <!-- /.phone-box -->
                 <p class="signature-box">
-                  <span>
-                    <label for="account-signature">약관 동의</label>
-                    <input type="checkbox" id="account-signature" />
-                  </span>
+                  <label for="account-signature">약관 동의</label>
+                  <input type="checkbox" id="account-signature" />
                   <button class="bank-add-btn">계좌 연결</button>
                 </p>
                 <!-- /.signature-box -->
@@ -205,16 +217,6 @@
               <!-- bank-add-section -->
             </section>
             <!-- /.add-bank -->
-            <section class="bank-remove-section">
-              <h3>계좌 해지</h3>
-              <ul class="account-lists"></ul>
-              <div class="remove-check-button-box">
-                <span>
-                  <label for="remove-sign">삭제 동의</label>
-                  <input type="checkbox" id="account-remove-sign" />
-                </span>
-                <button class="remove-account">선택계좌 해지하기</button>
-              </div>
               <!-- bank-add-section -->
             </section>
             <!-- /.bank-remove-section -->
