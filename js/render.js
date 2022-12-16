@@ -561,8 +561,10 @@ export async function renderPurchasePages(items) {
       for (const item of detailItems) {
         await purchaseItems(bankId, item.id);
       }
+      localStorage.setItem("purchase", "true");
       alertModal(`거래가 정상적으로 이루어졌습니다.`);
     } else {
+      localStorage.setItem("purchase", "false");
       alertModal("계좌에 잔액이 부족합니다.");
     }
   });
