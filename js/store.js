@@ -11,7 +11,7 @@ export const passwordInputEl = document.getElementById("signup-pw");
 export const passwordcheckEl = document.getElementById("signup-repw");
 export const displayNameInputEl = document.getElementById("signup-name");
 export const signupErrorBox = document.querySelector(".signup-error-box");
-
+export const emailOverlapError = document.querySelector(".email-overlap-error");
 // login elements
 export const loginErrorBox = document.querySelector(".login-error-box");
 export const loginBtn = document.querySelector(".login-btn");
@@ -34,7 +34,6 @@ export const signupPwBox = document.querySelector(".signup-pw-box");
 export const signupRepwBox = document.querySelector(".signup-repw-box");
 export const pwLengthMsg = document.querySelector(".pw-length-msg");
 export const idErrorMsg = document.querySelector(".id-error-msg");
-
 export const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
 
 // user Info elements
@@ -79,3 +78,4 @@ export const cartIcon = document.querySelector(".cart-icon");
 export const singlePrice = document.querySelector(".single-price");
 export const deliveryPrice = document.querySelector(".delivery-price");
 export const totalPrice = document.querySelector(".total-price");
+export const cartOrderBtn = document.querySelector(".cart-order-btn");

@@ -1,4 +1,4 @@
-import { mainPgEl } from "./main.js";
+import { alertModal, mainPgEl } from "./main.js";
 import {
   getItem,
   getDetailItem,
@@ -7,16 +7,24 @@ import {
   getQnA,
   postQna,
   deleteQna,
+  purchaseItems,
 } from "./requests.js";
 import {
   detailContainer,
-  userModalContent,
-  userModal,
   cartItems,
   singlePrice,
   deliveryPrice,
   totalPrice,
 } from "./store.js";
+import kbank from "../img/kbank.png";
+import hana from "../img/hana.png";
+import kakao from "../img/kakao.png";
+import nong from "../img/nong.png";
+import shinhan from "../img/shinhan.png";
+import woori from "../img/woori.png";
+import kb from "../img/kb.png";
+
+export const availableIndex = [];
 
 const bankCode = {
   "089": 0,
@@ -26,6 +34,16 @@ const bankCode = {
   "088": 4,
   "020": 5,
   "004": 6,
+};
+
+const bankMatch = {
+  0: "케이뱅크",
+  1: "하나은행",
+  2: "카카오뱅크",
+  3: "NH농협은행",
+  4: "신한은행",
+  5: "우리은행",
+  6: "KB국민은행",
 };
 
 //tags 별로 분류
@@ -161,7 +179,6 @@ export async function renderCategoryPages(category, search = "") {
     itemList.appendChild(itemListContainer);
   }
 }
-export const email = "";
 //상세페이지
 export async function renderDetailPages(itemId) {
   const detailItem = await getDetailItem(itemId);
@@ -247,15 +264,13 @@ export async function renderDetailPages(itemId) {
   optionBtn.addEventListener("click", () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      userModalContent.innerHTML = `로그인을 해주세요.`;
-      userModal.classList.add("show");
+      alertModal(`로그인을 해주세요.`);
     }
   });
   optionBuynow.addEventListener("click", () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      userModalContent.innerHTML = `로그인을 해주세요.`;
-      userModal.classList.add("show");
+      alertModal(`로그인을 해주세요.`);
     } else window.location = `#/purchase/${detailItem.id}`;
   });
 
@@ -272,56 +287,48 @@ export async function renderDetailPages(itemId) {
   optionCart.addEventListener("click", async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      userModalContent.innerHTML = `로그인을 해주세요.`;
-      userModal.classList.add("show");
+      alertModal(`로그인을 해주세요.`);
       return;
     }
     const email = await authLogin();
     const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
     for (const cartIdEl of cartIdArr) {
       if (cartIdEl === detailItem.id) {
-        userModalContent.innerHTML = `이미 장바구니에 담긴 상품입니다.`;
-        userModal.classList.add("show");
+        alertModal(`이미 장바구니에 담긴 상품입니다.`);
         return;
       }
     }
     cartIdArr.push(detailItem.id);
     localStorage.setItem(`cartId-${email}`, JSON.stringify(cartIdArr));
-    cartItems.innerHTML = "";
-    await renderCartPages();
-    userModalContent.innerHTML = `장바구니에 상품을 담았습니다.`;
-    userModal.classList.add("show");
+    alertModal(`장바구니에 상품을 담았습니다.`);
   });
 }
 
-//구매 페이지
-export async function renderPurchasePages(itemId) {
-  const detailItem = await getDetailItem(itemId);
+// 구매 페이지
+export async function renderPurchasePages(items) {
+  // 결제 가능카드 불러오기
+  const availableAccounts = await getAccounts();
+  // 첫번째 카드 가능한지 아닌지 -> swiper에서는 onslide에서만 감지하므로..
+  const availableFirst = availableAccounts.includes(0) ? "가능" : "불가능";
+  let detailItems = [];
+  for (const item of items) {
+    detailItems.push(getDetailItem(item));
+  }
+  detailItems = await Promise.all(detailItems);
+  console.log(detailItems);
   const purchaseContainer = document.querySelector(".purchase-inner");
-  // 배송비는 가격이 10만이상이면 무료 아니면 3500원
+  // 배송비는 총 가격이 10만이상이면 무료 아니면 3500원
   let shippingFee = 3500;
-  if (detailItem.price >= 100000) shippingFee = 0;
-  const totalPrice = shippingFee + detailItem.price;
+  let sumPrice = 0;
+  detailItems.forEach((item) => {
+    sumPrice += item.price;
+  });
+  if (sumPrice >= 100000) shippingFee = 0;
+  const totalPrice = shippingFee + sumPrice;
   purchaseContainer.innerHTML = /* html */ `
           <div class="product">
-            <div class="product-main">주문상품 1개</div>
+            <div class="product-main">주문상품 ${detailItems.length}개</div>
             <div class="product-detail">
-              <div class="product-tag" style="font-size:11px; color:#646f7c; font-weight:600" >${
-                detailItem.tags
-              }</div>
-              <div class="product-container">
-                <img
-                  src=${detailItem.thumbnail}
-                  width="100px"
-                  height="100px"
-                  alt=""
-                />
-                <div class="product-description">
-                  <div class="product-title">${detailItem.title}</div>
-                  <div class="product-option">기본/1개</div>
-                  <div class="product-price">${detailItem.price.toLocaleString()}원</div>
-                </div>
-              </div>
             </div>
           </div>
           <div class="address">
@@ -391,7 +398,7 @@ export async function renderPurchasePages(itemId) {
             <div class="payment-amount-detail">
               <div class="payment-amount-content">
                 <div class="payment-amount-content-subjcet">총 상품 금액</div>
-                <div class="payment-amount-content-detail">${detailItem.price.toLocaleString()}원</div>
+                <div class="payment-amount-content-detail">${sumPrice.toLocaleString()}원</div>
               </div>
               <div class="payment-amount-content">
                 <div class="payment-amount-content-subjcet">배송비</div>
@@ -405,7 +412,58 @@ export async function renderPurchasePages(itemId) {
           </div>
           <div class="payment-method">
             <div class="payment-method-title">결제 수단</div>
-            <span class = "payment-selected">선택된 계좌: 케이뱅크</span>
+            <span class = "payment-selected">선택된 계좌: 케이뱅크 (${availableFirst})</span>
+          </div>
+          <div class="payment-method-select-card">
+            <div class="swiper account-swiper">
+              <ul class="swiper-wrapper">
+                <li class="swiper-slide">
+                  <img src="${kbank}" width="210" height="140" alt="k뱅크" />
+                  <p class="account-description">케이뱅크</p>
+                </li>
+                <li class="swiper-slide">
+                  <img src="${hana}" width="210" height="140" alt="하나카드" />
+                  <p class="account-description">하나은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img
+                    src="${kakao}"
+                    width="210"
+                    height="140"
+                    alt="카뱅카드"
+                  />
+                  <p class="account-description">카카오뱅크</p>
+                </li>
+                <li class="swiper-slide">
+                  <img src="${nong}" width="210" height="140" alt="농협카드" />
+                  <p class="account-description">NH농협은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img
+                    src="${shinhan}"
+                    width="210"
+                    height="140"
+                    alt="신한카드"
+                  />
+                  <p class="account-description">신한은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img
+                    src="${woori}"
+                    width="210"
+                    height="140"
+                    alt="우리카드"
+                  />
+                  <p class="account-description">우리은행</p>
+                </li>
+                <li class="swiper-slide">
+                  <img src="${kb}" width="210" height="140" alt="국민카드" />
+                  <p class="account-description">KB국민은행</p>
+                </li>
+              </ul>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+            </div>
           </div>
           <div class= "payment-method account-select">
             <ul class="payment-method-cfm-msg">
@@ -424,14 +482,105 @@ export async function renderPurchasePages(itemId) {
             </div>
           </div>
   `;
+  const cartDetailItems = document.querySelector(".product-detail");
+  for (const item of detailItems) {
+    const productTag = document.createElement("div");
+    productTag.classList.add("product-tag");
+    const productContainer = document.createElement("div");
+    productContainer.classList.add("product-container");
+    productContainer.innerHTML = /* html */ `
+      <img
+        src=${item.thumbnail}
+        width="100px"
+        height="100px"
+        alt="썸네일"
+      />
+      <div class="product-description">
+        <div class="product-title">${item.title}</div>
+        <div class="product-option">기본/1개</div>
+        <div class="product-price">${item.price.toLocaleString()}원</div>
+      </div>
+    `;
+    cartDetailItems.append(productTag, productContainer);
+  }
+
+  // 선택가능한계좌면 색깔입히고, 클릭가능하게. 불가능하면 그 반대로.
+  const purchaseBtn = document.querySelector(".payment-cfm-btn button");
+  if (availableFirst === "불가능") {
+    purchaseBtn.style.filter = "grayscale(100%)";
+    purchaseBtn.style.pointerEvents = "none";
+  }
+
+  //swiper를 여기에 선언해야 동작
+  const accountSwiper = new Swiper(".account-swiper", {
+    navigation: {
+      nextEl: ".account-swiper .swiper-button-next",
+      prevEl: ".account-swiper .swiper-button-prev",
+    },
+    slidesPerView: 3,
+    centeredSlides: true,
+    spaceBetween: 30,
+    on: {
+      slideChange: function () {
+        const currentPayment = document.querySelector(".payment-selected");
+        const available = availableIndex.includes(this.realIndex)
+          ? "가능"
+          : "불가능";
+        currentPayment.textContent = `선택된 계좌: ${
+          bankMatch[this.realIndex]
+        } (${available})`;
+        if (available === "가능") {
+          purchaseBtn.style.filter = "grayscale(0%)";
+          purchaseBtn.style.pointerEvents = "auto";
+        } else {
+          purchaseBtn.style.filter = "grayscale(100%)";
+          purchaseBtn.style.pointerEvents = "none";
+        }
+      },
+    },
+  });
+  // 구매버튼 로직
+  purchaseBtn.addEventListener("click", async () => {
+    // 지금 현재 어떤 계좌에서 눌렀는지 확인해야함.
+    // 또한 여러개 구매도 대응해야함.
+    const currAccount = document.querySelector(
+      ".account-swiper .swiper-slide-active"
+    );
+    const curBankName =
+      bankMatch[currAccount.getAttribute("aria-label")[0] - 1];
+    let bankId = "";
+    let curAccountBal = 0;
+    for (const account of availableAccounts) {
+      if (account.bankName === curBankName) {
+        bankId = account.id;
+        curAccountBal = account.balance;
+        break;
+      }
+    }
+    // 여러개 구매를 위해 promise.all사용
+    // promise.all이 잘 안먹는다... 왜 이럴까 ㅜㅜ....
+    // 자 여기서. 구매를 할때 계좌잔액이 더 남아있는지 확인해야함.
+    if (curAccountBal >= totalPrice) {
+      for (const item of detailItems) {
+        await purchaseItems(bankId, item.id);
+      }
+      localStorage.setItem("purchase", "true");
+      alertModal(`거래가 정상적으로 이루어졌습니다.`);
+    } else {
+      localStorage.setItem("purchase", "false");
+      alertModal("계좌에 잔액이 부족합니다.");
+    }
+  });
+
   // 결제 카드 렌더링하기.
   const paymentMethod = document.querySelector(".payment-method");
   const accountSelect = document.querySelector(".payment-method-select-card");
   const accountImgs = accountSelect.querySelectorAll("img");
-  const availableAccounts = await getAccounts();
+
   // 사용가능한 카드는 색깔을 입혀줌
   for (const account of availableAccounts) {
     accountImgs[bankCode[account.bankCode]].style.filter = "grayscale(0%)";
+    availableIndex.push(bankCode[account.bankCode]);
   }
   paymentMethod.after(accountSelect);
   accountSelect.style.display = "block";
@@ -477,11 +626,17 @@ export async function renderPurchasePages(itemId) {
     }).open();
   });
 }
+
 // 장바구니 페이지
 let itemsPrice = 0;
 export async function renderCartPages() {
   const email = await authLogin();
-  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
+  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
+  console.log(cartIdArr);
+  if (cartIdArr.length === 0) {
+    emptyCart();
+    return;
+  }
   const promises = [];
   for (const id of cartIdArr) {
     promises.push(getDetailItem(id));
@@ -500,7 +655,9 @@ export async function renderCartPages() {
           src=${item.thumbnail}
           alt="cart-img"
         />
-        <p class="cart-title">${item.title}</p>
+        <a href = "#/detail/${item.id}">
+          <p class="cart-title">${item.title}</p>
+        </a>
         <p class="cart-count">1</p>
         <p class="cart-price">${item.price.toLocaleString()}원</p>
         <img
@@ -512,16 +669,8 @@ export async function renderCartPages() {
     itemsPrice += item.price;
     cartItems.appendChild(element);
     const cartDelete = element.querySelector(".cart-delete");
-    const cartTitle = element.querySelector(".cart-title");
-    console.log(cartTitle);
     cartDelete.addEventListener("click", (event) => {
       deleteCartItems(event);
-      renderPrice();
-    });
-    cartTitle.addEventListener("click", async (event) => {
-      const incartItem = event.currentTarget.closest(".cart-item");
-
-      await renderDetailPages(incartItem.dataset.id);
     });
   }
   renderPrice();
@@ -550,15 +699,21 @@ async function deleteCartItems(event) {
     return incartItem.dataset.id !== cartIdEl;
   });
   if (arr.length === 0) {
+    emptyCart();
     localStorage.removeItem(`cartId-${email}`);
-    cartItems.innerHTML = /* html */ `
-      <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
-    `;
-    deliveryPrice.textContent = "0원";
-    totalPrice.textContent = "0원";
     return;
   }
   localStorage.setItem(`cartId-${email}`, JSON.stringify(arr));
+  renderPrice();
+}
+
+function emptyCart() {
+  cartItems.innerHTML = /* html */ `
+  <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
+  `;
+  singlePrice.textContent = "0원";
+  deliveryPrice.textContent = "0원";
+  totalPrice.textContent = "0원";
 }
 
 //QnA 페이지

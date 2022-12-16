@@ -1,4 +1,4 @@
-import { swiper, accountSwiper } from "./swiper.js";
+import { swiper } from "./swiper.js";
 import {
   createSubmitEvent,
   createLoginEvent,
@@ -15,6 +15,7 @@ import {
   renderCategoryPages,
   renderDetailPages,
   renderPurchasePages,
+  renderCartPages,
 } from "./render.js";
 import {
   submitEl,
@@ -31,11 +32,12 @@ import {
   searchInput,
   bankSubmitBtn,
   bankSelectEl,
-  accountListUl,
   removeSectionBtn,
   addSectionBtn,
-  cartItems,
   cartIcon,
+  cartOrderBtn,
+  cartItems,
+  userModalContent,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -48,15 +50,15 @@ import { cartIconClick } from "./cart.js";
 import { renderRecent, recentItemSet } from "./recent";
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
-
+let cartIdArr = "";
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 export const mainPgEl = document.querySelector(".main-page");
 const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
 const footerEl = document.querySelector("footer");
 const categorypgEl = document.querySelector(".category-page");
-const purchasepgEl = document.querySelector(".purchase-page");
-const cartPgEl = document.querySelector(".cart-page");
+export const purchasepgEl = document.querySelector(".purchase-page");
+export const cartPgEl = document.querySelector(".cart-page");
 const qnaPgEl = document.querySelector(".qna-page");
 
 // 검색창
@@ -65,7 +67,7 @@ searchForm.addEventListener("submit", (event) => {
 });
 
 //상세페이지
-const detailPageEl = document.querySelector(".detail-container");
+export const detailPageEl = document.querySelector(".detail-container");
 
 firstNav.addEventListener("mouseover", () => {
   backGround.style.visibility = "visible";
@@ -99,7 +101,12 @@ nameChangeBtn.addEventListener("click", async (event) => {
 // 변경 됐다는 모달창에 있는 확인 버튼
 userModalBtn.addEventListener("click", () => {
   userModal.classList.remove("show");
+  // 거래가 정상적으로 되면 홈으로 보냄.
+  if (location.hash.includes("#/purchase")) {
+    if (localStorage.getItem("purchase") === "true") location.href = "/";
+  }
 });
+
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", pwchange);
 
@@ -138,7 +145,6 @@ async function router() {
     qnaPgEl.style.display = "none";
     //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
-    detailPageEl.style.display = "block";
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
@@ -147,6 +153,7 @@ async function router() {
     recentItemSet();
     // id url에서 파싱해서 넘김
     await renderDetailPages(routePath.split("/")[2]);
+    detailPageEl.style.display = "block";
     categorypgEl.style.display = "none";
     cartPgEl.style.display = "none";
     qnaPgEl.style.display = "none";
@@ -193,10 +200,15 @@ async function router() {
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     categorypgEl.style.display = "none";
-    await renderPurchasePages(routePath.split("/")[2]);
-    purchasepgEl.style.display = "block";
     cartPgEl.style.display = "none";
     qnaPgEl.style.display = "none";
+    if (routePath.includes("#/purchase/cart")) {
+      await renderPurchasePages(cartIdArr);
+      purchasepgEl.style.display = "block";
+      return;
+    }
+    await renderPurchasePages([routePath.split("/")[2]]);
+    purchasepgEl.style.display = "block";
     // 장바구니 페이지
   } else if (routePath.includes("#/cart")) {
     mainPgEl.style.display = "none";
@@ -205,6 +217,8 @@ async function router() {
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartItems.innerHTML = "";
+    await renderCartPages();
     cartPgEl.style.display = "block";
     qnaPgEl.style.display = "none";
     // QnA 페이지
@@ -251,3 +265,15 @@ renderRecent();
 
 // ============ 장바구니 ============
 cartIcon.addEventListener("click", cartIconClick);
+cartOrderBtn.addEventListener("click", async () => {
+  const email = await authLogin();
+  cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
+  cartPgEl.style.display = "none";
+  window.location.href = "#/purchase/cart";
+});
+
+// 경고 모달창 부르는 함수
+export function alertModal(errormsg) {
+  userModalContent.textContent = errormsg;
+  userModal.classList.add("show");
+}

@@ -1,10 +1,10 @@
+import { alertModal } from "./main.js";
 import { setItemWithExpireTime, showErrorBox } from "./signup.js";
 import {
   loginBtnEl,
   userInfoName,
-  userModal,
-  userModalContent,
   loginErrorBox,
+  emailOverlapError,
 } from "./store.js";
 
 const API_KEY = `FcKdtJs202209`;
@@ -28,8 +28,13 @@ export async function signup(email, password, displayName) {
       }),
     }
   );
+  if (!res.ok) {
+    showErrorBox(emailOverlapError);
+    return;
+  }
   const json = await res.json();
   console.log("Response:", json);
+  location.reload();
 }
 
 // 로그인 api
@@ -137,11 +142,9 @@ export async function editUser(content, displayName, oldPassword, newPassword) {
   if (res.ok) {
     const json = await res.json();
     console.log("Response:", json);
-    userModalContent.innerHTML = `${content} 변경이 완료되었습니다.`;
-    userModal.classList.add("show");
+    alertModal(`${content} 변경이 완료되었습니다.`);
   } else {
-    userModalContent.innerHTML = `${content}가 일치하지 않습니다.`;
-    userModal.classList.add("show");
+    alertModal(`${content}가 일치하지 않습니다.`);
   }
 }
 
@@ -230,6 +233,25 @@ export async function getDetailItem(id) {
   return json;
 }
 
+export async function getAllPurchases() {
+  const res = await fetch(
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/all `,
+    {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        masterKey: "true",
+      },
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+}
+
+// 계좌관련 api
+
 export async function addAccount(code, accN, phoneN, sign) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
@@ -254,11 +276,9 @@ export async function addAccount(code, accN, phoneN, sign) {
   const json = await res.json();
   console.log(json);
   if (!res.ok) {
-    userModalContent.innerHTML = `${json}`;
-    userModal.classList.add("show");
+    alertModal(`${json}`);
   } else {
-    userModalContent.innerHTML = "계좌가 연결되었습니다.";
-    userModal.classList.add("show");
+    alertModal("계좌가 연결되었습니다.");
   }
 }
 
@@ -304,11 +324,9 @@ export async function removeAccount(accId, sign) {
   const json = await res.json();
   console.log(json);
   if (!res.ok) {
-    userModalContent.innerHTML = `${json}`;
-    userModal.classList.add("show");
+    alertModal(`${json}`);
   } else {
-    userModalContent.innerHTML = "삭제되었습니다.";
-    userModal.classList.add("show");
+    alertModal("삭제되었습니다.");
   }
 }
 
@@ -362,5 +380,30 @@ export async function deleteQna(id) {
     }
   );
   const json = await res.json();
+  return json;
+}
+
+// 구매 관련 api
+export async function purchaseItems(accountId, productId) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch(
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/buy`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        productId: productId,
+        accountId: accountId,
+      }),
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
   return json;
 }
