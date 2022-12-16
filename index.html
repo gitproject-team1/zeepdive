@@ -33,6 +33,8 @@
     />
     <!-- style -->
     <link rel="stylesheet" href="./layout/style.scss" />
+    <!--postal code js-->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <!-- main.js -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="module" defer src="./js/main.js"></script>
@@ -76,8 +78,9 @@
             <li>
               <a href="javascript:void(0)"
                 ><img
+                  class="cart-icon"
                   src="	https://cdn.ggumim.co.kr/storage/20220405154434B4uwWl2qr6.png"
-                  alt="cart-img"
+                  alt="cart-icon"
               /></a>
             </li>
             <li><button type="button" class="login"></button></li>
@@ -298,7 +301,36 @@
         <div class="purchase-inner"></div>
       </section>
     </article>
+
     <!--./구매 페이지-->
+    <!-- 장바구니 -->
+    <article class="cart-page">
+      <section class="cart-inner">
+        <h2>장바구니</h2>
+        <div class="cart-container">
+          <div class="cart-left">
+            <ul class="cart-items">
+              <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
+            </ul>
+          </div>
+          <div class="cart-right">
+            <div class="item-price">
+              <p>상품금액</p>
+              <span class="single-price">0원</span>
+            </div>
+            <div class="item-price">
+              <p>배송비</p>
+              <span class="delivery-price">0원</span>
+            </div>
+            <div class="item-price">
+              <p>결제예정금액</p>
+              <span class="total-price">0원</span>
+            </div>
+            <button class="cart-order-btn">주문하기</button>
+          </div>
+        </div>
+      </section>
+    </article>
 
     <div class="back-ground">배경 필터</div>
     <section class="login-modal">
@@ -375,6 +407,12 @@
           />
         </p>
         <input type="submit" value="전송" class="signup-button" />
+        <div class="login-error-box signup-error-box">
+          회원가입 정보를 정확히 입력해주세요.
+        </div>
+        <div class="login-error-box email-overlap-error">
+          이미 가입된 이메일입니다
+        </div>
       </form>
       <button class="close-signup close">
         <i class="fa-solid fa-circle-xmark"></i>
@@ -409,33 +447,32 @@
           </div>
         </div>
         <div class="right-container">
-          <a href="https://post.naver.com/inflearn" target="_blank"
+          <a href="https://post.naver.com/mdl87" target="_blank"
             ><i class="text">N</i></a
           >
-          <a href="https://blog.naver.com/inflearn" target="_blank"
+          <a href="https://band.us/band/56666078" target="_blank"
             ><i class="text">B</i></a
           >
-          <a href="https://www.instagram.com/inflearn__official" target="_blank"
+          <a href="https://www.instagram.com/ggumigi/" target="_blank"
             ><i class="fab fa-instagram"></i
           ></a>
           <a
-            href="https://www.youtube.com/channel/UC0Y0T9JpgIBbyGDjvy9PbOg"
+            href="https://www.youtube.com/channel/UChmUHlBjbIquOygkGNReCoA"
             target="_blank"
             ><i class="fab fa-youtube"></i
           ></a>
-          <a href="https://www.facebook.com/inflearn" target="_blank"
+          <a href="https://ko-kr.facebook.com/ggumim2013" target="_blank"
             ><i class="fab fa-facebook-f"></i
           ></a>
-          <a href="https://twitter.com/inflearn" target="_blank"
+          <!-- <a href="https://twitter.com/inflearn" target="_blank"
             ><i class="fa-brands fa-twitter"></i
-          ></a>
+          ></a> -->
         </div>
       </div>
     </footer>
     <aside class="recently-view">
       <h4>최근 본 상품</h4>
-      <ul class="recently-view-list">
-      </ul>
+      <ul class="recently-view-list"></ul>
     </aside>
 
     <!-- Alert 모달창 -->

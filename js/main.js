@@ -7,7 +7,7 @@ import {
   userinfoClick,
   renderLoginModal,
 } from "./signup.js";
-import { authLogin, editUser } from "./requests.js";
+import { authLogin, editUser, getDetailItem } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
 import { getItem } from "./requests.js";
 import {
@@ -15,6 +15,7 @@ import {
   renderCategoryPages,
   renderDetailPages,
   renderPurchasePages,
+  renderCartPages,
 } from "./render.js";
 import {
   submitEl,
@@ -31,9 +32,12 @@ import {
   searchInput,
   bankSubmitBtn,
   bankSelectEl,
-  accountListUl,
   removeSectionBtn,
   addSectionBtn,
+  cartIcon,
+  cartOrderBtn,
+  cartItems,
+  userModalContent,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -42,18 +46,19 @@ import {
   accountAddSubmit,
   removeAccountFnc,
 } from "./account.js";
-
-import {renderRecent ,recentItemSet} from "./recent"
+import { cartIconClick } from "./cart.js";
+import { renderRecent, recentItemSet } from "./recent";
 // 관리자 이메일 -> 추후 .env넣어야함.
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
-
+let cartIdArr = "";
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 export const mainPgEl = document.querySelector(".main-page");
 const userPgEl = document.querySelector(".user-page");
 const adminPgEl = document.querySelector(".admin-page");
 const footerEl = document.querySelector("footer");
 const categorypgEl = document.querySelector(".category-page");
-const purchasepgEl = document.querySelector(".purchase-page");
+export const purchasepgEl = document.querySelector(".purchase-page");
+export const cartPgEl = document.querySelector(".cart-page");
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
@@ -61,7 +66,7 @@ searchForm.addEventListener("submit", (event) => {
 });
 
 //상세페이지
-const detailPageEl = document.querySelector(".detail-container");
+export const detailPageEl = document.querySelector(".detail-container");
 
 firstNav.addEventListener("mouseover", () => {
   backGround.style.visibility = "visible";
@@ -95,7 +100,12 @@ nameChangeBtn.addEventListener("click", async (event) => {
 // 변경 됐다는 모달창에 있는 확인 버튼
 userModalBtn.addEventListener("click", () => {
   userModal.classList.remove("show");
+  // 거래가 정상적으로 되면 홈으로 보냄.
+  if (location.hash.includes("#/purchase")) {
+    if (localStorage.getItem("purchase") === "true") location.href = "/";
+  }
 });
+
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", pwchange);
 
@@ -116,6 +126,7 @@ async function router() {
     adminPgEl.style.display = "none";
     footerEl.style.display = "none";
     categorypgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     // purchasepgEl.style.display = "none";
     await renderMainItems();
     mainPgEl.style.display = "block";
@@ -128,18 +139,20 @@ async function router() {
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
-    detailPageEl.style.display = "block";
     mainPgEl.style.display = "none";
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
     categorypgEl.style.display = "none";
-    recentItemSet()
+    recentItemSet();
     // id url에서 파싱해서 넘김
     await renderDetailPages(routePath.split("/")[2]);
+    detailPageEl.style.display = "block";
     categorypgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     //관리자 페이지
   } else if (routePath.includes("#/admin")) {
     // 관리자인지 확인
@@ -147,6 +160,7 @@ async function router() {
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     //만약 관리자라면,
     if (email === ADMIN_EMAIL) {
       mainPgEl.style.display = "none";
@@ -164,6 +178,7 @@ async function router() {
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
     // category url에서 파싱
     console.log(routePath);
     const category = routePath.split("/")[2];
@@ -171,6 +186,7 @@ async function router() {
     searchKeyword = decodeURIComponent(searchKeyword);
     await renderCategoryPages(category, searchKeyword);
     categorypgEl.style.display = "block";
+    cartPgEl.style.display = "none";
     // 제품 구매 페이지
   } else if (routePath.includes("#/purchase")) {
     detailPageEl.style.display = "none";
@@ -178,8 +194,25 @@ async function router() {
     userPgEl.style.display = "none";
     adminPgEl.style.display = "none";
     categorypgEl.style.display = "none";
-    await renderPurchasePages(routePath.split("/")[2]);
+    cartPgEl.style.display = "none";
+    if (routePath.includes("#/purchase/cart")) {
+      await renderPurchasePages(cartIdArr);
+      purchasepgEl.style.display = "block";
+      return;
+    }
+    await renderPurchasePages([routePath.split("/")[2]]);
     purchasepgEl.style.display = "block";
+    // 장바구니 페이지
+  } else if (routePath.includes("#/cart")) {
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
+    detailPageEl.style.display = "none";
+    categorypgEl.style.display = "none";
+    purchasepgEl.style.display = "none";
+    cartItems.innerHTML = "";
+    await renderCartPages();
+    cartPgEl.style.display = "block";
   }
 }
 
@@ -217,5 +250,19 @@ removeAccountBtn.addEventListener("click", () => {
 });
 
 window.addEventListener("hashchange", renderRecent);
-renderRecent()
+renderRecent();
 
+// ============ 장바구니 ============
+cartIcon.addEventListener("click", cartIconClick);
+cartOrderBtn.addEventListener("click", async () => {
+  const email = await authLogin();
+  cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
+  cartPgEl.style.display = "none";
+  window.location.href = "#/purchase/cart";
+});
+
+// 경고 모달창 부르는 함수
+export function alertModal(errormsg) {
+  userModalContent.textContent = errormsg;
+  userModal.classList.add("show");
+}

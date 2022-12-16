@@ -1,6 +1,5 @@
 import { signup, login } from "./requests.js";
 import {
-  loginErrorBox,
   emailInputEl,
   passwordInputEl,
   passwordcheckEl,
@@ -11,10 +10,8 @@ import {
   backGround,
   loginModal,
   signupModal,
-  userModal,
   userInfoPw,
   userInfoNewPw,
-  userModalContent,
   userInfoName,
   idErrorMsg,
   idboxEl,
@@ -28,6 +25,7 @@ import {
   signupErrorBox,
 } from "./store.js";
 import { editUser, authLogin } from "./requests.js";
+import { alertModal } from "./main.js";
 const state = {
   email: "",
   password: "",
@@ -81,7 +79,6 @@ export async function createSubmitEvent(event) {
     passwordInputEl.value === passwordcheckEl.value
   ) {
     await signup(state.email, state.password, state.displayName);
-    location.reload();
   } else {
     showErrorBox(signupErrorBox);
   }
@@ -164,8 +161,7 @@ export async function userinfoClick() {
   if (token) {
     window.location = "#/user";
   } else {
-    userModalContent.innerHTML = `로그인을 해주세요.`;
-    userModal.classList.add("show");
+    alertModal(`로그인을 해주세요.`);
   }
 }
 
@@ -173,13 +169,11 @@ export async function userinfoClick() {
 export async function pwchange(event) {
   event.preventDefault();
   if (!userInfoPw.value || !userInfoNewPw.value) {
-    userModalContent.innerHTML = `비밀번호를 입력해주세요.`;
-    userModal.classList.add("show");
+    alertModal(`비밀번호를 입력해주세요.`);
     return;
   }
   if (userInfoNewPw.value.length < 8) {
-    userModalContent.innerHTML = `비밀번호를 8자리 이상 입력해주세요.`;
-    userModal.classList.add("show");
+    alertModal(`비밀번호를 8자리 이상 입력해주세요.`);
     return;
   }
   await editUser(
