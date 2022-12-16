@@ -306,6 +306,7 @@ export async function renderDetailPages(itemId) {
 export async function renderPurchasePages(items) {
   // 결제 가능카드 불러오기
   const availableAccounts = await getAccounts();
+  // 첫번째 카드 가능한지 아닌지 -> swiper에서는 onslide에서만 감지하므로..
   const availableFirst = availableAccounts.includes(0) ? "가능" : "불가능";
   let detailItems = [];
   for (const item of items) {
@@ -501,6 +502,13 @@ export async function renderPurchasePages(items) {
     cartDetailItems.append(productTag, productContainer);
   }
 
+  // 선택가능한계좌면 색깔입히고, 클릭가능하게. 불가능하면 그 반대로.
+  const purchaseBtn = document.querySelector(".payment-cfm-btn button");
+  if (availableFirst === "불가능") {
+    purchaseBtn.style.filter = "grayscale(100%)";
+    purchaseBtn.style.pointerEvents = "none";
+  }
+
   //swiper를 여기에 선언해야 동작
   const accountSwiper = new Swiper(".account-swiper", {
     navigation: {
@@ -512,7 +520,6 @@ export async function renderPurchasePages(items) {
     spaceBetween: 30,
     on: {
       slideChange: function () {
-        console.log(availableIndex);
         const currentPayment = document.querySelector(".payment-selected");
         const available = availableIndex.includes(this.realIndex)
           ? "가능"
@@ -520,6 +527,13 @@ export async function renderPurchasePages(items) {
         currentPayment.textContent = `선택된 계좌: ${
           bankMatch[this.realIndex]
         } (${available})`;
+        if (available === "가능") {
+          purchaseBtn.style.filter = "grayscale(0%)";
+          purchaseBtn.style.pointerEvents = "auto";
+        } else {
+          purchaseBtn.style.filter = "grayscale(100%)";
+          purchaseBtn.style.pointerEvents = "none";
+        }
       },
     },
   });
