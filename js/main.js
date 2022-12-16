@@ -16,6 +16,7 @@ import {
   renderDetailPages,
   renderPurchasePages,
   renderCartPages,
+  renderQnA,
 } from "./render.js";
 import {
   submitEl,
@@ -59,6 +60,7 @@ const footerEl = document.querySelector("footer");
 const categorypgEl = document.querySelector(".category-page");
 export const purchasepgEl = document.querySelector(".purchase-page");
 export const cartPgEl = document.querySelector(".cart-page");
+const qnaPgEl = document.querySelector(".qna-page");
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
@@ -127,10 +129,11 @@ async function router() {
     footerEl.style.display = "none";
     categorypgEl.style.display = "none";
     cartPgEl.style.display = "none";
-    // purchasepgEl.style.display = "none";
+    purchasepgEl.style.display = "none";
     await renderMainItems();
     mainPgEl.style.display = "block";
     footerEl.style.display = "block";
+    qnaPgEl.style.display = "none";
     //회원정보 페이지
   } else if (routePath.includes("#/user")) {
     mainPgEl.style.display = "none";
@@ -140,6 +143,7 @@ async function router() {
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
     cartPgEl.style.display = "none";
+    qnaPgEl.style.display = "none";
     //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
     mainPgEl.style.display = "none";
@@ -153,6 +157,7 @@ async function router() {
     detailPageEl.style.display = "block";
     categorypgEl.style.display = "none";
     cartPgEl.style.display = "none";
+    qnaPgEl.style.display = "none";
     //관리자 페이지
   } else if (routePath.includes("#/admin")) {
     // 관리자인지 확인
@@ -179,6 +184,7 @@ async function router() {
     adminPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
     cartPgEl.style.display = "none";
+    qnaPgEl.style.display = "none";
     // category url에서 파싱
     console.log(routePath);
     const category = routePath.split("/")[2];
@@ -187,6 +193,7 @@ async function router() {
     await renderCategoryPages(category, searchKeyword);
     categorypgEl.style.display = "block";
     cartPgEl.style.display = "none";
+    qnaPgEl.style.display = "none";
     // 제품 구매 페이지
   } else if (routePath.includes("#/purchase")) {
     detailPageEl.style.display = "none";
@@ -195,6 +202,7 @@ async function router() {
     adminPgEl.style.display = "none";
     categorypgEl.style.display = "none";
     cartPgEl.style.display = "none";
+    qnaPgEl.style.display = "none";
     if (routePath.includes("#/purchase/cart")) {
       await renderPurchasePages(cartIdArr);
       purchasepgEl.style.display = "block";
@@ -213,6 +221,18 @@ async function router() {
     cartItems.innerHTML = "";
     await renderCartPages();
     cartPgEl.style.display = "block";
+    qnaPgEl.style.display = "none";
+    // QnA 페이지
+  } else if (routePath.includes("#/qna")) {
+    mainPgEl.style.display = "none";
+    userPgEl.style.display = "none";
+    adminPgEl.style.display = "none";
+    detailPageEl.style.display = "none";
+    categorypgEl.style.display = "none";
+    purchasepgEl.style.display = "none";
+    cartPgEl.style.display = "none";
+    await renderQnA();
+    qnaPgEl.style.display = "block";
   }
 }
 

@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="./layout/style.scss" />
     <!--postal code js-->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <!--day.js CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js"></script>
     <!-- main.js -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="module" defer src="./js/main.js"></script>
@@ -301,8 +303,8 @@
         <div class="purchase-inner"></div>
       </section>
     </article>
-
     <!--./구매 페이지-->
+
     <!-- 장바구니 -->
     <article class="cart-page">
       <section class="cart-inner">
@@ -331,6 +333,57 @@
         </div>
       </section>
     </article>
+
+    <!--QnA페이지-->
+    <section class="qna-page">
+      <div class="qna-container">
+        <div class="qna-container-title">
+          <div class="qna-title">무엇이든 물어보세요</div>
+          <button type="button" class="qna-requset-button">질문 남기기</button>
+        </div>
+        <button class="clear-all-btn">모두 삭제</button>
+        <div class="qna-table">
+          <div class="qna-table-head">
+            <div class="head-numbering">답변</div>
+            <div class="head-subject">내용</div>
+            <div class="head-date">작성일</div>
+          </div>
+          <div class="qna-table-content"></div>
+        </div>
+      </div>
+      <!--QnA 입력 모달-->
+      <div class="back-ground">배경 필터</div>
+      <div class="qna-modal">
+        <h3>질문을 남겨주세요</h3>
+        <p>확인하고 빠르게 답변을 남겨드릴게요</p>
+        <article class="qna-box">
+          <form id="qna-form">
+            <div class="qna-select-list">
+              <select class="selected-option">
+                <option value="selected">선택해주세요</option>
+                <option value="1">배송문의</option>
+                <option value="2">상품문의</option>
+                <option value="3">기타문의</option>
+              </select>
+            </div>
+            <span class="select-error-msg">유형을 선택해 주세요.</span>
+
+            <div class="qna-select-content">
+              <input
+                class="qna-content"
+                placeholder="내용을 입력해 주세요(최대 1,000자)"
+              />
+            </div>
+            <span class="select-error-msg">내용을 작성해 주세요.</span>
+
+            <button type="submit" class="qna-submit-btn">등록하기</button>
+            <button type="button" class="qna-close-btn">취소하기</button>
+            <div class="qna-error-box">내용을 작성 해 주세요.</div>
+          </form>
+        </article>
+      </div>
+    </section>
+    <!--./QnA페이지-->
 
     <div class="back-ground">배경 필터</div>
     <section class="login-modal">
