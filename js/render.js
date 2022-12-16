@@ -1,5 +1,11 @@
 import { mainPgEl } from "./main.js";
-import { getItem, getDetailItem, authLogin, getAccounts } from "./requests.js";
+import {
+  getItem,
+  getDetailItem,
+  authLogin,
+  getAccounts,
+  purchaseItems,
+} from "./requests.js";
 import {
   detailContainer,
   userModalContent,
@@ -538,10 +544,35 @@ export async function renderPurchasePages(items) {
     },
   });
 
+  purchaseBtn.addEventListener("click", async () => {
+    // 지금 현재 어떤 계좌에서 눌렀는지 확인해야함.
+    // 또한 여러개 구매도 대응해야함.
+    const currAccount = document.querySelector(
+      ".account-swiper .swiper-slide-active"
+    );
+    const curBankName =
+      bankMatch[currAccount.getAttribute("aria-label")[0] - 1];
+    let bankId = "";
+    for (const account of availableAccounts) {
+      if (account.bankName === curBankName) {
+        bankId = account.id;
+        break;
+      }
+    }
+    // 여러개 구매를 위해 promise.all사용
+    // promise.all이 잘 안먹는다... 왜 이럴까 ㅜㅜ....
+    // 자 여기서. 구매를 할때 계쫘잔액이 더 남아있는지 확인해야함.
+    for (const item of detailItems) {
+      await purchaseItems(bankId, item.id);
+    }
+    alert("거래완료");
+  });
+
   // 결제 카드 렌더링하기.
   const paymentMethod = document.querySelector(".payment-method");
   const accountSelect = document.querySelector(".payment-method-select-card");
   const accountImgs = accountSelect.querySelectorAll("img");
+
   // 사용가능한 카드는 색깔을 입혀줌
   for (const account of availableAccounts) {
     accountImgs[bankCode[account.bankCode]].style.filter = "grayscale(0%)";
@@ -549,6 +580,7 @@ export async function renderPurchasePages(items) {
   }
   paymentMethod.after(accountSelect);
   accountSelect.style.display = "block";
+
   //우편번호 찾기
   const postalCodeBtnEl = document.querySelector(".postalcode-find-btn");
   const postcodeEl = document.getElementById("sample6_postcode");
