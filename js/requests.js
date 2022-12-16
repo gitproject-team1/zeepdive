@@ -325,6 +325,59 @@ export async function removeAccount(accId, sign) {
   }
 }
 
+//QnA API
+export async function getQnA() {
+  const res = await fetch(
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos?apikey=FcKdtJs202209&username=KDT3-Tanaka",
+    {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        apikey: "FcKdtJs202209",
+        username: "KDT3_Tanaka",
+      },
+    }
+  );
+  const json = await res.json();
+  return json;
+}
+
+export async function postQna(title) {
+  const res = await fetch(
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos",
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        apikey: "FcKdtJs202209",
+        username: "KDT3_Tanaka",
+      },
+      body: JSON.stringify({
+        title,
+      }),
+    }
+  );
+  const json = await res.json();
+  return json;
+}
+
+export async function deleteQna(id) {
+  const res = await fetch(
+    "https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos" +
+      `/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        apikey: "FcKdtJs202209",
+        username: "KDT3_Tanaka",
+      },
+    }
+  );
+  const json = await res.json();
+  return json;
+}
+
 // 구매 관련 api
 export async function purchaseItems(accountId, productId) {
   const tokenValue = localStorage.getItem("token");
