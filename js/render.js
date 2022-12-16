@@ -1,5 +1,12 @@
 import { mainPgEl } from "./main.js";
-import { getItem, getDetailItem, authLogin, getAccounts } from "./requests.js";
+import {
+  getItem,
+  getDetailItem,
+  authLogin,
+  getAccounts,
+  getQnA,
+  postQna,
+} from "./requests.js";
 import {
   detailContainer,
   userModalContent,
@@ -552,3 +559,53 @@ async function deleteCartItems(event) {
   }
   localStorage.setItem(`cartId-${email}`, JSON.stringify(arr));
 }
+
+//QnA 페이지
+
+const qnaTableContent = document.querySelector(".qna-table-content");
+const requsetBtnEl = document.querySelector(".qna-requset-button");
+const qnaModal = document.querySelector(".qna-modal");
+const backgroundFilter = document.querySelector(".back-ground");
+const qnaSubmitBtnEl = document.querySelector(".qna-submit-btn");
+const qnaInputEl = document.querySelector(".qna-content");
+
+requsetBtnEl.addEventListener("click", qnaModalOpen);
+qnaSubmitBtnEl.addEventListener("click", addQna);
+
+const renderQnA = (title, createdAt) => {
+  const createdTime = dayjs(createdAt).format("YYYY년 MM월 DD일");
+
+  qnaTableContent.innerHTML += /* html */ `
+  <ul>
+  <div class="qna-table-content-inner">
+    <div class="content-numbering">대기중</div>
+    <div class="content-subject">${title}</div>
+    <div class="content-date">${createdTime}</div>
+  </div>
+</ul>
+`;
+};
+
+async function addQna() {
+  event.preventDefault();
+  const qnaTitle = qnaInputEl.value.trim();
+  const qnaItem = await postQna(qnaTitle);
+  const { title, createdAt } = qnaItem;
+  renderQnaList(title, createdAt);
+}
+
+function qnaModalOpen() {
+  backgroundFilter.style.visibility = "visible";
+  qnaModal.style.visibility = "visible";
+  document.querySelector(".qna-close-btn").addEventListener("click", () => {
+    backgroundFilter.style.visibility = "hidden";
+    qnaModal.style.visibility = "hidden";
+  });
+}
+
+async function renderQnaList() {
+  const qnaItems = await getQnA();
+  const reverseQna = qnaItems.reverse();
+  reverseQna.forEach((qnaItem) => renderQnA(qnaItem.title, qnaItem.createdAt));
+}
+renderQnaList();
