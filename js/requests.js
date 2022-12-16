@@ -233,6 +233,25 @@ export async function getDetailItem(id) {
   return json;
 }
 
+export async function getAllPurchases() {
+  const res = await fetch(
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/all `,
+    {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        masterKey: "true",
+      },
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+}
+
+// 계좌관련 api
+
 export async function addAccount(code, accN, phoneN, sign) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
@@ -309,4 +328,29 @@ export async function removeAccount(accId, sign) {
   } else {
     alertModal("삭제되었습니다.");
   }
+}
+
+// 구매 관련 api
+export async function purchaseItems(accountId, productId) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  const res = await fetch(
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/buy`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        productId: productId,
+        accountId: accountId,
+      }),
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+  return json;
 }
