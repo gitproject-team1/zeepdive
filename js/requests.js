@@ -1,9 +1,8 @@
+import { alertModal } from "./main.js";
 import { setItemWithExpireTime, showErrorBox } from "./signup.js";
 import {
   loginBtnEl,
   userInfoName,
-  userModal,
-  userModalContent,
   loginErrorBox,
   emailOverlapError,
 } from "./store.js";
@@ -143,11 +142,9 @@ export async function editUser(content, displayName, oldPassword, newPassword) {
   if (res.ok) {
     const json = await res.json();
     console.log("Response:", json);
-    userModalContent.innerHTML = `${content} 변경이 완료되었습니다.`;
-    userModal.classList.add("show");
+    alertModal(`${content} 변경이 완료되었습니다.`);
   } else {
-    userModalContent.innerHTML = `${content}가 일치하지 않습니다.`;
-    userModal.classList.add("show");
+    alertModal(`${content}가 일치하지 않습니다.`);
   }
 }
 
@@ -279,11 +276,9 @@ export async function addAccount(code, accN, phoneN, sign) {
   const json = await res.json();
   console.log(json);
   if (!res.ok) {
-    userModalContent.innerHTML = `${json}`;
-    userModal.classList.add("show");
+    alertModal(`${json}`);
   } else {
-    userModalContent.innerHTML = "계좌가 연결되었습니다.";
-    userModal.classList.add("show");
+    alertModal("계좌가 연결되었습니다.");
   }
 }
 
@@ -329,11 +324,9 @@ export async function removeAccount(accId, sign) {
   const json = await res.json();
   console.log(json);
   if (!res.ok) {
-    userModalContent.innerHTML = `${json}`;
-    userModal.classList.add("show");
+    alertModal(`${json}`);
   } else {
-    userModalContent.innerHTML = "삭제되었습니다.";
-    userModal.classList.add("show");
+    alertModal("삭제되었습니다.");
   }
 }
 

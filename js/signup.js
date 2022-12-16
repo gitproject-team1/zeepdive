@@ -1,6 +1,5 @@
 import { signup, login } from "./requests.js";
 import {
-  loginErrorBox,
   emailInputEl,
   passwordInputEl,
   passwordcheckEl,
@@ -11,10 +10,8 @@ import {
   backGround,
   loginModal,
   signupModal,
-  userModal,
   userInfoPw,
   userInfoNewPw,
-  userModalContent,
   userInfoName,
   idErrorMsg,
   idboxEl,
@@ -26,10 +23,9 @@ import {
   signupRepwBox,
   exptext,
   signupErrorBox,
-  cartItems,
 } from "./store.js";
 import { editUser, authLogin } from "./requests.js";
-import { renderCartPages } from "./render.js";
+import { alertModal } from "./main.js";
 const state = {
   email: "",
   password: "",
@@ -165,8 +161,7 @@ export async function userinfoClick() {
   if (token) {
     window.location = "#/user";
   } else {
-    userModalContent.innerHTML = `로그인을 해주세요.`;
-    userModal.classList.add("show");
+    alertModal(`로그인을 해주세요.`);
   }
 }
 
@@ -174,13 +169,11 @@ export async function userinfoClick() {
 export async function pwchange(event) {
   event.preventDefault();
   if (!userInfoPw.value || !userInfoNewPw.value) {
-    userModalContent.innerHTML = `비밀번호를 입력해주세요.`;
-    userModal.classList.add("show");
+    alertModal(`비밀번호를 입력해주세요.`);
     return;
   }
   if (userInfoNewPw.value.length < 8) {
-    userModalContent.innerHTML = `비밀번호를 8자리 이상 입력해주세요.`;
-    userModal.classList.add("show");
+    alertModal(`비밀번호를 8자리 이상 입력해주세요.`);
     return;
   }
   await editUser(
@@ -235,12 +228,6 @@ export async function autoLogin() {
   } else {
     loginBtnEl.textContent = "로그인/가입";
   }
-  // const email = await authLogin();
-  // const cartItem = localStorage.getItem(`cartId-${email}`);
-  // if (cartItem) {
-  //   cartItems.innerHTML = "";
-  //   await renderCartPages();
-  // }
   // 만료시간 체크는 계속
   getItemWithExpireTime("token");
 }
