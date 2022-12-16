@@ -348,8 +348,8 @@ export async function postQna(title) {
   return json;
 }
 
-export async function deleteTodo(id) {
-  await fetch(
+export async function deleteQna(id) {
+  const res = await fetch(
     "https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos" +
       `/${id}`,
     {
@@ -361,4 +361,6 @@ export async function deleteTodo(id) {
       },
     }
   );
+  const json = await res.json();
+  return json;
 }

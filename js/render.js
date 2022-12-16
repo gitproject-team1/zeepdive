@@ -6,6 +6,7 @@ import {
   getAccounts,
   getQnA,
   postQna,
+  deleteQna,
 } from "./requests.js";
 import {
   detailContainer,
@@ -561,7 +562,6 @@ async function deleteCartItems(event) {
 }
 
 //QnA 페이지
-
 const qnaTableContent = document.querySelector(".qna-table-content");
 const requsetBtnEl = document.querySelector(".qna-requset-button");
 const qnaModal = document.querySelector(".qna-modal");
@@ -572,26 +572,42 @@ const qnaInputEl = document.querySelector(".qna-content");
 requsetBtnEl.addEventListener("click", qnaModalOpen);
 qnaSubmitBtnEl.addEventListener("click", addQna);
 
-const renderQnA = (title, createdAt) => {
+const renderQnA = (title, createdAt, id) => {
   const createdTime = dayjs(createdAt).format("YYYY년 MM월 DD일");
-
   qnaTableContent.innerHTML += /* html */ `
-  <ul>
-  <div class="qna-table-content-inner">
-    <div class="content-numbering">대기중</div>
-    <div class="content-subject">${title}</div>
-    <div class="content-date">${createdTime}</div>
-  </div>
-</ul>
-`;
+  <ul class="qna-table-content-ul">
+    <div class="qna-table-content-inner">
+      <div class="content-numbering">대기중</div>
+      <div class="content-subject">${title}</div>
+      <div class="content-date">${createdTime}</div>
+      <div class="content-id">${id}</div>
+    </div>
+  </ul>
+  `;
+  const qnaTableContentUl = document.querySelectorAll(".qna-table-content-ul");
+  const clearBtnEl = document.querySelector(".clear-all-btn");
+  const contentIdEl = document.querySelectorAll(".content-id");
+
+  clearBtnEl.addEventListener("click", deleteAll);
+
+  async function deleteAll() {
+    const qnaItems = document.querySelector(".qna-table-content");
+    qnaTableContentUl.forEach(async (content) => {
+      qnaItems.removeChild(content);
+    });
+    contentIdEl.forEach(async (id) => {
+      console.log("id", id.textContent);
+      await deleteQna(id.textContent);
+    });
+  }
 };
 
-async function addQna() {
+async function addQna(event) {
   event.preventDefault();
   const qnaTitle = qnaInputEl.value.trim();
   const qnaItem = await postQna(qnaTitle);
-  const { title, createdAt } = qnaItem;
-  renderQnaList(title, createdAt);
+  const { title, createdAt, id } = qnaItem;
+  renderQnaList(title, createdAt, id);
 }
 
 function qnaModalOpen() {
@@ -603,9 +619,11 @@ function qnaModalOpen() {
   });
 }
 
-async function renderQnaList() {
+async function renderQnaList(title, createdAt, id) {
   const qnaItems = await getQnA();
-  const reverseQna = qnaItems.reverse();
-  reverseQna.forEach((qnaItem) => renderQnA(qnaItem.title, qnaItem.createdAt));
+  qnaTableContent.innerHTML = "";
+  qnaItems.forEach((qnaItem) =>
+    renderQnA(qnaItem.title, qnaItem.createdAt, qnaItem.id)
+  );
 }
 renderQnaList();
