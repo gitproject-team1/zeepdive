@@ -581,7 +581,12 @@ export async function renderPurchasePages(items) {
 let itemsPrice = 0;
 export async function renderCartPages() {
   const email = await authLogin();
-  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
+  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
+  console.log(cartIdArr);
+  if (cartIdArr.length === 0) {
+    emptyCart();
+    return;
+  }
   const promises = [];
   for (const id of cartIdArr) {
     promises.push(getDetailItem(id));
@@ -616,7 +621,6 @@ export async function renderCartPages() {
     const cartDelete = element.querySelector(".cart-delete");
     cartDelete.addEventListener("click", (event) => {
       deleteCartItems(event);
-      renderPrice();
     });
   }
   renderPrice();
@@ -645,13 +649,19 @@ async function deleteCartItems(event) {
     return incartItem.dataset.id !== cartIdEl;
   });
   if (arr.length === 0) {
+    emptyCart();
     localStorage.removeItem(`cartId-${email}`);
-    cartItems.innerHTML = /* html */ `
-      <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
-    `;
-    deliveryPrice.textContent = "0원";
-    totalPrice.textContent = "0원";
     return;
   }
   localStorage.setItem(`cartId-${email}`, JSON.stringify(arr));
+  renderPrice();
+}
+
+function emptyCart() {
+  cartItems.innerHTML = /* html */ `
+  <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
+  `;
+  singlePrice.textContent = "0원";
+  deliveryPrice.textContent = "0원";
+  totalPrice.textContent = "0원";
 }
