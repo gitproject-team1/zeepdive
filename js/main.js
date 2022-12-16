@@ -251,6 +251,6 @@ cartOrderBtn.addEventListener("click", async () => {
 
 // 경고 모달창 부르는 함수
 export function alertModal(errormsg) {
-  userModalContent.innerHTML = errormsg;
+  userModalContent.textContent = errormsg;
   userModal.classList.add("show");
 }

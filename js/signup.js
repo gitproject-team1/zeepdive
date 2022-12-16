@@ -26,6 +26,7 @@ import {
 } from "./store.js";
 import { editUser, authLogin } from "./requests.js";
 import { alertModal } from "./main.js";
+import { logout } from "./requests.js";
 const state = {
   email: "",
   password: "",
@@ -39,7 +40,7 @@ export async function renderLoginModal() {
     document.querySelector(".close-login").addEventListener("click", () => {
       backGround.style.visibility = "hidden";
       loginModal.style.visibility = "hidden";
-      validationStyle(idErrorMsg, "remove", idboxEl, "#999");
+      validationStyle(idErrorMsg, "remove");
       loginId.value = "";
       loginPw.value = "";
     });
@@ -59,6 +60,8 @@ export async function renderLoginModal() {
         displayNameInputEl.value = "";
       });
     });
+  } else {
+    await logout();
   }
 }
 
