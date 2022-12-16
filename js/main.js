@@ -100,7 +100,12 @@ nameChangeBtn.addEventListener("click", async (event) => {
 // 변경 됐다는 모달창에 있는 확인 버튼
 userModalBtn.addEventListener("click", () => {
   userModal.classList.remove("show");
+  // 거래가 정상적으로 되면 홈으로 보냄.
+  if (location.hash.includes("#/purchase")) {
+    if (localStorage.getItem("purchase") === "true") location.href = "/";
+  }
 });
+
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", pwchange);
 
@@ -213,30 +218,37 @@ async function router() {
 
 // user-info창에서 은행을 선택하면 생기는 이벤트
 bankSelectEl.addEventListener("change", (event) => {
+  bankSelelectEvent(event.target.value);
   event.preventDefault();
-  bankSelelectEvent();
-});
-bankSubmitBtn.addEventListener("click", (event) => {
-  event.preventDefault();
-  accountAddSubmit();
 });
 
-removeSectionBtn.addEventListener("click", function chacngeSection() {
-  renderUserAccount();
-  const clickValue = removeSectionBtn.classList.contains("on");
-  gnbBtnClick("remove", clickValue);
-  removeEventListener("click", chacngeSection);
+const accountAddForm = document.querySelector('.add-form')
+bankSubmitBtn.addEventListener("click", async (event) => {
+  await accountAddSubmit();
+  await renderUserAccount();
+  event.preventDefault();
+  accountAddForm.style.display = "none";
+  backGround.style.visibility = "hidden";
 });
+const addAccountBtn = document.querySelector('.add-account')
+addAccountBtn.addEventListener('click',()=>{
+  accountAddForm.style.display = "flex";
+  backGround.style.visibility = "visible";
+})
+const closeBtn = document.querySelector('.bank-close-btn')
+closeBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  accountAddForm.style.display = "none";
+  backGround.style.visibility = "hidden";
+})
+renderUserAccount();
 
-addSectionBtn.addEventListener("click", () => {
-  const clickValue = addSectionBtn.classList.contains("on");
-  gnbBtnClick("add", clickValue);
-});
 
 const removeAccountBtn = document.querySelector(".remove-account");
 removeAccountBtn.addEventListener("click", () => {
   removeAccountFnc();
 });
+
 window.addEventListener("hashchange", renderRecent);
 renderRecent();
 

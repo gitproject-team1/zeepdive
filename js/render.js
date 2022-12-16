@@ -1,9 +1,13 @@
 import { alertModal, mainPgEl } from "./main.js";
-import { getItem, getDetailItem, authLogin, getAccounts } from "./requests.js";
+import {
+  getItem,
+  getDetailItem,
+  authLogin,
+  getAccounts,
+  purchaseItems,
+} from "./requests.js";
 import {
   detailContainer,
-  userModalContent,
-  userModal,
   cartItems,
   singlePrice,
   deliveryPrice,
@@ -301,6 +305,7 @@ export async function renderDetailPages(itemId) {
 export async function renderPurchasePages(items) {
   // 결제 가능카드 불러오기
   const availableAccounts = await getAccounts();
+  // 첫번째 카드 가능한지 아닌지 -> swiper에서는 onslide에서만 감지하므로..
   const availableFirst = availableAccounts.includes(0) ? "가능" : "불가능";
   let detailItems = [];
   for (const item of items) {
@@ -496,6 +501,13 @@ export async function renderPurchasePages(items) {
     cartDetailItems.append(productTag, productContainer);
   }
 
+  // 선택가능한계좌면 색깔입히고, 클릭가능하게. 불가능하면 그 반대로.
+  const purchaseBtn = document.querySelector(".payment-cfm-btn button");
+  if (availableFirst === "불가능") {
+    purchaseBtn.style.filter = "grayscale(100%)";
+    purchaseBtn.style.pointerEvents = "none";
+  }
+
   //swiper를 여기에 선언해야 동작
   const accountSwiper = new Swiper(".account-swiper", {
     navigation: {
@@ -507,7 +519,6 @@ export async function renderPurchasePages(items) {
     spaceBetween: 30,
     on: {
       slideChange: function () {
-        console.log(availableIndex);
         const currentPayment = document.querySelector(".payment-selected");
         const available = availableIndex.includes(this.realIndex)
           ? "가능"
@@ -515,14 +526,54 @@ export async function renderPurchasePages(items) {
         currentPayment.textContent = `선택된 계좌: ${
           bankMatch[this.realIndex]
         } (${available})`;
+        if (available === "가능") {
+          purchaseBtn.style.filter = "grayscale(0%)";
+          purchaseBtn.style.pointerEvents = "auto";
+        } else {
+          purchaseBtn.style.filter = "grayscale(100%)";
+          purchaseBtn.style.pointerEvents = "none";
+        }
       },
     },
+  });
+  // 구매버튼 로직
+  purchaseBtn.addEventListener("click", async () => {
+    // 지금 현재 어떤 계좌에서 눌렀는지 확인해야함.
+    // 또한 여러개 구매도 대응해야함.
+    const currAccount = document.querySelector(
+      ".account-swiper .swiper-slide-active"
+    );
+    const curBankName =
+      bankMatch[currAccount.getAttribute("aria-label")[0] - 1];
+    let bankId = "";
+    let curAccountBal = 0;
+    for (const account of availableAccounts) {
+      if (account.bankName === curBankName) {
+        bankId = account.id;
+        curAccountBal = account.balance;
+        break;
+      }
+    }
+    // 여러개 구매를 위해 promise.all사용
+    // promise.all이 잘 안먹는다... 왜 이럴까 ㅜㅜ....
+    // 자 여기서. 구매를 할때 계좌잔액이 더 남아있는지 확인해야함.
+    if (curAccountBal >= totalPrice) {
+      for (const item of detailItems) {
+        await purchaseItems(bankId, item.id);
+      }
+      localStorage.setItem("purchase", "true");
+      alertModal(`거래가 정상적으로 이루어졌습니다.`);
+    } else {
+      localStorage.setItem("purchase", "false");
+      alertModal("계좌에 잔액이 부족합니다.");
+    }
   });
 
   // 결제 카드 렌더링하기.
   const paymentMethod = document.querySelector(".payment-method");
   const accountSelect = document.querySelector(".payment-method-select-card");
   const accountImgs = accountSelect.querySelectorAll("img");
+
   // 사용가능한 카드는 색깔을 입혀줌
   for (const account of availableAccounts) {
     accountImgs[bankCode[account.bankCode]].style.filter = "grayscale(0%)";
@@ -530,6 +581,7 @@ export async function renderPurchasePages(items) {
   }
   paymentMethod.after(accountSelect);
   accountSelect.style.display = "block";
+
   //우편번호 찾기
   const postalCodeBtnEl = document.querySelector(".postalcode-find-btn");
   const postcodeEl = document.getElementById("sample6_postcode");
