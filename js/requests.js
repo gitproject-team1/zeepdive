@@ -108,13 +108,8 @@ export async function authLogin() {
   );
   const json = await res.json();
   console.log("Response:", json);
-  if (token) {
-    loginBtnEl.addEventListener("click", async () => {
-      await logout();
-    });
-    // 로그인할 때 회원정보에 이름 들어가도록 만들기
-    userInfoName.value = json.displayName;
-  }
+  // 로그인할 때 회원정보에 이름 들어가도록 만들기
+  userInfoName.value = json.displayName;
   return json.email;
 }
 
