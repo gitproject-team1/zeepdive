@@ -600,3 +600,81 @@ main {
     }
   }
 }
+
+// 반응형
+// phones
+// 우선 랜딩페이지만
+@media (max-width: 575.98px) {
+  header {
+    .header-container {
+      nav {
+        h1 {
+          margin-left: 30px;
+          width: 210px;
+        }
+        .nav-1depth {
+          justify-content: normal !important;
+          li {
+            margin-right: 30px;
+            .search-box {
+              display: none;
+            }
+            &:first-child {
+              display: none;
+            }
+            button.login {
+              font-size: 8px !important;
+              width: 80px !important;
+            }
+            a.user-info-btn {
+              font-size: 12px !important;
+              width: 90px;
+            }
+          }
+        }
+      }
+    }
+  }
+  main {
+    .main-page {
+      .mySwiper1 {
+        display: none;
+      }
+      section.saleslist-container {
+        div.saleslist-header {
+          div.saleslist-header-main {
+            font-size: 16px;
+          }
+          div.saleslist-seemore {
+            a {
+              button {
+                padding: 8px;
+                font-size: 12px;
+              }
+            }
+          }
+        }
+        div.saleslist-comment {
+          font-size: 12px;
+        }
+        div.saleslist-itemlist {
+          div.itemlist {
+            div.itemlist-container {
+              div.itemlist-detail {
+                div.itemlist-tag {
+                  font-size: 6px;
+                }
+                div.itemlist-title {
+                  font-size: 8px;
+                }
+                div.itemlist-price {
+                  font-size: 8px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
