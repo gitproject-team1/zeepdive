@@ -536,7 +536,7 @@ export async function renderPurchasePages(items) {
       },
     },
   });
-
+  // 구매버튼 로직
   purchaseBtn.addEventListener("click", async () => {
     // 지금 현재 어떤 계좌에서 눌렀는지 확인해야함.
     // 또한 여러개 구매도 대응해야함.
@@ -557,7 +557,6 @@ export async function renderPurchasePages(items) {
     // 여러개 구매를 위해 promise.all사용
     // promise.all이 잘 안먹는다... 왜 이럴까 ㅜㅜ....
     // 자 여기서. 구매를 할때 계좌잔액이 더 남아있는지 확인해야함.
-
     if (curAccountBal >= totalPrice) {
       for (const item of detailItems) {
         await purchaseItems(bankId, item.id);

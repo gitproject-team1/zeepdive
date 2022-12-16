@@ -100,6 +100,10 @@ nameChangeBtn.addEventListener("click", async (event) => {
 // 변경 됐다는 모달창에 있는 확인 버튼
 userModalBtn.addEventListener("click", () => {
   userModal.classList.remove("show");
+  // 거래가 정상적으로 되면 홈으로 보냄.
+  if (location.hash.includes("#/purchase")) {
+    window.location.href = "/";
+  }
 });
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", pwchange);
