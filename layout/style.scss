@@ -7,7 +7,8 @@
 @import "recent.scss";
 
 header {
-  width: 100vw;
+  width: 100%;
+  // max-width: 100vw;
   height: 70px;
   position: sticky;
   top: 0;
@@ -17,12 +18,14 @@ header {
   background-color: #fff;
   .header-container {
     display: flex;
-    max-width: 1240px;
+    width: 100%;
     margin: 0 auto;
     height: 70px;
     nav {
+      justify-content: center;
       display: flex;
       align-items: center;
+      width: 100%;
       height: 100%;
       gap: 20px;
       h1 {
@@ -30,6 +33,9 @@ header {
         img {
           width: 100%;
         }
+      }
+      ul {
+        width: 100%;
       }
       & > ul.nav-1depth {
         font-size: 18px;
@@ -105,9 +111,12 @@ header {
             border-radius: 20px;
             overflow: hidden;
             background-color: rgb(247, 248, 249);
-            // padding-left: 20px;
+            padding-left: 20px;
             border: 1px solid rgb(197, 200, 206);
             button {
+              position: absolute;
+              top: 0;
+              left: 10px;
               background: inherit;
               border: none;
               box-shadow: none;
@@ -116,18 +125,15 @@ header {
               overflow: visible;
               cursor: pointer;
               i {
-                padding-left: 10px;
                 color: rgb(149, 154, 158);
                 font-size: 20px;
                 line-height: 40px;
-                width: 10%;
-                // min-width: 30px;
               }
             }
             #search-main {
               position: absolute;
               top: 0;
-              right: 0;
+              left: 40px;
               width: 90%;
               height: 100%;
               background-color: rgb(247, 248, 249);
@@ -428,6 +434,84 @@ main {
         text-align: center;
         margin-right: 35px;
         // margin-left: 65px;
+      }
+    }
+  }
+}
+
+// 반응형
+// phones
+// 우선 랜딩페이지만
+@media (max-width: 575.98px) {
+  header {
+    .header-container {
+      nav {
+        h1 {
+          margin-left: 30px;
+          width: 210px;
+        }
+        .nav-1depth {
+          justify-content: normal !important;
+          li {
+            margin-right: 30px;
+            .search-box {
+              display: none;
+            }
+            &:first-child {
+              display: none;
+            }
+            button.login {
+              font-size: 8px !important;
+              width: 80px !important;
+            }
+            a.user-info-btn {
+              font-size: 12px !important;
+              width: 90px;
+            }
+          }
+        }
+      }
+    }
+  }
+  main {
+    .main-page {
+      .mySwiper1 {
+        display: none;
+      }
+      section.saleslist-container {
+        div.saleslist-header {
+          div.saleslist-header-main {
+            font-size: 16px;
+          }
+          div.saleslist-seemore {
+            a {
+              button {
+                padding: 8px;
+                font-size: 12px;
+              }
+            }
+          }
+        }
+        div.saleslist-comment {
+          font-size: 12px;
+        }
+        div.saleslist-itemlist {
+          div.itemlist {
+            div.itemlist-container {
+              div.itemlist-detail {
+                div.itemlist-tag {
+                  font-size: 6px;
+                }
+                div.itemlist-title {
+                  font-size: 8px;
+                }
+                div.itemlist-price {
+                  font-size: 8px;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
