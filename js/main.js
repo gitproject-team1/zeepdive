@@ -15,7 +15,6 @@ import {
   renderCategoryPages,
   renderDetailPages,
   renderPurchasePages,
-  renderCartPurchase,
   renderCartPages,
 } from "./render.js";
 import {
@@ -192,11 +191,11 @@ async function router() {
     categorypgEl.style.display = "none";
     cartPgEl.style.display = "none";
     if (routePath.includes("#/purchase/cart")) {
-      await renderCartPurchase(cartIdArr);
+      await renderPurchasePages(cartIdArr);
       purchasepgEl.style.display = "block";
       return;
     }
-    await renderPurchasePages(routePath.split("/")[2]);
+    await renderPurchasePages([routePath.split("/")[2]]);
     purchasepgEl.style.display = "block";
     // 장바구니 페이지
   } else if (routePath.includes("#/cart")) {
