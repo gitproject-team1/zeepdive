@@ -8,8 +8,6 @@ import {
 } from "./requests.js";
 import {
   detailContainer,
-  userModalContent,
-  userModal,
   cartItems,
   singlePrice,
   deliveryPrice,
@@ -548,19 +546,26 @@ export async function renderPurchasePages(items) {
     const curBankName =
       bankMatch[currAccount.getAttribute("aria-label")[0] - 1];
     let bankId = "";
+    let curAccountBal = 0;
     for (const account of availableAccounts) {
       if (account.bankName === curBankName) {
         bankId = account.id;
+        curAccountBal = account.balance;
         break;
       }
     }
     // 여러개 구매를 위해 promise.all사용
     // promise.all이 잘 안먹는다... 왜 이럴까 ㅜㅜ....
-    // 자 여기서. 구매를 할때 계쫘잔액이 더 남아있는지 확인해야함.
-    for (const item of detailItems) {
-      await purchaseItems(bankId, item.id);
+    // 자 여기서. 구매를 할때 계좌잔액이 더 남아있는지 확인해야함.
+
+    if (curAccountBal >= totalPrice) {
+      for (const item of detailItems) {
+        await purchaseItems(bankId, item.id);
+      }
+      alertModal(`거래가 정상적으로 이루어졌습니다.`);
+    } else {
+      alertModal("계좌에 잔액이 부족합니다.");
     }
-    alert("거래완료");
   });
 
   // 결제 카드 렌더링하기.
