@@ -16,6 +16,7 @@ import {
   renderDetailPages,
   renderPurchasePages,
   renderCartPages,
+  renderQnA,
 } from "./render.js";
 import {
   submitEl,
@@ -130,9 +131,9 @@ async function router() {
     cartPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
     await renderMainItems();
-    mainPgEl.style.display = "none";
-    footerEl.style.display = "none";
-    qnaPgEl.style.display = "block";
+    mainPgEl.style.display = "block";
+    footerEl.style.display = "block";
+    qnaPgEl.style.display = "none";
     //회원정보 페이지
   } else if (routePath.includes("#/user")) {
     mainPgEl.style.display = "none";
@@ -230,6 +231,7 @@ async function router() {
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
     cartPgEl.style.display = "none";
+    await renderQnA();
     qnaPgEl.style.display = "block";
   }
 }
