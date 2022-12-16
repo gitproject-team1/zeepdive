@@ -32,12 +32,12 @@ import {
   searchInput,
   bankSubmitBtn,
   bankSelectEl,
-  accountListUl,
   removeSectionBtn,
   addSectionBtn,
   cartIcon,
   cartOrderBtn,
   cartItems,
+  userModalContent,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -248,3 +248,9 @@ cartOrderBtn.addEventListener("click", async () => {
   cartPgEl.style.display = "none";
   window.location.href = "#/purchase/cart";
 });
+
+// 경고 모달창 부르는 함수
+export function alertModal(errormsg) {
+  userModalContent.innerHTML = errormsg;
+  userModal.classList.add("show");
+}

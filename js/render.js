@@ -1,4 +1,4 @@
-import { mainPgEl } from "./main.js";
+import { alertModal, mainPgEl } from "./main.js";
 import { getItem, getDetailItem, authLogin, getAccounts } from "./requests.js";
 import {
   detailContainer,
@@ -257,15 +257,13 @@ export async function renderDetailPages(itemId) {
   optionBtn.addEventListener("click", () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      userModalContent.innerHTML = `로그인을 해주세요.`;
-      userModal.classList.add("show");
+      alertModal(`로그인을 해주세요.`);
     }
   });
   optionBuynow.addEventListener("click", () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      userModalContent.innerHTML = `로그인을 해주세요.`;
-      userModal.classList.add("show");
+      alertModal(`로그인을 해주세요.`);
     } else window.location = `#/purchase/${detailItem.id}`;
   });
 
@@ -282,23 +280,20 @@ export async function renderDetailPages(itemId) {
   optionCart.addEventListener("click", async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      userModalContent.innerHTML = `로그인을 해주세요.`;
-      userModal.classList.add("show");
+      alertModal(`로그인을 해주세요.`);
       return;
     }
     const email = await authLogin();
     const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
     for (const cartIdEl of cartIdArr) {
       if (cartIdEl === detailItem.id) {
-        userModalContent.innerHTML = `이미 장바구니에 담긴 상품입니다.`;
-        userModal.classList.add("show");
+        alertModal(`이미 장바구니에 담긴 상품입니다.`);
         return;
       }
     }
     cartIdArr.push(detailItem.id);
     localStorage.setItem(`cartId-${email}`, JSON.stringify(cartIdArr));
-    userModalContent.innerHTML = `장바구니에 상품을 담았습니다.`;
-    userModal.classList.add("show");
+    alertModal(`장바구니에 상품을 담았습니다.`);
   });
 }
 

@@ -1,10 +1,8 @@
-import { userModalContent, userModal } from "./store.js";
-import { renderCartPages } from "./render.js";
+import { alertModal } from "./main.js";
 export async function cartIconClick() {
   const token = localStorage.getItem("token");
   if (!token) {
-    userModalContent.innerHTML = `로그인을 해주세요.`;
-    userModal.classList.add("show");
+    alertModal(`로그인을 해주세요.`);
     return;
   }
   window.location = "#/cart";
