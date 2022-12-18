@@ -352,7 +352,7 @@
         </div>
       </div>
       <!--QnA 입력 모달-->
-      <div class="back-ground">배경 필터</div>
+      <div class="qna-back-ground">배경 필터</div>
       <div class="qna-modal">
         <h3>질문을 남겨주세요</h3>
         <p>확인하고 빠르게 답변을 남겨드릴게요</p>
@@ -366,19 +366,17 @@
                 <option value="3">기타문의</option>
               </select>
             </div>
-            <span class="select-error-msg">유형을 선택해 주세요.</span>
-
             <div class="qna-select-content">
-              <input
+              <textarea
                 class="qna-content"
-                placeholder="내용을 입력해 주세요(최대 1,000자)"
-              />
-            </div>
-            <span class="select-error-msg">내용을 작성해 주세요.</span>
-
-            <button type="submit" class="qna-submit-btn">등록하기</button>
-            <button type="button" class="qna-close-btn">취소하기</button>
-            <div class="qna-error-box">내용을 작성 해 주세요.</div>
+                placeholder="내용을 입력해 주세요 (최대 1,000자)"
+                maxlength="1000"
+              ></textarea>  
+              </div>
+              <div class="qna-button-container">
+                <button type="submit" class="qna-submit-btn">등록하기</button>
+                <button type="button" class="qna-close-btn">취소하기</button>
+               </div>
           </form>
         </article>
       </div>
