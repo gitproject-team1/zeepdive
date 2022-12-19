@@ -239,9 +239,9 @@ bankSelectEl.addEventListener("change", (event) => {
 
 const accountAddForm = document.querySelector(".add-form");
 bankSubmitBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
   await accountAddSubmit();
   await renderUserAccount();
-  event.preventDefault();
   accountAddForm.style.display = "none";
   loginModalEl.backGround.style.visibility = "hidden";
 });

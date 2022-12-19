@@ -205,6 +205,26 @@ export async function getAllPurchases() {
   console.log("Response:", json);
 }
 
+export async function editItemStatus(id, sold = true) {
+  const res = await fetch(
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        masterKey: "true",
+      },
+      body: JSON.stringify({
+        isSoldOut: sold,
+      }),
+    }
+  );
+  const json = await res.json();
+  console.log("Response:", json);
+}
+
 // 계좌관련 api
 
 export async function addAccount(code, accN, phoneN, sign) {

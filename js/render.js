@@ -8,6 +8,7 @@ import {
   postQna,
   deleteQna,
   purchaseItems,
+  editItemStatus,
 } from "./requests.js";
 import { detailContainer, cartEl } from "./store.js";
 import kbank from "../img/kbank.png";
@@ -181,7 +182,6 @@ export async function renderCategoryPages(category, search = "", sort = "new") {
 //상세페이지
 export async function renderDetailPages(itemId) {
   const detailItem = await getDetailItem(itemId);
-  console.log(detailItem);
   detailContainer.innerHTML = /* html */ `
   <div class="detail-view">
     <div class="thumnail">
@@ -256,6 +256,17 @@ export async function renderDetailPages(itemId) {
 
   `;
 
+  // 제품 품절이면 품절띄워야함
+  const buyBtn = document.querySelector(".buying-button");
+  if (detailItem.isSoldOut) {
+    buyBtn.innerHTML = /* html */ `
+        <div>
+          <button type="button" class="option-cart option-buynow" style="width:400px"; >상품이 품절되었습니다</button>
+        </div>
+    `;
+    document.querySelector(".option-cart").style.filter = "grayscale(100%)";
+    document.querySelector(".option-cart").style.pointerEvents = "none";
+  }
   const qnaSubmitRequestBtn = document.querySelector(".qna-submit-request-btn");
   qnaSubmitRequestBtn.addEventListener("click", () => {
     window.location = "#/qna";
@@ -560,6 +571,7 @@ export async function renderPurchasePages(items) {
     if (curAccountBal >= totalPrice) {
       for (const item of detailItems) {
         await purchaseItems(bankId, item.id);
+        await editItemStatus(item.id, true);
       }
       if (location.hash === "#/purchase/cart") {
         const email = await authLogin();
