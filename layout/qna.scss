@@ -1,8 +1,12 @@
+.qna-container-page {
+  display: none;
+}
 .qna-container {
   box-sizing: border-box;
   max-width: 1152px;
   margin: 0 auto;
-  padding: 50px 50px 100px 50px;
+  padding: 50px;
+  // height: 500px;
 
   .qna-container-title {
     display: flex;
