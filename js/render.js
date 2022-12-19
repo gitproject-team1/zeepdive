@@ -561,6 +561,10 @@ export async function renderPurchasePages(items) {
       for (const item of detailItems) {
         await purchaseItems(bankId, item.id);
       }
+      if (location.hash === "#/purchase/cart") {
+        const email = await authLogin();
+        localStorage.removeItem(`cartId-${email}`);
+      }
       localStorage.setItem("purchase", "true");
       alertModal(`거래가 정상적으로 이루어졌습니다.`);
     } else {
@@ -628,7 +632,6 @@ let itemsPrice = 0;
 export async function renderCartPages() {
   const email = await authLogin();
   const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
-  console.log(cartIdArr);
   if (cartIdArr.length === 0) {
     emptyCart();
     return;
