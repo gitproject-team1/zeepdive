@@ -164,6 +164,7 @@ export async function addItem({
   console.log("Response:", json);
 }
 
+// 상품 정보 갖고오기
 export async function getItem() {
   const res = await fetch(
     "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products",
@@ -182,6 +183,7 @@ export async function getItem() {
   return json;
 }
 
+// 상품 삭제 api
 export async function deleteItem(id) {
   const res = await fetch(
     `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
@@ -199,6 +201,7 @@ export async function deleteItem(id) {
   console.log("Response:", json);
 }
 
+// 상품 상세 정보 api
 export async function getDetailItem(id) {
   const res = await fetch(
     `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
@@ -216,6 +219,7 @@ export async function getDetailItem(id) {
   return json;
 }
 
+// 전체 거래내역 api
 export async function getAllPurchases() {
   const res = await fetch(
     `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/all `,
@@ -233,6 +237,7 @@ export async function getAllPurchases() {
   console.log("Response:", json);
 }
 
+// 상품 상태변경 api
 export async function editItemStatus(id, sold = true) {
   const res = await fetch(
     `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/${id}`,
@@ -253,6 +258,7 @@ export async function editItemStatus(id, sold = true) {
   console.log("Response:", json);
 }
 
+// 상품 검색 api
 export async function searchItem(name) {
   const res = await fetch(
     `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/search`,

@@ -7,9 +7,8 @@ import {
   userinfoClick,
   renderLoginModal,
 } from "./signup.js";
-import { authLogin, editUser, getDetailItem } from "./requests.js";
+import { authLogin, editUser } from "./requests.js";
 import { renderAdminItems } from "./admin.js";
-import { getItem } from "./requests.js";
 import {
   renderMainItems,
   renderCategoryPages,
@@ -33,7 +32,6 @@ import {
 } from "./store.js";
 import {
   renderUserAccount,
-  gnbBtnClick,
   bankSelelectEvent,
   accountAddSubmit,
   removeAccountFnc,
