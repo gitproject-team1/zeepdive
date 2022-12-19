@@ -19,26 +19,15 @@ import {
   renderQnA,
 } from "./render.js";
 import {
-  submitEl,
-  loginBtn,
-  loginBtnEl,
-  backGround,
-  userInfoName,
-  nameChangeBtn,
-  pwChangeBtn,
-  userModal,
-  userModalBtn,
-  userInfoBtn,
   searchForm,
   searchInput,
   bankSubmitBtn,
   bankSelectEl,
-  removeSectionBtn,
-  addSectionBtn,
-  cartIcon,
-  cartOrderBtn,
-  cartItems,
-  userModalContent,
+  signupEl,
+  loginEl,
+  loginModalEl,
+  userInfoEl,
+  cartEl,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -72,45 +61,42 @@ searchForm.addEventListener("submit", (event) => {
 export const detailPageEl = document.querySelector(".detail-container");
 
 firstNav.addEventListener("mouseover", () => {
-  backGround.style.visibility = "visible";
+  loginModalEl.backGround.style.visibility = "visible";
 });
 firstNav.addEventListener("mouseout", () => {
-  backGround.style.visibility = "hidden";
+  loginModalEl.backGround.style.visibility = "hidden";
 });
 
 // ============ 인증 관련 ============
 // 로그인/회원가입 모달 visibility 조정
-loginBtnEl.addEventListener("click", renderLoginModal);
+loginModalEl.loginBtnEl.addEventListener("click", renderLoginModal);
 // 회원가입 전송
-submitEl.addEventListener("submit", createSubmitEvent);
+signupEl.submitEl.addEventListener("submit", createSubmitEvent);
 // 로그인
-loginBtn.addEventListener("click", createLoginEvent);
+loginEl.loginBtn.addEventListener("click", createLoginEvent);
 // 로컬에 로그인 데이터 있는지 확인.
 (async () => {
   await autoLogin();
 })();
-// token이 없을 때 회원정보를 클릭하면 로그인을 하라고 모달창
-userInfoBtn.addEventListener("click", () => {
-  userinfoClick();
-});
 
 // ============ 인증 관련 : 회원정보 페이지 ============
-// 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
-nameChangeBtn.addEventListener("click", async (event) => {
+// 회원정보 클릭
+userInfoEl.userInfoBtn.addEventListener("click", userinfoClick);
+// 이름 변경
+userInfoEl.nameChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  if (userInfoName.value) await editUser("이름", userInfoName.value);
+  if (userInfoEl.userInfoName.value) await editUser("이름", userInfoEl.userInfoName.value);
 });
 // 변경 됐다는 모달창에 있는 확인 버튼
-userModalBtn.addEventListener("click", () => {
-  userModal.classList.remove("show");
+userInfoEl.userModalBtn.addEventListener("click", () => {
+  userInfoEl.userModal.classList.remove("show");
   // 거래가 정상적으로 되면 홈으로 보냄.
   if (location.hash.includes("#/purchase")) {
     if (localStorage.getItem("purchase") === "true") location.href = "/";
   }
 });
-
-// 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
-pwChangeBtn.addEventListener("click", pwchange);
+// 비밀번호 변경
+userInfoEl.pwChangeBtn.addEventListener("click", pwchange);
 
 // 카테고리창에서 sort option 변경될시 다시 렌더링 해야함.
 categorySort.addEventListener("change", async () => {
@@ -227,10 +213,10 @@ async function router() {
     detailPageEl.style.display = "none";
     categorypgEl.style.display = "none";
     purchasepgEl.style.display = "none";
-    cartItems.innerHTML = "";
+    qnaPgEl.style.display = "none";
+    cartEl.cartItems.innerHTML = "";
     await renderCartPages();
     cartPgEl.style.display = "block";
-    qnaPgEl.style.display = "none";
     // QnA 페이지
   } else if (routePath.includes("#/qna")) {
     mainPgEl.style.display = "none";
@@ -257,18 +243,18 @@ bankSubmitBtn.addEventListener("click", async (event) => {
   await renderUserAccount();
   event.preventDefault();
   accountAddForm.style.display = "none";
-  backGround.style.visibility = "hidden";
+  loginModalEl.backGround.style.visibility = "hidden";
 });
 const addAccountBtn = document.querySelector(".add-account");
 addAccountBtn.addEventListener("click", () => {
   accountAddForm.style.display = "flex";
-  backGround.style.visibility = "visible";
+  loginModalEl.backGround.style.visibility = "visible";
 });
 const closeBtn = document.querySelector(".bank-close-btn");
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
   accountAddForm.style.display = "none";
-  backGround.style.visibility = "hidden";
+  loginModalEl.backGround.style.visibility = "hidden";
 });
 renderUserAccount();
 
@@ -281,8 +267,8 @@ window.addEventListener("hashchange", renderRecent);
 renderRecent();
 
 // ============ 장바구니 ============
-cartIcon.addEventListener("click", cartIconClick);
-cartOrderBtn.addEventListener("click", async () => {
+cartEl.cartIcon.addEventListener("click", cartIconClick);
+cartEl.cartOrderBtn.addEventListener("click", async () => {
   const email = await authLogin();
   cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
   cartPgEl.style.display = "none";
@@ -291,6 +277,6 @@ cartOrderBtn.addEventListener("click", async () => {
 
 // 경고 모달창 부르는 함수
 export function alertModal(errormsg) {
-  userModalContent.textContent = errormsg;
-  userModal.classList.add("show");
+  userInfoEl.userModalContent.textContent = errormsg;
+  userInfoEl.userModal.classList.add("show");
 }
