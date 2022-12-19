@@ -23,15 +23,18 @@ import {
   signupRepwBox,
   exptext,
   signupErrorBox,
+  loginErrorBox,
 } from "./store.js";
 import { editUser, authLogin } from "./requests.js";
 import { alertModal } from "./main.js";
 import { logout } from "./requests.js";
+
 const state = {
   email: "",
   password: "",
   displayName: "",
 };
+
 // 로그인/회원가입 모달 visibility 조정
 export async function renderLoginModal() {
   if (loginBtnEl.textContent === "로그인/가입") {
@@ -74,29 +77,17 @@ export async function createSubmitEvent(event) {
   state.password = passwordInputEl.value;
   state.displayName = displayNameInputEl.value;
   if (
-    emailInputEl.value &&
-    passwordInputEl.value &&
-    passwordcheckEl.value &&
-    displayNameInputEl.value &&
-    passwordInputEl.value === passwordcheckEl.value
+    exptext.test(emailInputEl.value) &&
+    passwordInputEl.value.length >= 8 &&
+    passwordInputEl.value === passwordcheckEl.value &&
+    displayNameInputEl.value
   ) {
     await signup(state.email, state.password, state.displayName);
   } else {
     showErrorBox(signupErrorBox);
   }
 }
-// if (available === "가능") {
-//   purchaseBtn.style.filter = "grayscale(0%)";
-//   purchaseBtn.style.pointerEvents = "auto";
-// if (availableFirst === "불가능") {
-//   purchaseBtn.style.filter = "grayscale(100%)";
-//   purchaseBtn.style.pointerEvents = "none";
-// }
-const signupBtn = document.querySelector(".signup-button");
-function btnDisabled() {
-  signupBtn.style.filter = "grayscale(100%)";
-  signupBtn.style.pointerEvents = "none";
-}
+
 // 유효성 검사 스타일
 async function validationStyle(errormsg, type, element, color) {
   switch (type) {
@@ -112,16 +103,6 @@ async function validationStyle(errormsg, type, element, color) {
       break;
   }
 }
-
-// 로그인 시 유효성 검사
-loginId.addEventListener("focusout", () => {
-  if (loginId.value && !exptext.test(loginId.value)) {
-    validationStyle(idErrorMsg, "add", idboxEl, "#ed234b");
-  }
-});
-loginId.addEventListener("focusin", () => {
-  validationStyle(idErrorMsg, "remove", idboxEl, "#999");
-});
 
 // 회원가입 유효성 검사
 // 이메일
@@ -144,7 +125,7 @@ passwordInputEl.addEventListener("focusin", () => {
 });
 // 비밀번호 확인
 passwordcheckEl.addEventListener("focusout", () => {
-  if (passwordInputEl && passwordInputEl.value !== passwordcheckEl.value) {
+  if (passwordInputEl.value !== passwordcheckEl.value) {
     validationStyle(pwErrorMsg, "add", signupRepwBox, "#ed234b");
   }
 });
@@ -152,12 +133,14 @@ passwordcheckEl.addEventListener("focusin", () => {
   validationStyle(pwErrorMsg, "remove", signupRepwBox, "#333");
 });
 
-// 로그인 이벤트
+// 로그인
 export async function createLoginEvent(event) {
   event.preventDefault();
   state.email = loginId.value;
   state.password = loginPw.value;
-  await login(state.email, state.password);
+  if (exptext.test(loginId.value) && loginPw.value.length >= 8)
+    await login(state.email, state.password);
+  else showErrorBox(loginErrorBox);
 }
 
 // 로그인 실패 시 Error Box
@@ -168,7 +151,30 @@ export function showErrorBox(errorbox) {
   }, 1500);
 }
 
-// token이 없을 때 회원정보를 클릭하면 로그인을 하라고 모달창
+// 로그인 시 유효성 검사
+loginId.addEventListener("focusout", () => {
+  if (loginId.value && !exptext.test(loginId.value)) {
+    validationStyle(idErrorMsg, "add", idboxEl, "#ed234b");
+  }
+});
+loginId.addEventListener("focusin", () => {
+  validationStyle(idErrorMsg, "remove", idboxEl, "#999");
+});
+
+// 로컬에 로그인 데이터 있는지 확인.
+export async function autoLogin() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    loginBtnEl.textContent = "로그아웃";
+    await authLogin();
+  } else {
+    loginBtnEl.textContent = "로그인/가입";
+  }
+  // 만료시간 체크는 계속
+  getItemWithExpireTime("token");
+}
+
+// 회원정보 클릭
 export async function userinfoClick() {
   const token = localStorage.getItem("token");
   if (token) {
@@ -178,7 +184,7 @@ export async function userinfoClick() {
   }
 }
 
-// 회원정보 페이지 비밀번호 변경
+// 비밀번호 변경
 export async function pwchange(event) {
   event.preventDefault();
   if (!userInfoPw.value || !userInfoNewPw.value) {
@@ -194,48 +200,25 @@ export async function pwchange(event) {
 
 // 만료 시간과 함께 데이터를 저장
 export function setItemWithExpireTime(keyName, keyValue, tts) {
-  // localStorage에 저장할 객체
   const obj = {
     value: keyValue,
     expire: Date.now() + tts,
   };
-  // 객체를 JSON 문자열로 변환
   const objString = JSON.stringify(obj);
-  // setItem
   window.localStorage.setItem(keyName, objString);
 }
 
 // 만료 시간을 체크하며 데이터 읽기
 export function getItemWithExpireTime(keyName) {
-  // localStorage 값 읽기(문자열)
   const objString = window.localStorage.getItem(keyName);
-  // null 체크
   if (!objString) {
     return null;
   }
-  // 문자열을 객체로 변환
   const obj = JSON.parse(objString);
-  // 현재시간과 localStorage의 expire 시간 비교
   if (Date.now() > obj.expire) {
-    // 만료시간이 지난 item 삭제
     window.localStorage.removeItem(keyName);
     loginBtnEl.textContent = "로그인/가입";
-    // null 리턴
     return null;
   }
-  // 만료기간이 남아있는 경우, value 값 리턴
   return obj.value;
-}
-
-// 로컬에 로그인 데이터 있는지 확인.
-export async function autoLogin() {
-  const token = localStorage.getItem("token");
-  if (token) {
-    loginBtnEl.textContent = "로그아웃";
-    await authLogin();
-  } else {
-    loginBtnEl.textContent = "로그인/가입";
-  }
-  // 만료시간 체크는 계속
-  getItemWithExpireTime("token");
 }

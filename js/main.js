@@ -88,13 +88,11 @@ loginBtn.addEventListener("click", createLoginEvent);
 (async () => {
   await autoLogin();
 })();
-// token이 없을 때 회원정보를 클릭하면 로그인을 하라고 모달창
-userInfoBtn.addEventListener("click", () => {
-  userinfoClick();
-});
 
 // ============ 인증 관련 : 회원정보 페이지 ============
-// 이름 옆에 변경 버튼 누르면 이름 변경되도록 만들기
+// 회원정보 클릭
+userInfoBtn.addEventListener("click", userinfoClick);
+// 이름 변경
 nameChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   if (userInfoName.value) await editUser("이름", userInfoName.value);
@@ -107,8 +105,7 @@ userModalBtn.addEventListener("click", () => {
     if (localStorage.getItem("purchase") === "true") location.href = "/";
   }
 });
-
-// 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
+// 비밀번호 변경
 pwChangeBtn.addEventListener("click", pwchange);
 
 // 초기화면(새로고침, 화면진입) 렌더
