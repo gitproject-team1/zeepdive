@@ -1,10 +1,11 @@
 import { alertModal } from "./main.js";
 import { setItemWithExpireTime, showErrorBox } from "./signup.js";
-import { loginBtnEl, userInfoName, loginErrorBox, emailOverlapError } from "./store.js";
+import { signupEl, loginEl, loginModalEl, userInfoEl } from "./store.js";
 
 const API_KEY = `FcKdtJs202209`;
 const USER_NAME = `imyeji`;
 
+// ========== 인증 관련 api ==========
 // 회원가입 api
 export async function signup(email, password, displayName) {
   const res = await fetch("https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/signup", {
@@ -21,7 +22,7 @@ export async function signup(email, password, displayName) {
     }),
   });
   if (!res.ok) {
-    showErrorBox(emailOverlapError);
+    showErrorBox(signupEl.emailOverlapError);
     return;
   }
   location.reload();
@@ -47,7 +48,7 @@ export async function login(email, password) {
     setItemWithExpireTime("token", json.accessToken, 86400000);
     location.reload();
   } else {
-    showErrorBox(loginErrorBox);
+    showErrorBox(loginEl.loginErrorBox);
   }
 }
 
@@ -66,26 +67,28 @@ export async function logout() {
   });
   window.localStorage.removeItem("token");
   window.location = "/";
-  loginBtnEl.textContent = "로그인/가입";
+  loginModalEl.loginBtnEl.textContent = "로그인/가입";
 }
 
 // 인증 확인 api
 export async function authLogin() {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
-  const res = await fetch("https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      apikey: API_KEY,
-      username: USER_NAME,
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const json = await res.json();
-  // 로그인할 때 회원정보에 이름 들어가도록 만들기
-  userInfoName.value = json.displayName;
-  return json.email;
+  if (token) {
+    const res = await fetch("https://asia-northeast3-heropy-api.cloudfunctions.net/api/auth/me", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        apikey: API_KEY,
+        username: USER_NAME,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const json = await res.json();
+    // 로그인할 때 회원정보에 이름 들어가도록 만들기
+    userInfoEl.userInfoName.value = json.displayName;
+    return json.email;
+  }
 }
 
 // 사용자 정보 수정 api

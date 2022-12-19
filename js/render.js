@@ -9,13 +9,7 @@ import {
   deleteQna,
   purchaseItems,
 } from "./requests.js";
-import {
-  detailContainer,
-  cartItems,
-  singlePrice,
-  deliveryPrice,
-  totalPrice,
-} from "./store.js";
+import { detailContainer, cartEl } from "./store.js";
 import kbank from "../img/kbank.png";
 import hana from "../img/hana.png";
 import kakao from "../img/kakao.png";
@@ -63,12 +57,7 @@ async function filterCategories(search = "") {
 //메인 페이지 아이템 렌더링
 export async function renderMainItems() {
   const filteredItems = await filterCategories();
-  const tagsEl = [
-    filteredItems[0],
-    filteredItems[1],
-    filteredItems[2],
-    filteredItems[3],
-  ];
+  const tagsEl = [filteredItems[0], filteredItems[1], filteredItems[2], filteredItems[3]];
   const itemTitlesArray = [
     "연말느낌 물씬, 크리스마스🎅",
     "초록을 담은 플랜테리어🌿",
@@ -118,9 +107,7 @@ export async function renderMainItems() {
 				<div class="itemlist-detail">
 					<div class="itemlist-tag">${tagsEl[Math.floor(i)][j].tags}</div>
 					<div class="itemlist-title">${tagsEl[Math.floor(i)][j].title}</div>
-					<div class="itemlist-price">${tagsEl[Math.floor(i)][
-            j
-          ].price.toLocaleString()}원</div>
+					<div class="itemlist-price">${tagsEl[Math.floor(i)][j].price.toLocaleString()}원</div>
 				</div>
         </a>
 			</div>
@@ -182,9 +169,7 @@ export async function renderCategoryPages(category, search = "", sort = "new") {
       <div class="itemlist-detail">
         <div class="itemlist-tag">${sortedItems[j].tags}</div>
         <div class="itemlist-title">${sortedItems[j].title}</div>
-        <div class="itemlist-price">${sortedItems[
-          j
-        ].price.toLocaleString()}원</div>
+        <div class="itemlist-price">${sortedItems[j].price.toLocaleString()}원</div>
       </div>
       </a>
     </div>
@@ -542,12 +527,8 @@ export async function renderPurchasePages(items) {
     on: {
       slideChange: function () {
         const currentPayment = document.querySelector(".payment-selected");
-        const available = availableIndex.includes(this.realIndex)
-          ? "가능"
-          : "불가능";
-        currentPayment.textContent = `선택된 계좌: ${
-          bankMatch[this.realIndex]
-        } (${available})`;
+        const available = availableIndex.includes(this.realIndex) ? "가능" : "불가능";
+        currentPayment.textContent = `선택된 계좌: ${bankMatch[this.realIndex]} (${available})`;
         if (available === "가능") {
           purchaseBtn.style.filter = "grayscale(0%)";
           purchaseBtn.style.pointerEvents = "auto";
@@ -562,11 +543,8 @@ export async function renderPurchasePages(items) {
   purchaseBtn.addEventListener("click", async () => {
     // 지금 현재 어떤 계좌에서 눌렀는지 확인해야함.
     // 또한 여러개 구매도 대응해야함.
-    const currAccount = document.querySelector(
-      ".account-swiper .swiper-slide-active"
-    );
-    const curBankName =
-      bankMatch[currAccount.getAttribute("aria-label")[0] - 1];
+    const currAccount = document.querySelector(".account-swiper .swiper-slide-active");
+    const curBankName = bankMatch[currAccount.getAttribute("aria-label")[0] - 1];
     let bankId = "";
     let curAccountBal = 0;
     for (const account of availableAccounts) {
@@ -628,8 +606,7 @@ export async function renderPurchasePages(items) {
             extraAddr += data.bname;
           }
           if (data.buildingName !== "" && data.apartment === "Y") {
-            extraAddr +=
-              extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
+            extraAddr += extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
           }
           if (extraAddr !== "") {
             extraAddr = " (" + extraAddr + ")";
@@ -686,7 +663,7 @@ export async function renderCartPages() {
         />
           `;
     itemsPrice += item.price;
-    cartItems.appendChild(element);
+    cartEl.cartItems.appendChild(element);
     const cartDelete = element.querySelector(".cart-delete");
     cartDelete.addEventListener("click", (event) => {
       deleteCartItems(event);
@@ -697,12 +674,12 @@ export async function renderCartPages() {
 
 function renderPrice() {
   let deliveryFee = 3500;
-  singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
+  cartEl.singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
   if (itemsPrice >= 100000) {
     deliveryFee = 0;
-    deliveryPrice.textContent = `${deliveryFee}원`;
-  } else deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
-  totalPrice.textContent =
+    cartEl.deliveryPrice.textContent = `${deliveryFee}원`;
+  } else cartEl.deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
+  cartEl.totalPrice.textContent =
     (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
 }
 
@@ -711,7 +688,7 @@ async function deleteCartItems(event) {
   const incartPrice = event.currentTarget.previousElementSibling.innerHTML;
   const num = /[^0-9]/g;
   itemsPrice = itemsPrice - incartPrice.replace(num, "");
-  cartItems.removeChild(incartItem);
+  cartEl.cartItems.removeChild(incartItem);
   const email = await authLogin();
   const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
   const arr = cartIdArr.filter((cartIdEl) => {
@@ -727,12 +704,12 @@ async function deleteCartItems(event) {
 }
 
 function emptyCart() {
-  cartItems.innerHTML = /* html */ `
+  cartEl.cartItems.innerHTML = /* html */ `
   <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
   `;
-  singlePrice.textContent = "0원";
-  deliveryPrice.textContent = "0원";
-  totalPrice.textContent = "0원";
+  cartEl.singlePrice.textContent = "0원";
+  cartEl.deliveryPrice.textContent = "0원";
+  cartEl.totalPrice.textContent = "0원";
 }
 
 //QnA 페이지
@@ -809,7 +786,5 @@ function qnaModalOpen() {
 async function renderQnaList() {
   const qnaItems = await getQnA();
   qnaTableContent.innerHTML = "";
-  qnaItems.forEach((qnaItem) =>
-    renderQnA(qnaItem.title, qnaItem.createdAt, qnaItem.id)
-  );
+  qnaItems.forEach((qnaItem) => renderQnA(qnaItem.title, qnaItem.createdAt, qnaItem.id));
 }
