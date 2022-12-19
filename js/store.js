@@ -12,6 +12,7 @@ export const passwordcheckEl = document.getElementById("signup-repw");
 export const displayNameInputEl = document.getElementById("signup-name");
 export const signupErrorBox = document.querySelector(".signup-error-box");
 export const emailOverlapError = document.querySelector(".email-overlap-error");
+
 // login elements
 export const loginErrorBox = document.querySelector(".login-error-box");
 export const loginBtn = document.querySelector(".login-btn");
@@ -48,14 +49,10 @@ export const userModalContent = document.querySelector(".user-modal-content");
 export const userInfoBtn = document.querySelector(".user-info-btn");
 
 //관리자페이지
-export const adminThumbnailFile = document.getElementById(
-  "admin-info-thumbnail"
-);
+export const adminThumbnailFile = document.getElementById("admin-info-thumbnail");
 export const adminImgFile = document.getElementById("admin-info-img");
 export const addItemBtn = document.querySelector(".submit-item");
-export const adminItemsEl = document.querySelector(
-  ".total-items > .item-container"
-);
+export const adminItemsEl = document.querySelector(".total-items > .item-container");
 
 //상세페이지
 export const detailContainer = document.querySelector(".detail-container");

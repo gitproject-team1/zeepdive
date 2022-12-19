@@ -40,7 +40,7 @@ export async function renderLoginModal() {
     document.querySelector(".close-login").addEventListener("click", () => {
       backGround.style.visibility = "hidden";
       loginModal.style.visibility = "hidden";
-      validationStyle(idErrorMsg, "remove");
+      validationStyle(idErrorMsg, "remove", idboxEl, "#999");
       loginId.value = "";
       loginPw.value = "";
     });
@@ -54,6 +54,8 @@ export async function renderLoginModal() {
         validationStyle(emailErrorMsg, "remove", singupEmailBox, "#333");
         validationStyle(pwLengthMsg, "remove", signupPwBox, "#333");
         validationStyle(pwErrorMsg, "remove", signupRepwBox, "#333");
+        loginId.value = "";
+        loginPw.value = "";
         emailInputEl.value = "";
         passwordInputEl.value = "";
         passwordcheckEl.value = "";
@@ -65,14 +67,11 @@ export async function renderLoginModal() {
   }
 }
 
-// 회원가입 이벤트
+// 회원가입 전송
 export async function createSubmitEvent(event) {
   event.preventDefault();
-  // 이메일
   state.email = emailInputEl.value;
-  // 비밀번호
   state.password = passwordInputEl.value;
-  // 사용자 이름
   state.displayName = displayNameInputEl.value;
   if (
     emailInputEl.value &&
@@ -86,7 +85,18 @@ export async function createSubmitEvent(event) {
     showErrorBox(signupErrorBox);
   }
 }
-
+// if (available === "가능") {
+//   purchaseBtn.style.filter = "grayscale(0%)";
+//   purchaseBtn.style.pointerEvents = "auto";
+// if (availableFirst === "불가능") {
+//   purchaseBtn.style.filter = "grayscale(100%)";
+//   purchaseBtn.style.pointerEvents = "none";
+// }
+const signupBtn = document.querySelector(".signup-button");
+function btnDisabled() {
+  signupBtn.style.filter = "grayscale(100%)";
+  signupBtn.style.pointerEvents = "none";
+}
 // 유효성 검사 스타일
 async function validationStyle(errormsg, type, element, color) {
   switch (type) {
@@ -179,12 +189,7 @@ export async function pwchange(event) {
     alertModal(`비밀번호를 8자리 이상 입력해주세요.`);
     return;
   }
-  await editUser(
-    "비밀번호",
-    userInfoName.value,
-    userInfoPw.value,
-    userInfoNewPw.value
-  );
+  await editUser("비밀번호", userInfoName.value, userInfoPw.value, userInfoNewPw.value);
 }
 
 // 만료 시간과 함께 데이터를 저장

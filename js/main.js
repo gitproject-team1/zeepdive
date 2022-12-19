@@ -130,10 +130,10 @@ async function router() {
     categorypgEl.style.display = "none";
     cartPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    qnaPgEl.style.display = "none";
     await renderMainItems();
     mainPgEl.style.display = "block";
     footerEl.style.display = "block";
-    qnaPgEl.style.display = "none";
     //회원정보 페이지
   } else if (routePath.includes("#/user")) {
     mainPgEl.style.display = "none";
@@ -242,7 +242,7 @@ bankSelectEl.addEventListener("change", (event) => {
   event.preventDefault();
 });
 
-const accountAddForm = document.querySelector('.add-form')
+const accountAddForm = document.querySelector(".add-form");
 bankSubmitBtn.addEventListener("click", async (event) => {
   await accountAddSubmit();
   await renderUserAccount();
@@ -250,19 +250,18 @@ bankSubmitBtn.addEventListener("click", async (event) => {
   accountAddForm.style.display = "none";
   backGround.style.visibility = "hidden";
 });
-const addAccountBtn = document.querySelector('.add-account')
-addAccountBtn.addEventListener('click',()=>{
+const addAccountBtn = document.querySelector(".add-account");
+addAccountBtn.addEventListener("click", () => {
   accountAddForm.style.display = "flex";
   backGround.style.visibility = "visible";
-})
-const closeBtn = document.querySelector('.bank-close-btn')
+});
+const closeBtn = document.querySelector(".bank-close-btn");
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
   accountAddForm.style.display = "none";
   backGround.style.visibility = "hidden";
-})
+});
 renderUserAccount();
-
 
 const removeAccountBtn = document.querySelector(".remove-account");
 removeAccountBtn.addEventListener("click", () => {

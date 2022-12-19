@@ -33,7 +33,6 @@ export async function signup(email, password, displayName) {
     return;
   }
   const json = await res.json();
-  console.log("Response:", json);
   location.reload();
 }
 
@@ -56,7 +55,6 @@ export async function login(email, password) {
   );
   if (res.ok) {
     const json = await res.json();
-    console.log("Response:", json);
     // locaStorage에 24시간 만료시간을 설정하고 데이터 저장
     setItemWithExpireTime("token", json.accessToken, 86400000);
     location.reload();
@@ -82,10 +80,7 @@ export async function logout() {
     }
   );
   const json = await res.json();
-  console.log("Response:", json);
   window.localStorage.removeItem("token");
-  location.reload();
-  // 만약에 #/user에서 로그아웃을 하면 / 로 나오게 하기
   window.location = "/";
   loginBtnEl.textContent = "로그인/가입";
 }
@@ -107,7 +102,6 @@ export async function authLogin() {
     }
   );
   const json = await res.json();
-  console.log("Response:", json);
   // 로그인할 때 회원정보에 이름 들어가도록 만들기
   userInfoName.value = json.displayName;
   return json.email;
@@ -136,7 +130,6 @@ export async function editUser(content, displayName, oldPassword, newPassword) {
   );
   if (res.ok) {
     const json = await res.json();
-    console.log("Response:", json);
     alertModal(`${content} 변경이 완료되었습니다.`);
   } else {
     alertModal(`${content}가 일치하지 않습니다.`);
