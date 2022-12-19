@@ -728,6 +728,8 @@ const qnaModal = document.querySelector(".qna-modal");
 const backgroundFilter = document.querySelector(".back-ground");
 const qnaSubmitBtnEl = document.querySelector(".qna-submit-btn");
 const qnaInputEl = document.querySelector(".qna-content");
+const selectOptionBtn = document.querySelector(".selected-option");
+const qnaErrorMsg = document.querySelector(".select-error-msg");
 
 requsetBtnEl.addEventListener("click", qnaModalOpen);
 qnaSubmitBtnEl.addEventListener("click", addQna);
@@ -769,6 +771,10 @@ export const renderQnA = async () => {
 async function addQna(event) {
   event.preventDefault();
   const qnaTitle = qnaInputEl.value.trim();
+  if (selectOptionBtn.value === "selected" || qnaInputEl.value === "") {
+    alertModal("내용을 모두 기입 해주세요");
+    return;
+  }
   const qnaItem = await postQna(qnaTitle);
   const { title, createdAt, id } = qnaItem;
   renderQnA();
