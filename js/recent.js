@@ -1,5 +1,5 @@
 import { getDetailItem } from "./requests.js";
-export const local = window.localStorage;
+export const local = localStorage;
 // const recentlyViewEl = document.querySelector('.recently-veiw')
 const recentlyViewUlEl = document.querySelector(".recently-view-list");
 
