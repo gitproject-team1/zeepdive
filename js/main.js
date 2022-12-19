@@ -17,6 +17,7 @@ import {
   renderPurchasePages,
   renderCartPages,
   renderQnA,
+  routerInit,
 } from "./render.js";
 import {
   searchForm,
@@ -28,6 +29,7 @@ import {
   loginModalEl,
   userInfoEl,
   cartEl,
+  pageEl,
 } from "./store.js";
 import {
   renderUserAccount,
@@ -42,23 +44,13 @@ import { renderRecent, recentItemSet } from "./recent";
 const ADMIN_EMAIL = `hyochofriend@naver.com`;
 let cartIdArr = "";
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
-export const mainPgEl = document.querySelector(".main-page");
-const userPgEl = document.querySelector(".user-page");
-const adminPgEl = document.querySelector(".admin-page");
-const footerEl = document.querySelector("footer");
-const categorypgEl = document.querySelector(".category-page");
-export const purchasepgEl = document.querySelector(".purchase-page");
-export const cartPgEl = document.querySelector(".cart-page");
-const qnaPgEl = document.querySelector(".qna-container-page");
 const categorySort = document.querySelector(".selector");
+const footerEl = document.querySelector("footer");
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
-  window.location.href = `#/furniture/all/${searchInput.value}`;
+  location.href = `#/furniture/all/${searchInput.value}`;
 });
-
-//상세페이지
-export const detailPageEl = document.querySelector(".detail-container");
 
 firstNav.addEventListener("mouseover", () => {
   loginModalEl.backGround.style.visibility = "visible";
@@ -119,116 +111,65 @@ async function router() {
   const routePath = location.hash;
   // 초기화면
   if (routePath === "") {
-    detailPageEl.style.display = "none";
-    mainPgEl.style.display = "none";
-    userPgEl.style.display = "none";
-    adminPgEl.style.display = "none";
+    routerInit();
     footerEl.style.display = "none";
-    categorypgEl.style.display = "none";
-    cartPgEl.style.display = "none";
-    purchasepgEl.style.display = "none";
-    qnaPgEl.style.display = "none";
     await renderMainItems();
-    mainPgEl.style.display = "block";
+    pageEl.mainPgEl.style.display = "block";
     footerEl.style.display = "block";
     //회원정보 페이지
   } else if (routePath.includes("#/user")) {
-    mainPgEl.style.display = "none";
-    userPgEl.style.display = "block";
-    adminPgEl.style.display = "none";
-    detailPageEl.style.display = "none";
-    categorypgEl.style.display = "none";
-    purchasepgEl.style.display = "none";
-    cartPgEl.style.display = "none";
-    qnaPgEl.style.display = "none";
+    routerInit();
+    pageEl.userPgEl.style.display = "block";
     //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
-    mainPgEl.style.display = "none";
-    userPgEl.style.display = "none";
-    adminPgEl.style.display = "none";
-    purchasepgEl.style.display = "none";
-    categorypgEl.style.display = "none";
-    recentItemSet();
+    routerInit();
+    await recentItemSet();
     // id url에서 파싱해서 넘김
     await renderDetailPages(routePath.split("/")[2]);
-    detailPageEl.style.display = "block";
-    categorypgEl.style.display = "none";
-    cartPgEl.style.display = "none";
-    qnaPgEl.style.display = "none";
+    pageEl.detailPageEl.style.display = "block";
     //관리자 페이지
   } else if (routePath.includes("#/admin")) {
     // 관리자인지 확인
     const email = await authLogin();
-    detailPageEl.style.display = "none";
-    categorypgEl.style.display = "none";
-    purchasepgEl.style.display = "none";
-    cartPgEl.style.display = "none";
     //만약 관리자라면,
     if (email === ADMIN_EMAIL) {
-      mainPgEl.style.display = "none";
-      userPgEl.style.display = "none";
-      adminPgEl.style.display = "block";
-      renderAdminItems();
+      routerInit();
+      await renderAdminItems();
+      pageEl.adminPgEl.style.display = "block";
     } else {
       // 허가되지 않은 사용자면 -> alert띄운다
       alert("허용되지 않은 접근입니다.");
     }
     //category 분류 페이지
   } else if (routePath.includes("#/furniture")) {
-    detailPageEl.style.display = "none";
-    mainPgEl.style.display = "none";
-    userPgEl.style.display = "none";
-    adminPgEl.style.display = "none";
-    purchasepgEl.style.display = "none";
-    cartPgEl.style.display = "none";
-    qnaPgEl.style.display = "none";
+    routerInit();
     // category url에서 파싱
     const category = routePath.split("/")[2];
     let searchKeyword = routePath.split("/")[3];
     searchKeyword = decodeURIComponent(searchKeyword);
     await renderCategoryPages(category, searchKeyword, "new");
-    categorypgEl.style.display = "block";
-    cartPgEl.style.display = "none";
-    qnaPgEl.style.display = "none";
+    pageEl.categorypgEl.style.display = "block";
     // 제품 구매 페이지
   } else if (routePath.includes("#/purchase")) {
-    detailPageEl.style.display = "none";
-    mainPgEl.style.display = "none";
-    userPgEl.style.display = "none";
-    adminPgEl.style.display = "none";
-    categorypgEl.style.display = "none";
-    cartPgEl.style.display = "none";
-    qnaPgEl.style.display = "none";
+    routerInit();
     if (routePath.includes("#/purchase/cart")) {
       await renderPurchasePages(cartIdArr);
-      purchasepgEl.style.display = "block";
+      pageEl.purchasepgEl.style.display = "block";
       return;
     }
     await renderPurchasePages([routePath.split("/")[2]]);
-    purchasepgEl.style.display = "block";
+    pageEl.purchasepgEl.style.display = "block";
     // 장바구니 페이지
   } else if (routePath.includes("#/cart")) {
-    mainPgEl.style.display = "none";
-    userPgEl.style.display = "none";
-    adminPgEl.style.display = "none";
-    detailPageEl.style.display = "none";
-    categorypgEl.style.display = "none";
-    purchasepgEl.style.display = "none";
-    qnaPgEl.style.display = "none";
+    routerInit();
     cartEl.cartItems.innerHTML = "";
     await renderCartPages();
-    cartPgEl.style.display = "block";
+    pageEl.cartPgEl.style.display = "block";
     // QnA 페이지
   } else if (routePath.includes("#/qna")) {
-    mainPgEl.style.display = "none";
-    userPgEl.style.display = "none";
-    adminPgEl.style.display = "none";
-    detailPageEl.style.display = "none";
-    categorypgEl.style.display = "none";
-    purchasepgEl.style.display = "none";
-    cartPgEl.style.display = "none";
+    routerInit();
     await renderQnA();
-    qnaPgEl.style.display = "block";
+    pageEl.qnaPgEl.style.display = "block";
   }
 }
 
@@ -260,8 +201,8 @@ closeBtn.addEventListener("click", (event) => {
 renderUserAccount();
 
 const removeAccountBtn = document.querySelector(".remove-account");
-removeAccountBtn.addEventListener("click", () => {
-  removeAccountFnc();
+removeAccountBtn.addEventListener("click", async () => {
+  await removeAccountFnc();
 });
 
 window.addEventListener("hashchange", renderRecent);
@@ -272,8 +213,8 @@ cartEl.cartIcon.addEventListener("click", cartIconClick);
 cartEl.cartOrderBtn.addEventListener("click", async () => {
   const email = await authLogin();
   cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
-  cartPgEl.style.display = "none";
-  window.location.href = "#/purchase/cart";
+  pageEl.cartPgEl.style.display = "none";
+  location.href = "#/purchase/cart";
 });
 
 // 경고 모달창 부르는 함수

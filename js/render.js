@@ -1,4 +1,4 @@
-import { alertModal, mainPgEl } from "./main.js";
+import { alertModal } from "./main.js";
 import {
   getItem,
   getDetailItem,
@@ -11,7 +11,7 @@ import {
   editItemStatus,
   searchItem,
 } from "./requests.js";
-import { detailContainer, cartEl } from "./store.js";
+import { detailContainer, cartEl, pageEl } from "./store.js";
 import kbank from "../img/kbank.png";
 import hana from "../img/hana.png";
 import kakao from "../img/kakao.png";
@@ -120,7 +120,7 @@ export async function renderMainItems() {
 			`;
       itemList.appendChild(itemListContainer);
     }
-    mainPgEl.append(saleslistContainer);
+    pageEl.mainPgEl.append(saleslistContainer);
   }
 }
 
@@ -276,7 +276,7 @@ export async function renderDetailPages(itemId) {
   }
   const qnaSubmitRequestBtn = document.querySelector(".qna-submit-request-btn");
   qnaSubmitRequestBtn.addEventListener("click", () => {
-    window.location = "#/qna";
+    location.href = "#/qna";
   });
 
   const optionBtn = document.querySelector(".option-cart");
@@ -293,7 +293,7 @@ export async function renderDetailPages(itemId) {
     const token = localStorage.getItem("token");
     if (!token) {
       alertModal(`로그인을 해주세요.`);
-    } else window.location = `#/purchase/${detailItem.id}`;
+    } else location.href = `#/purchase/${detailItem.id}`;
   });
 
   // 배송/환불/교환 관련 사진으로 바로 보내줌
@@ -819,4 +819,11 @@ async function renderQnaList() {
   qnaItems.forEach((qnaItem) =>
     renderQnA(qnaItem.title, qnaItem.createdAt, qnaItem.id)
   );
+}
+
+// main.js에서 라우터 조절하는 function
+export function routerInit() {
+  for (let page in pageEl) {
+    pageEl[page].style.display = "none";
+  }
 }

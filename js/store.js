@@ -4,6 +4,18 @@ export const itemTagsEls = document.querySelectorAll(".itemlist-tag");
 export const itemTitleEls = document.querySelectorAll(".itemlist-title");
 export const itemPriceEls = document.querySelectorAll(".itemlist-price");
 
+// page elements
+export const pageEl = {
+  detailPageEl: document.querySelector(".detail-container"),
+  mainPgEl: document.querySelector(".main-page"),
+  adminPgEl: document.querySelector(".admin-page"),
+  userPgEl: document.querySelector(".user-page"),
+  categorypgEl: document.querySelector(".category-page"),
+  purchasepgEl: document.querySelector(".purchase-page"),
+  cartPgEl: document.querySelector(".cart-page"),
+  qnaPgEl: document.querySelector(".qna-container-page"),
+};
+
 // signup elements
 export const signupEl = {
   submitEl: document.getElementById("frm"),
@@ -58,10 +70,14 @@ export const userInfoEl = {
 };
 
 //관리자페이지
-export const adminThumbnailFile = document.getElementById("admin-info-thumbnail");
+export const adminThumbnailFile = document.getElementById(
+  "admin-info-thumbnail"
+);
 export const adminImgFile = document.getElementById("admin-info-img");
 export const addItemBtn = document.querySelector(".submit-item");
-export const adminItemsEl = document.querySelector(".total-items > .item-container");
+export const adminItemsEl = document.querySelector(
+  ".total-items > .item-container"
+);
 
 //상세페이지
 export const detailContainer = document.querySelector(".detail-container");

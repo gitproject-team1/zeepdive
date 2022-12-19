@@ -74,8 +74,8 @@ export async function logout() {
       },
     }
   );
-  window.localStorage.removeItem("token");
-  window.location = "/";
+  localStorage.removeItem("token");
+  location.href = "/";
   loginModalEl.loginBtnEl.textContent = "로그인/가입";
 }
 
