@@ -60,7 +60,8 @@ const footerEl = document.querySelector("footer");
 const categorypgEl = document.querySelector(".category-page");
 export const purchasepgEl = document.querySelector(".purchase-page");
 export const cartPgEl = document.querySelector(".cart-page");
-const qnaPgEl = document.querySelector(".qna-page");
+const qnaPgEl = document.querySelector(".qna-container-page");
+const categorySort = document.querySelector(".selector");
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
@@ -107,6 +108,15 @@ userModalBtn.addEventListener("click", () => {
 });
 // 비밀번호 변경
 pwChangeBtn.addEventListener("click", pwchange);
+
+// 카테고리창에서 sort option 변경될시 다시 렌더링 해야함.
+categorySort.addEventListener("change", async () => {
+  const routePath = location.hash;
+  const category = routePath.split("/")[2];
+  let searchKeyword = routePath.split("/")[3];
+  searchKeyword = decodeURIComponent(searchKeyword);
+  await renderCategoryPages(category, searchKeyword, categorySort.value);
+});
 
 // 초기화면(새로고침, 화면진입) 렌더
 router();
@@ -183,11 +193,10 @@ async function router() {
     cartPgEl.style.display = "none";
     qnaPgEl.style.display = "none";
     // category url에서 파싱
-    console.log(routePath);
     const category = routePath.split("/")[2];
     let searchKeyword = routePath.split("/")[3];
     searchKeyword = decodeURIComponent(searchKeyword);
-    await renderCategoryPages(category, searchKeyword);
+    await renderCategoryPages(category, searchKeyword, "new");
     categorypgEl.style.display = "block";
     cartPgEl.style.display = "none";
     qnaPgEl.style.display = "none";
