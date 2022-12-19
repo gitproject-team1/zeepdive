@@ -167,6 +167,18 @@
       text-align: center;
       margin-bottom: 20px;
     }
+    .account-box {
+      input {
+        border: 1px solid;
+        width: 100px;
+      }
+    }
+    .phone-box {
+      input {
+        width: 180px;
+        border: 1px solid;
+      }
+    }
     .signature-box {
       display: flex;
       align-items: center;

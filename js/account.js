@@ -1,17 +1,8 @@
 import { alertModal } from "./main";
 import { addAccount, getAccounts, removeAccount } from "./requests";
-import {
-  addAccount,
-  getAccounts,
-  removeAccount
-} from "./requests"
-import {
-  userModal,
-  userModalContent,
-  bankSelectEl,
-  accountListUl,
-} from "./store.js"
-// bank elements 
+import { addAccount, getAccounts, removeAccount } from "./requests";
+import { bankSelectEl, accountListUl } from "./store.js";
+// bank elements
 
 const inputBankEl1 = document.querySelector(".bank-add-1");
 const inputBankEl2 = document.querySelector(".bank-add-2");
@@ -20,55 +11,51 @@ const inputBankEl4 = document.querySelector(".bank-add-4");
 const allInputBankEl = document.querySelectorAll(".bank-add-input");
 const bankPhoneNumEl = document.getElementById("bank-phone-num");
 const bankSignatureEl = document.getElementById("account-signature");
-const addSection = document.querySelector(".bank-add-section");
-const removeSection = document.querySelector(".bank-remove-section");
 
-
-let accountNumber = ''
-let bankCode = ''
-
+let accountNumber = "";
+let bankCode = "";
 
 export function bankSelelectEvent(bankValue) {
-  let digits = []
+  let digits = [];
   switch (bankValue) {
-    case '농협은행':
-      digits = [3, 4, 4, 2]
-      bankCode = '011'
-      inputDisplay('inline');
+    case "농협은행":
+      digits = [3, 4, 4, 2];
+      bankCode = "011";
+      inputDisplay("inline");
       break;
-    case '국민은행':
-      digits = [3, 2, 4, 3]
-      bankCode = '004'
-      inputDisplay('inline');
+    case "국민은행":
+      digits = [3, 2, 4, 3];
+      bankCode = "004";
+      inputDisplay("inline");
       break;
-    case '신한은행':
-      digits = [3, 3, 6]
-      bankCode = '088'
-      inputDisplay('inline');
+    case "신한은행":
+      digits = [3, 3, 6];
+      bankCode = "088";
+      inputDisplay("inline");
       break;
-    case '카카오뱅크':
-      digits = [4, 2, 7]
-      bankCode = '090'
-      inputDisplay('inline');
+    case "카카오뱅크":
+      digits = [4, 2, 7];
+      bankCode = "090";
+      inputDisplay("inline");
       break;
-    case '우리은행':
-      digits = [4, 3, 6]
-      bankCode = '020'
-      inputDisplay('inline');
+    case "우리은행":
+      digits = [4, 3, 6];
+      bankCode = "020";
+      inputDisplay("inline");
       break;
-    case '하나은행':
-      digits = [3, 6, 5]
-      bankCode = '081'
-      inputDisplay('inline');
+    case "하나은행":
+      digits = [3, 6, 5];
+      bankCode = "081";
+      inputDisplay("inline");
       break;
-    case '케이뱅크':
-      digits = [3, 3, 6]
-      bankCode = '089'
-      inputDisplay('inline');
+    case "케이뱅크":
+      digits = [3, 3, 6];
+      bankCode = "089";
+      inputDisplay("inline");
       break;
   }
-  const bankAccountN = document.querySelector('.select-bank');
-  bankAccountN.innerHTML = `${bankValue}`
+  const bankAccountN = document.querySelector(".select-bank");
+  bankAccountN.innerHTML = `${bankValue}`;
 
   inputBankEl1.value = "";
   inputBankEl2.value = "";
@@ -124,13 +111,18 @@ export async function accountAddSubmit() {
       bankPhoneNumEl.value = "";
       console.log(accountNumber);
     } else {
-      console.log(accountNumber)
-      await addAccount(bankCode, accountNumber, bankPhoneNumEl.value, bankSignatureEl.checked)
-      accountNumber = ''
-      bankPhoneNumEl.value = ''
-      bankSignatureEl.checked = false
-      bankSelectEl.value = 'none'
-      inputDisplay('none');
+      console.log(accountNumber);
+      await addAccount(
+        bankCode,
+        accountNumber,
+        bankPhoneNumEl.value,
+        bankSignatureEl.checked
+      );
+      accountNumber = "";
+      bankPhoneNumEl.value = "";
+      bankSignatureEl.checked = false;
+      bankSelectEl.value = "none";
+      inputDisplay("none");
     }
   }
 }
@@ -168,7 +160,7 @@ function createAccountList(acId, acName, acNum, acBalance, isAccount) {
         <span class="bank-name">${acName}</span>
         <span class="acount-number">${acNum}</span>
         <span class="account-balance">₩ ${tmpacBalance}</span>
-      `
+      `;
   }
   accountListUl.append(createList);
 }

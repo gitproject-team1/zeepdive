@@ -4,48 +4,70 @@ export const itemTagsEls = document.querySelectorAll(".itemlist-tag");
 export const itemTitleEls = document.querySelectorAll(".itemlist-title");
 export const itemPriceEls = document.querySelectorAll(".itemlist-price");
 
+// page elements
+export const pageEl = {
+  detailPageEl: document.querySelector(".detail-container"),
+  mainPgEl: document.querySelector(".main-page"),
+  adminPgEl: document.querySelector(".admin-page"),
+  userPgEl: document.querySelector(".user-page"),
+  categorypgEl: document.querySelector(".category-page"),
+  purchasepgEl: document.querySelector(".purchase-page"),
+  cartPgEl: document.querySelector(".cart-page"),
+  qnaPgEl: document.querySelector(".qna-container-page"),
+};
+
 // signup elements
-export const submitEl = document.getElementById("frm");
-export const emailInputEl = document.getElementById("signup-email");
-export const passwordInputEl = document.getElementById("signup-pw");
-export const passwordcheckEl = document.getElementById("signup-repw");
-export const displayNameInputEl = document.getElementById("signup-name");
-export const signupErrorBox = document.querySelector(".signup-error-box");
-export const emailOverlapError = document.querySelector(".email-overlap-error");
+export const signupEl = {
+  submitEl: document.getElementById("frm"),
+  emailInputEl: document.getElementById("signup-email"),
+  passwordInputEl: document.getElementById("signup-pw"),
+  passwordcheckEl: document.getElementById("signup-repw"),
+  displayNameInputEl: document.getElementById("signup-name"),
+  signupErrorBox: document.querySelector(".signup-error-box"),
+  emailOverlapError: document.querySelector(".email-overlap-error"),
+};
+
 // login elements
-export const loginErrorBox = document.querySelector(".login-error-box");
-export const loginBtn = document.querySelector(".login-btn");
-export const loginId = document.querySelector(".login-id");
-export const loginPw = document.querySelector(".login-pw");
-export const idboxEl = document.querySelector(".id-box");
-export const pwboxEl = document.querySelector(".pw-box");
+export const loginEl = {
+  loginErrorBox: document.querySelector(".login-error-box"),
+  loginBtn: document.querySelector(".login-btn"),
+  loginId: document.querySelector(".login-id"),
+  loginPw: document.querySelector(".login-pw"),
+  idboxEl: document.querySelector(".id-box"),
+};
 
 // signup, login modal elements
-export const loginBtnEl = document.querySelector(".login");
-export const backGround = document.querySelector(".back-ground");
-export const loginModal = document.querySelector(".login-modal");
-export const signupModal = document.querySelector(".signup-modal");
+export const loginModalEl = {
+  loginBtnEl: document.querySelector(".login"),
+  backGround: document.querySelector(".back-ground"),
+  loginModal: document.querySelector(".login-modal"),
+  signupModal: document.querySelector(".signup-modal"),
+};
 
 // validation elements
-export const emailErrorMsg = document.querySelector(".email-error-msg");
-export const singupEmailBox = document.querySelector(".signup-email-box");
-export const pwErrorMsg = document.querySelector(".pw-error-msg");
-export const signupPwBox = document.querySelector(".signup-pw-box");
-export const signupRepwBox = document.querySelector(".signup-repw-box");
-export const pwLengthMsg = document.querySelector(".pw-length-msg");
-export const idErrorMsg = document.querySelector(".id-error-msg");
-export const exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+export const validationEl = {
+  emailErrorMsg: document.querySelector(".email-error-msg"),
+  signupEmailBox: document.querySelector(".signup-email-box"),
+  pwErrorMsg: document.querySelector(".pw-error-msg"),
+  signupPwBox: document.querySelector(".signup-pw-box"),
+  signupRepwBox: document.querySelector(".signup-repw-box"),
+  pwLengthMsg: document.querySelector(".pw-length-msg"),
+  idErrorMsg: document.querySelector(".id-error-msg"),
+  exptext: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/,
+};
 
 // user Info elements
-export const userInfoName = document.getElementById("user-info-name");
-export const nameChangeBtn = document.querySelector(".name-change-btn");
-export const userInfoPw = document.getElementById("user-info-pwd");
-export const userInfoNewPw = document.getElementById("user-info-new-pwd");
-export const pwChangeBtn = document.querySelector(".pw-change-btn");
-export const userModal = document.querySelector(".user-modal");
-export const userModalBtn = document.querySelector(".user-modal-btn");
-export const userModalContent = document.querySelector(".user-modal-content");
-export const userInfoBtn = document.querySelector(".user-info-btn");
+export const userInfoEl = {
+  userInfoName: document.getElementById("user-info-name"),
+  nameChangeBtn: document.querySelector(".name-change-btn"),
+  userInfoPw: document.getElementById("user-info-pwd"),
+  userInfoNewPw: document.getElementById("user-info-new-pwd"),
+  pwChangeBtn: document.querySelector(".pw-change-btn"),
+  userModal: document.querySelector(".user-modal"),
+  userModalBtn: document.querySelector(".user-modal-btn"),
+  userModalContent: document.querySelector(".user-modal-content"),
+  userInfoBtn: document.querySelector(".user-info-btn"),
+};
 
 //관리자페이지
 export const adminThumbnailFile = document.getElementById(
@@ -71,9 +93,11 @@ export const bankSelectEl = document.querySelector(".bank-list");
 export const accountListUl = document.querySelector(".account-lists");
 
 // 장바구니
-export const cartItems = document.querySelector(".cart-items");
-export const cartIcon = document.querySelector(".cart-icon");
-export const singlePrice = document.querySelector(".single-price");
-export const deliveryPrice = document.querySelector(".delivery-price");
-export const totalPrice = document.querySelector(".total-price");
-export const cartOrderBtn = document.querySelector(".cart-order-btn");
+export const cartEl = {
+  cartItems: document.querySelector(".cart-items"),
+  cartIcon: document.querySelector(".cart-icon"),
+  singlePrice: document.querySelector(".single-price"),
+  deliveryPrice: document.querySelector(".delivery-price"),
+  totalPrice: document.querySelector(".total-price"),
+  cartOrderBtn: document.querySelector(".cart-order-btn"),
+};

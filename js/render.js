@@ -1,4 +1,4 @@
-import { alertModal, mainPgEl } from "./main.js";
+import { alertModal } from "./main.js";
 import {
   getItem,
   getDetailItem,
@@ -8,14 +8,10 @@ import {
   postQna,
   deleteQna,
   purchaseItems,
+  editItemStatus,
+  searchItem,
 } from "./requests.js";
-import {
-  detailContainer,
-  cartItems,
-  singlePrice,
-  deliveryPrice,
-  totalPrice,
-} from "./store.js";
+import { detailContainer, cartEl, pageEl } from "./store.js";
 import kbank from "../img/kbank.png";
 import hana from "../img/hana.png";
 import kakao from "../img/kakao.png";
@@ -53,11 +49,8 @@ async function filterCategories(search = "") {
   const planteriorItem = items.filter((item) => item.tags[0] === "플랜테리어");
   const cookooItem = items.filter((item) => item.tags[0] === "쿠쿠");
   const drawerItem = items.filter((item) => item.tags[0] === "수납");
-  // console.log(search);
-  const searchItem = items.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
-  return [christmasItem, planteriorItem, cookooItem, drawerItem, searchItem];
+  const searchRes = await searchItem(search);
+  return [christmasItem, planteriorItem, cookooItem, drawerItem, searchRes];
 }
 
 //메인 페이지 아이템 렌더링
@@ -127,7 +120,7 @@ export async function renderMainItems() {
 			`;
       itemList.appendChild(itemListContainer);
     }
-    mainPgEl.append(saleslistContainer);
+    pageEl.mainPgEl.append(saleslistContainer);
   }
 }
 
@@ -196,7 +189,6 @@ export async function renderCategoryPages(category, search = "", sort = "new") {
 //상세페이지
 export async function renderDetailPages(itemId) {
   const detailItem = await getDetailItem(itemId);
-  console.log(detailItem);
   detailContainer.innerHTML = /* html */ `
   <div class="detail-view">
     <div class="thumnail">
@@ -271,9 +263,20 @@ export async function renderDetailPages(itemId) {
 
   `;
 
+  // 제품 품절이면 품절띄워야함
+  const buyBtn = document.querySelector(".buying-button");
+  if (detailItem.isSoldOut) {
+    buyBtn.innerHTML = /* html */ `
+        <div>
+          <button type="button" class="option-cart option-buynow" style="width:400px"; >상품이 품절되었습니다</button>
+        </div>
+    `;
+    document.querySelector(".option-cart").style.filter = "grayscale(100%)";
+    document.querySelector(".option-cart").style.pointerEvents = "none";
+  }
   const qnaSubmitRequestBtn = document.querySelector(".qna-submit-request-btn");
   qnaSubmitRequestBtn.addEventListener("click", () => {
-    window.location = "#/qna";
+    location.href = "#/qna";
   });
 
   const optionBtn = document.querySelector(".option-cart");
@@ -290,7 +293,7 @@ export async function renderDetailPages(itemId) {
     const token = localStorage.getItem("token");
     if (!token) {
       alertModal(`로그인을 해주세요.`);
-    } else window.location = `#/purchase/${detailItem.id}`;
+    } else location.href = `#/purchase/${detailItem.id}`;
   });
 
   // 배송/환불/교환 관련 사진으로 바로 보내줌
@@ -582,6 +585,11 @@ export async function renderPurchasePages(items) {
     if (curAccountBal >= totalPrice) {
       for (const item of detailItems) {
         await purchaseItems(bankId, item.id);
+        await editItemStatus(item.id, true);
+      }
+      if (location.hash === "#/purchase/cart") {
+        const email = await authLogin();
+        localStorage.removeItem(`cartId-${email}`);
       }
       localStorage.setItem("purchase", "true");
       alertModal(`거래가 정상적으로 이루어졌습니다.`);
@@ -651,7 +659,6 @@ let itemsPrice = 0;
 export async function renderCartPages() {
   const email = await authLogin();
   const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
-  console.log(cartIdArr);
   if (cartIdArr.length === 0) {
     emptyCart();
     return;
@@ -686,7 +693,7 @@ export async function renderCartPages() {
         />
           `;
     itemsPrice += item.price;
-    cartItems.appendChild(element);
+    cartEl.cartItems.appendChild(element);
     const cartDelete = element.querySelector(".cart-delete");
     cartDelete.addEventListener("click", (event) => {
       deleteCartItems(event);
@@ -697,12 +704,12 @@ export async function renderCartPages() {
 
 function renderPrice() {
   let deliveryFee = 3500;
-  singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
+  cartEl.singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
   if (itemsPrice >= 100000) {
     deliveryFee = 0;
-    deliveryPrice.textContent = `${deliveryFee}원`;
-  } else deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
-  totalPrice.textContent =
+    cartEl.deliveryPrice.textContent = `${deliveryFee}원`;
+  } else cartEl.deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
+  cartEl.totalPrice.textContent =
     (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
 }
 
@@ -711,7 +718,7 @@ async function deleteCartItems(event) {
   const incartPrice = event.currentTarget.previousElementSibling.innerHTML;
   const num = /[^0-9]/g;
   itemsPrice = itemsPrice - incartPrice.replace(num, "");
-  cartItems.removeChild(incartItem);
+  cartEl.cartItems.removeChild(incartItem);
   const email = await authLogin();
   const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
   const arr = cartIdArr.filter((cartIdEl) => {
@@ -727,12 +734,12 @@ async function deleteCartItems(event) {
 }
 
 function emptyCart() {
-  cartItems.innerHTML = /* html */ `
+  cartEl.cartItems.innerHTML = /* html */ `
   <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
   `;
-  singlePrice.textContent = "0원";
-  deliveryPrice.textContent = "0원";
-  totalPrice.textContent = "0원";
+  cartEl.singlePrice.textContent = "0원";
+  cartEl.deliveryPrice.textContent = "0원";
+  cartEl.totalPrice.textContent = "0원";
 }
 
 //QnA 페이지
@@ -812,4 +819,11 @@ async function renderQnaList() {
   qnaItems.forEach((qnaItem) =>
     renderQnA(qnaItem.title, qnaItem.createdAt, qnaItem.id)
   );
+}
+
+// main.js에서 라우터 조절하는 function
+export function routerInit() {
+  for (let page in pageEl) {
+    pageEl[page].style.display = "none";
+  }
 }

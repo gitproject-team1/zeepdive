@@ -5,5 +5,5 @@ export async function cartIconClick() {
     alertModal(`로그인을 해주세요.`);
     return;
   }
-  window.location = "#/cart";
+  location.href = "#/cart";
 }
