@@ -132,11 +132,11 @@ export async function renderMainItems() {
 }
 
 //category별 페이지 렌더링
-export async function renderCategoryPages(category, search = "") {
+export async function renderCategoryPages(category, search = "", sort = "new") {
   const noItemImg = document.querySelector(".no-result");
   noItemImg.style.display = "none";
   const categoryMap = { christmas: 0, plant: 1, digital: 2, drawer: 3, all: 4 };
-  const filteredItems = await filterCategories(search);
+  let filteredItems = await filterCategories(search);
   // 검색을 이용하면 전체 카테고리에서 검색.
   if (category !== "all") {
     document.querySelector(".category-title").textContent =
@@ -144,32 +144,45 @@ export async function renderCategoryPages(category, search = "") {
   } else {
     document.querySelector(".category-title").textContent = "전체";
   }
+
+  // sort option 따라 순서 정해줘야함.
+  let sortedItems = [...filteredItems[categoryMap[category]]];
+  if (sort === "low-price") {
+    sortedItems.sort((a, b) => {
+      if (a.price > b.price) return 1;
+      if (a.price < b.price) return -1;
+      return 0;
+    });
+  } else if (sort === "high-price") {
+    sortedItems.sort((a, b) => {
+      if (a.price > b.price) return -1;
+      if (a.price < b.price) return 1;
+      return 0;
+    });
+  }
+
   const itemList = document.querySelector(".category-itemlist > .itemlist");
   itemList.innerHTML = "";
   // 검색결과 없을때 이미지 띄우기
-  if (filteredItems[categoryMap[category]].length === 0) {
+  if (sortedItems.length === 0) {
     noItemImg.style.display = "flex";
     return;
   }
-  for (let j = 0; j < filteredItems[categoryMap[category]].length; j++) {
+  for (let j = 0; j < sortedItems.length; j++) {
     const itemListContainer = document.createElement("div");
     itemListContainer.classList.add("itemlist-container");
     itemListContainer.innerHTML = /* html */ `
-    <a href="#/detail/${filteredItems[categoryMap[category]][j].id}">
+    <a href="#/detail/${sortedItems[j].id}">
       <div class="itemlist-image">
           <img
-            src=${filteredItems[categoryMap[category]][j].thumbnail}
-            alt=${filteredItems[categoryMap[category]][j].tags}이미지
+            src=${sortedItems[j].thumbnail}
+            alt=${sortedItems[j].tags}이미지
           />
       </div>
       <div class="itemlist-detail">
-        <div class="itemlist-tag">${
-          filteredItems[categoryMap[category]][j].tags
-        }</div>
-        <div class="itemlist-title">${
-          filteredItems[categoryMap[category]][j].title
-        }</div>
-        <div class="itemlist-price">${filteredItems[categoryMap[category]][
+        <div class="itemlist-tag">${sortedItems[j].tags}</div>
+        <div class="itemlist-title">${sortedItems[j].title}</div>
+        <div class="itemlist-price">${sortedItems[
           j
         ].price.toLocaleString()}원</div>
       </div>

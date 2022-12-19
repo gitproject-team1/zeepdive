@@ -61,6 +61,7 @@ const categorypgEl = document.querySelector(".category-page");
 export const purchasepgEl = document.querySelector(".purchase-page");
 export const cartPgEl = document.querySelector(".cart-page");
 const qnaPgEl = document.querySelector(".qna-page");
+const categorySort = document.querySelector(".selector");
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
@@ -111,6 +112,15 @@ userModalBtn.addEventListener("click", () => {
 // 비밀번호 변경 버튼 누르면 비밀번호 변경되도록 만들기
 pwChangeBtn.addEventListener("click", pwchange);
 
+// 카테고리창에서 sort option 변경될시 다시 렌더링 해야함.
+categorySort.addEventListener("change", async () => {
+  const routePath = location.hash;
+  const category = routePath.split("/")[2];
+  let searchKeyword = routePath.split("/")[3];
+  searchKeyword = decodeURIComponent(searchKeyword);
+  await renderCategoryPages(category, searchKeyword, categorySort.value);
+});
+
 // 초기화면(새로고침, 화면진입) 렌더
 router();
 
@@ -130,10 +140,10 @@ async function router() {
     categorypgEl.style.display = "none";
     cartPgEl.style.display = "none";
     purchasepgEl.style.display = "none";
+    qnaPgEl.style.display = "none";
     await renderMainItems();
     mainPgEl.style.display = "block";
     footerEl.style.display = "block";
-    qnaPgEl.style.display = "none";
     //회원정보 페이지
   } else if (routePath.includes("#/user")) {
     mainPgEl.style.display = "none";
@@ -186,11 +196,10 @@ async function router() {
     cartPgEl.style.display = "none";
     qnaPgEl.style.display = "none";
     // category url에서 파싱
-    console.log(routePath);
     const category = routePath.split("/")[2];
     let searchKeyword = routePath.split("/")[3];
     searchKeyword = decodeURIComponent(searchKeyword);
-    await renderCategoryPages(category, searchKeyword);
+    await renderCategoryPages(category, searchKeyword, "new");
     categorypgEl.style.display = "block";
     cartPgEl.style.display = "none";
     qnaPgEl.style.display = "none";
@@ -242,7 +251,7 @@ bankSelectEl.addEventListener("change", (event) => {
   event.preventDefault();
 });
 
-const accountAddForm = document.querySelector('.add-form')
+const accountAddForm = document.querySelector(".add-form");
 bankSubmitBtn.addEventListener("click", async (event) => {
   await accountAddSubmit();
   await renderUserAccount();
@@ -250,19 +259,18 @@ bankSubmitBtn.addEventListener("click", async (event) => {
   accountAddForm.style.display = "none";
   backGround.style.visibility = "hidden";
 });
-const addAccountBtn = document.querySelector('.add-account')
-addAccountBtn.addEventListener('click',()=>{
+const addAccountBtn = document.querySelector(".add-account");
+addAccountBtn.addEventListener("click", () => {
   accountAddForm.style.display = "flex";
   backGround.style.visibility = "visible";
-})
-const closeBtn = document.querySelector('.bank-close-btn')
+});
+const closeBtn = document.querySelector(".bank-close-btn");
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
   accountAddForm.style.display = "none";
   backGround.style.visibility = "hidden";
-})
+});
 renderUserAccount();
-
 
 const removeAccountBtn = document.querySelector(".remove-account");
 removeAccountBtn.addEventListener("click", () => {
