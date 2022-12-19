@@ -192,6 +192,7 @@ export async function renderCategoryPages(category, search = "", sort = "new") {
     itemList.appendChild(itemListContainer);
   }
 }
+
 //상세페이지
 export async function renderDetailPages(itemId) {
   const detailItem = await getDetailItem(itemId);
