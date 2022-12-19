@@ -85,7 +85,8 @@ userInfoEl.userInfoBtn.addEventListener("click", userinfoClick);
 // 이름 변경
 userInfoEl.nameChangeBtn.addEventListener("click", async (event) => {
   event.preventDefault();
-  if (userInfoEl.userInfoName.value) await editUser("이름", userInfoEl.userInfoName.value);
+  if (userInfoEl.userInfoName.value)
+    await editUser("이름", userInfoEl.userInfoName.value);
 });
 // 변경 됐다는 모달창에 있는 확인 버튼
 userInfoEl.userModalBtn.addEventListener("click", () => {
@@ -233,8 +234,8 @@ async function router() {
 
 // user-info창에서 은행을 선택하면 생기는 이벤트
 bankSelectEl.addEventListener("change", (event) => {
-  bankSelelectEvent(event.target.value);
   event.preventDefault();
+  bankSelelectEvent(event.target.value);
 });
 
 const accountAddForm = document.querySelector(".add-form");
