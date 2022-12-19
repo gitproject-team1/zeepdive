@@ -60,7 +60,7 @@ const footerEl = document.querySelector("footer");
 const categorypgEl = document.querySelector(".category-page");
 export const purchasepgEl = document.querySelector(".purchase-page");
 export const cartPgEl = document.querySelector(".cart-page");
-const qnaPgEl = document.querySelector(".qna-page");
+const qnaPgEl = document.querySelector(".qna-container-page");
 const categorySort = document.querySelector(".selector");
 
 // 검색창
