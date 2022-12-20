@@ -1,21 +1,8 @@
 import { alertModal } from "./main";
 import { addAccount, getAccounts, removeAccount } from "./requests";
-<<<<<<< HEAD
-import {
-  addAccount,
-  getAccounts,
-  removeAccount
-} from "./requests"
-import {
-  bankSelectEl,
-  accountListUl,
-} from "./store.js"
-// bank elements 
-=======
 import { addAccount, getAccounts, removeAccount } from "./requests";
 import { bankSelectEl, accountListUl } from "./store.js";
 // bank elements
->>>>>>> d13fcfcea3c171cfd94a02c0203d551e7f0c4e2b
 
 const inputBankEl1 = document.querySelector(".bank-add-1");
 const inputBankEl2 = document.querySelector(".bank-add-2");
@@ -24,14 +11,6 @@ const inputBankEl4 = document.querySelector(".bank-add-4");
 const allInputBankEl = document.querySelectorAll(".bank-add-input");
 const bankPhoneNumEl = document.getElementById("bank-phone-num");
 const bankSignatureEl = document.getElementById("account-signature");
-<<<<<<< HEAD
-
-
-
-let accountNumber = ''
-let bankCode = ''
-=======
->>>>>>> d13fcfcea3c171cfd94a02c0203d551e7f0c4e2b
 
 let accountNumber = "";
 let bankCode = "";
@@ -129,10 +108,6 @@ export async function accountAddSubmit() {
       bankPhoneNumEl.value = "";
       console.log(accountNumber);
     } else {
-<<<<<<< HEAD
-      console.log(accountNumber)
-      await addAccount(bankCode, accountNumber, bankPhoneNumEl.value, bankSignatureEl.checked)
-=======
       console.log(accountNumber);
       await addAccount(
         bankCode,
@@ -145,7 +120,6 @@ export async function accountAddSubmit() {
       bankSignatureEl.checked = false;
       bankSelectEl.value = "none";
       inputDisplay("none");
->>>>>>> d13fcfcea3c171cfd94a02c0203d551e7f0c4e2b
     }
   }
   clearAccount()
