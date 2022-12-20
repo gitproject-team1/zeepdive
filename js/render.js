@@ -867,11 +867,11 @@ export async function renderReceiptPage() {
 
       confirmPurchaseBtn.addEventListener("click", async () => {
         await confirmPurchase(receipt.detailId);
-        location.reload();
+        localStorage.setItem("receipt", "true");
       });
       cancelPurchaseBtn.addEventListener("click", async () => {
         await cancelPurchase(receipt.detailId);
-        location.reload();
+        localStorage.setItem("receipt", "true");
       });
 
       itemContainer

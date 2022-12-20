@@ -86,6 +86,9 @@ userInfoEl.userModalBtn.addEventListener("click", () => {
   if (location.hash.includes("#/purchase")) {
     if (localStorage.getItem("purchase") === "true") location.href = "/";
   }
+  if (location.hash.includes("#/receipt")) {
+    if (localStorage.getItem("receipt") === "true") location.reload();
+  }
 });
 // 비밀번호 변경
 userInfoEl.pwChangeBtn.addEventListener("click", pwchange);
