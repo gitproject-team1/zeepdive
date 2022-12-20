@@ -77,14 +77,11 @@
     button {
       width: 300px;
       height: 30px;
-      background-color: #535b63;
+      background: linear-gradient(37deg, #ff7473 20%, #ff585d 40%, #ff7473);
       color: #fff;
       font-size: 17px;
       border: transparent;
       cursor: pointer;
-      &:hover {
-        background-color: #2e3236;
-      }
     }
   }
 }
@@ -189,9 +186,6 @@
       font-size: 17px;
       border: transparent;
       cursor: pointer;
-      &:hover {
-        background-color: #2e3236;
-      }
     }
   }
 }
