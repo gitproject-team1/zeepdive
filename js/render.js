@@ -326,6 +326,8 @@ export async function renderDetailPages(itemId) {
     cartIdArr.push(detailItem.id);
     localStorage.setItem(`cartId-${email}`, JSON.stringify(cartIdArr));
     alertModal(`장바구니에 상품을 담았습니다.`);
+    cartEl.cartOrderBtn.style.filter = "grayscale(0%)";
+    cartEl.cartOrderBtn.style.pointerEvents = "auto";
   });
 }
 
@@ -743,6 +745,8 @@ function emptyCart() {
   cartEl.singlePrice.textContent = "0원";
   cartEl.deliveryPrice.textContent = "0원";
   cartEl.totalPrice.textContent = "0원";
+  cartEl.cartOrderBtn.style.filter = "grayscale(100%)";
+  cartEl.cartOrderBtn.style.pointerEvents = "none";
 }
 
 //QnA 페이지
