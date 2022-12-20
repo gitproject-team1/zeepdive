@@ -10,8 +10,11 @@ import {
   purchaseItems,
   editItemStatus,
   searchItem,
+  getAllPurchases,
+  confirmPurchase,
+  cancelPurchase,
 } from "./requests.js";
-import { detailContainer, cartEl, pageEl } from "./store.js";
+import { detailContainer, cartEl, pageEl, loadEl } from "./store.js";
 import kbank from "../img/kbank.png";
 import hana from "../img/hana.png";
 import kakao from "../img/kakao.png";
@@ -668,6 +671,7 @@ export async function renderCartPages() {
     emptyCart();
     return;
   }
+  loadEl.classList.remove("loader-hidden");
   const promises = [];
   for (const id of cartIdArr) {
     promises.push(getDetailItem(id));
@@ -705,6 +709,7 @@ export async function renderCartPages() {
     });
   }
   renderPrice();
+  loadEl.classList.add("loader-hidden");
 }
 
 function renderPrice() {
@@ -805,7 +810,7 @@ async function addQna(event) {
   }
   const qnaItem = await postQna(qnaTitle);
   const { title, createdAt, id } = qnaItem;
-  renderQnA();
+  await renderQnA();
   qnaModal.style.visibility = "hidden";
   backgroundFilter.style.visibility = "hidden";
   qnaInputEl.value = "";
@@ -820,12 +825,67 @@ function qnaModalOpen() {
   });
 }
 
-async function renderQnaList() {
-  const qnaItems = await getQnA();
-  qnaTableContent.innerHTML = "";
-  qnaItems.forEach((qnaItem) =>
-    renderQnA(qnaItem.title, qnaItem.createdAt, qnaItem.id)
-  );
+// 구매내역 페이지 렌더링
+export async function renderReceiptPage() {
+  const allPurchase = await getAllPurchases();
+  const receiptContainer = document.querySelector(".receipt-inner");
+  receiptContainer.innerHTML = /* html */ `
+  <div class="receipt">
+    <div class="receipt-main">구매내역 ${allPurchase.length}개</div>
+    <div class="receipt-detail">
+    </div>
+  </div>
+  `;
+  const receiptDetail = document.querySelector(".receipt-detail");
+  for (let receipt of allPurchase) {
+    console.log(receipt);
+    const itemContainer = document.createElement("div");
+    itemContainer.classList.add("receipt-container");
+    itemContainer.innerHTML = /* html */ `
+      <div class="left-container">
+        <img src=${
+          receipt.product.thumbnail
+        } width="100px" height="100px" alt="썸네일">
+        <div class="receipt-description">
+          <div class="receipt-title">${receipt.product.title}</div>
+          <div class="receipt-option">기본/1개</div>
+          <div class="receipt-price">${receipt.product.price.toLocaleString()}원</div>
+        </div>
+      </div>
+      <div class="btn-container">
+      </div>
+    `;
+
+    if (receipt.done || receipt.isCanceled) {
+      const doneBtn = document.createElement("button");
+      doneBtn.classList.add("confirm-btn");
+      doneBtn.textContent = "거래완료";
+      doneBtn.style.filter = "grayscale(100%)";
+      doneBtn.style.pointerEvents = "none";
+      itemContainer.querySelector(".btn-container").append(doneBtn);
+    } else {
+      const confirmPurchaseBtn = document.createElement("button");
+      confirmPurchaseBtn.classList.add("confirm-btn");
+      confirmPurchaseBtn.textContent = "구매확정";
+      const cancelPurchaseBtn = document.createElement("button");
+      cancelPurchaseBtn.classList.add("cancel-btn");
+      cancelPurchaseBtn.textContent = "구매취소";
+
+      confirmPurchaseBtn.addEventListener("click", async () => {
+        await confirmPurchase(receipt.detailId);
+        localStorage.setItem("receipt", "true");
+      });
+      cancelPurchaseBtn.addEventListener("click", async () => {
+        await cancelPurchase(receipt.detailId);
+        localStorage.setItem("receipt", "true");
+      });
+
+      itemContainer
+        .querySelector(".btn-container")
+        .append(confirmPurchaseBtn, cancelPurchaseBtn);
+    }
+    receiptDetail.appendChild(itemContainer);
+  }
 }
 
 // main.js에서 라우터 조절하는 function

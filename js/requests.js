@@ -1,6 +1,12 @@
 import { alertModal } from "./main.js";
 import { setItemWithExpireTime, showErrorBox } from "./signup.js";
-import { signupEl, loginEl, loginModalEl, userInfoEl } from "./store.js";
+import {
+  signupEl,
+  loginEl,
+  loginModalEl,
+  userInfoEl,
+  loadEl,
+} from "./store.js";
 
 const API_KEY = `FcKdtJs202209`;
 const USER_NAME = `imyeji`;
@@ -182,6 +188,7 @@ export async function addItem({
 // 상품 정보 갖고오기
 export async function getItem() {
   try {
+    loadEl.classList.remove("loader-hidden");
     const res = await fetch(
       "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products",
       {
@@ -198,6 +205,8 @@ export async function getItem() {
     return json;
   } catch (error) {
     console.log("제품 불러오기에 실패하였습니다.");
+  } finally {
+    loadEl.classList.add("loader-hidden");
   }
 }
 
@@ -240,27 +249,6 @@ export async function getDetailItem(id) {
     return json;
   } catch (error) {
     console.log("제품 정보를 불러오는데 실패하였습니다.");
-  }
-}
-
-// 전체 거래내역 api
-export async function getAllPurchases() {
-  try {
-    const res = await fetch(
-      `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/all `,
-      {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          apikey: API_KEY,
-          username: USER_NAME,
-          masterKey: "true",
-        },
-      }
-    );
-    const json = await res.json();
-  } catch (error) {
-    console.log("전체 거래 내역을 불러오는데 실패하였습니다.");
   }
 }
 
@@ -487,5 +475,86 @@ export async function purchaseItems(accountId, productId) {
     return json;
   } catch (error) {
     console.log("제품 구매에 실패하였습니다.");
+  }
+}
+
+// 전체 거래내역 api
+export async function getAllPurchases() {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  try {
+    loadEl.classList.remove("loader-hidden");
+    const res = await fetch(
+      `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/details`,
+      {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          apikey: API_KEY,
+          username: USER_NAME,
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const json = await res.json();
+    return json;
+  } catch (error) {
+    console.log("전체 거래 내역을 불러오는데 실패하였습니다.");
+  } finally {
+    loadEl.classList.add("loader-hidden");
+  }
+}
+
+// 제품 구매 취소 api
+export async function cancelPurchase(id) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  try {
+    const res = await fetch(
+      `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/cancel`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          apikey: API_KEY,
+          username: USER_NAME,
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          detailId: id,
+        }),
+      }
+    );
+    const json = await res.json();
+    alertModal("거래가 취소되었습니다.");
+  } catch (error) {
+    console.log("구매 취소에 실패하였습니다.");
+  }
+}
+
+// 제품 구매 확정 api
+export async function confirmPurchase(id) {
+  const tokenValue = localStorage.getItem("token");
+  const token = JSON.parse(tokenValue).value;
+  try {
+    const res = await fetch(
+      `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/ok`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          apikey: API_KEY,
+          username: USER_NAME,
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          detailId: id,
+        }),
+      }
+    );
+    const json = await res.json();
+    alertModal("거래가 확정되었습니다.");
+  } catch (error) {
+    console.log("구매 확정에 실패하였습니다.");
   }
 }

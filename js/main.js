@@ -17,6 +17,7 @@ import {
   renderCartPages,
   renderQnA,
   routerInit,
+  renderReceiptPage,
 } from "./render.js";
 import {
   searchForm,
@@ -44,6 +45,17 @@ let cartIdArr = "";
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const categorySort = document.querySelector(".selector");
 const footerEl = document.querySelector("footer");
+const receiptBtn = document.querySelector(".receipt-info-btn");
+
+// 구매내역 창 로그인 검사
+receiptBtn.addEventListener("click", () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alertModal(`로그인을 해주세요.`);
+  } else {
+    location.href = "#/receipt";
+  }
+});
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {
@@ -84,6 +96,9 @@ userInfoEl.userModalBtn.addEventListener("click", () => {
   // 거래가 정상적으로 되면 홈으로 보냄.
   if (location.hash.includes("#/purchase")) {
     if (localStorage.getItem("purchase") === "true") location.href = "/";
+  }
+  if (location.hash.includes("#/receipt")) {
+    if (localStorage.getItem("receipt") === "true") location.reload();
   }
 });
 // 비밀번호 변경
@@ -169,6 +184,10 @@ async function router() {
     routerInit();
     await renderQnA();
     pageEl.qnaPgEl.style.display = "block";
+  } else if (routePath.includes("#/receipt")) {
+    routerInit();
+    await renderReceiptPage();
+    pageEl.receiptPgEl.style.display = "block";
   }
 }
 

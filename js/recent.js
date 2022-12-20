@@ -1,15 +1,14 @@
 import { getDetailItem } from "./requests.js";
-export const local = localStorage;
 // const recentlyViewEl = document.querySelector('.recently-veiw')
 const recentlyViewUlEl = document.querySelector(".recently-view-list");
 
 export async function recentItemSet() {
   let cnt = 0;
   const tmpId = location.hash.split("/")[2];
-  if (local.getItem("recentId") === null) {
-    local.setItem("recentId", JSON.stringify([tmpId]));
+  if (localStorage.getItem("recentId") === null) {
+    localStorage.setItem("recentId", JSON.stringify([tmpId]));
   } else {
-    const recentIdArr = JSON.parse(local.getItem("recentId"));
+    const recentIdArr = JSON.parse(localStorage.getItem("recentId"));
     for (const x of recentIdArr) {
       if (x === tmpId) {
         ++cnt;
@@ -22,13 +21,13 @@ export async function recentItemSet() {
     if (recentIdArr.length > 3) {
       recentIdArr.shift();
     }
-    local.setItem("recentId", JSON.stringify(recentIdArr));
+    localStorage.setItem("recentId", JSON.stringify(recentIdArr));
   }
 }
 
 let localRecentList = "";
 export async function renderRecent() {
-  const recentIdArr = JSON.parse(local.getItem("recentId"));
+  const recentIdArr = JSON.parse(localStorage.getItem("recentId"));
   if (recentIdArr === null) {
     recentlyViewUlEl.innerHTML =
       ' <li class="none-recent">최근 본 상품이 없습니다!</li>';
@@ -40,9 +39,9 @@ export async function renderRecent() {
     for (const recentId of recentIdArr) {
       console.log(recentId);
       const recentItem = await getDetailItem(recentId);
-      const itemTitle = await recentItem.title;
-      const itemPrice = await recentItem.price;
-      const itemImg = await recentItem.thumbnail;
+      const itemTitle = recentItem.title;
+      const itemPrice = recentItem.price;
+      const itemImg = recentItem.thumbnail;
       await createRecent(recentId, itemTitle, itemPrice, itemImg);
     }
     recentlyViewUlEl.innerHTML = localRecentList;

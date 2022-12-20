@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>인테리어의 시작, 집꾸미기</title>
+    <title>인테리어의 시작, 집다이브</title>
     <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
     <!-- reset css -->
     <link rel="stylesheet" href="./reset.css" />
@@ -83,6 +83,7 @@
             </li>
             <li><button type="button" class="login"></button></li>
             <li><a class="user-info-btn">회원정보</a></li>
+            <li><a class="receipt-info-btn">구매내역</a></li>
           </ul>
         </nav>
       </div>
@@ -109,13 +110,12 @@
             <a class="swiper-slide" href="#/furniture/digital">
               <img src="img/banner5.png" alt="쿠쿠 브랜드위크 배너" />
             </a>
-            <a class="swiper-slide">
+            <a class="swiper-slide" href="#/furniture/plant">
               <img src="img/banner6.png" alt="플랜테리어 배너" />
             </a>
           </ul>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
-          <div class="swiper-pagination"></div>
         </div>
         <div class="saleslist-wrap"></div>
       </article>
@@ -398,6 +398,13 @@
     </section>
     <!--./QnA페이지-->
 
+    <!-- 구매내역 페이지 -->
+    <article class="receipt-page">
+      <section class="receipt-container">
+        <div class="receipt-inner"></div>
+      </section>
+    </article>
+
     <div class="back-ground">배경 필터</div>
     <section class="login-modal">
       <h3>LOGIN</h3>
@@ -554,5 +561,21 @@
         </div>
       </div>
     </section>
+
+    <!-- 로딩 el -->
+    <div class="loader loader-hidden">
+      <svg
+        viewBox="22.857142857142858 22.857142857142858 45.714285714285715 45.714285714285715"
+      >
+        <circle
+          cx="45.714285714285715"
+          cy="45.714285714285715"
+          r="20"
+          stroke-width="5.714285714285714"
+          stroke-dasharray="125.664"
+          stroke-dashoffset="125.66370614359172px"
+        ></circle>
+      </svg>
+    </div>
   </body>
 </html>
