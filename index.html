@@ -128,7 +128,12 @@
               <h3>회원정보</h3>
               <p class="user-info-name-box">
                 <label for="user-info-name">이름</label>
-                <input type="text" name="name" id="user-info-name" />
+                <input
+                  type="text"
+                  name="name"
+                  id="user-info-name"
+                  autocomplete="new-password"
+                />
                 <button class="name-change-btn">변경</button>
               </p>
               <!-- user-info-name-box -->
@@ -138,6 +143,7 @@
                   type="password"
                   id="user-info-pwd"
                   placeholder="기존 비밀번호를 입력하세요"
+                  autocomplete="new-password"
                 />
                 <span class="change-pw-box">
                   <input
@@ -399,14 +405,24 @@
         <form id="login-form">
           <div class="id-box">
             <i class="fa-solid fa-user"></i>
-            <input type="email" class="login-id" placeholder="아이디" />
+            <input
+              type="email"
+              class="login-id"
+              placeholder="아이디"
+              autocomplete="new-password"
+            />
           </div>
           <span class="id-error-msg"
             >규칙에 맞는 이메일 주소를 입력해주세요.</span
           >
           <div class="pw-box">
             <i class="fa-solid fa-key"></i>
-            <input type="password" class="login-pw" placeholder="비밀번호" />
+            <input
+              type="password"
+              class="login-pw"
+              placeholder="비밀번호"
+              autocomplete="new-password"
+            />
           </div>
           <button type="submit" class="login-btn">로그인</button>
           <button class="signup" type="button">회원가입</button>
@@ -442,6 +458,7 @@
             name="pw"
             id="signup-pw"
             placeholder="숫자와 영어 소문자 입력해주세요"
+            autocomplete="new-password"
           />
         </p>
         <span class="pw-length-msg">8자리 이상 입력해주세요</span>
@@ -464,6 +481,7 @@
             name="name"
             id="signup-name"
             placeholder="사용자 이름을 입력해주세요"
+            autocomplete="new-password"
           />
         </p>
         <input type="submit" value="전송" class="signup-button" />
@@ -484,7 +502,7 @@
       <div class="copyright-container">
         <div class="left-container">
           <div class="copyright-title">
-            <a href="javascript:void(0)">집꾸미기</a>
+            <a href="javascript:void(0)">집다이브</a>
             <div class="divider"></div>
             <a href="javascript:void(0)" class="text">개인정보취급방침</a>
             <div class="divider"></div>
@@ -492,7 +510,7 @@
           </div>
           <div class="copyright-description">
             <span
-              >(주)집꾸미기 | 대표자: 노준영 | 사업자번호: 499-81-00612 사업자
+              >(주)집다이브 | 대표자: 노준영 | 사업자번호: 499-81-00612 사업자
               정보 확인</span
             >
             <br />
