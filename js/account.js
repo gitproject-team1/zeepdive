@@ -1,6 +1,5 @@
 import { alertModal } from "./main";
 import { addAccount, getAccounts, removeAccount } from "./requests";
-import { addAccount, getAccounts, removeAccount } from "./requests";
 import { bankSelectEl, accountListUl } from "./store.js";
 // bank elements
 

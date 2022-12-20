@@ -118,6 +118,7 @@ async function router() {
     //회원정보 페이지
   } else if (routePath.includes("#/user")) {
     routerInit();
+    await renderUserAccount();
     pageEl.userPgEl.style.display = "block";
     //제품 상세정보 페이지
   } else if (routePath.includes("#/detail")) {
@@ -199,7 +200,6 @@ closeBtn.addEventListener("click", (event) => {
   accountAddForm.style.display = "none";
   loginModalEl.backGround.style.visibility = "hidden";
 });
-renderUserAccount();
 
 const removeAccountBtn = document.querySelector(".remove-account");
 removeAccountBtn.addEventListener("click", async () => {
