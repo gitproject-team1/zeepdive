@@ -82,7 +82,7 @@ export async function logout() {
     location.href = "/";
     loginModalEl.loginBtnEl.textContent = "로그인/가입";
   } catch (error) {
-    alert("로그아웃에 실패하였습니다.");
+    console.log("로그아웃에 실패하였습니다.");
   }
 }
 
@@ -109,7 +109,7 @@ export async function authLogin() {
       userInfoEl.userInfoName.value = json.displayName;
       return json.email;
     } catch (error) {
-      alert("자동 로그인에 실패하였습니다.");
+      console.log("자동 로그인에 실패하였습니다.");
     }
   }
 }
@@ -175,7 +175,7 @@ export async function addItem({
     );
     const json = await res.json();
   } catch (error) {
-    alert("제품 추가에 실패하였습니다.");
+    console.log("제품 추가에 실패하였습니다.");
   }
 }
 
@@ -197,7 +197,7 @@ export async function getItem() {
     const json = await res.json();
     return json;
   } catch (error) {
-    alert("제품 불러오기에 실패하였습니다.");
+    console.log("제품 불러오기에 실패하였습니다.");
   }
 }
 
@@ -218,7 +218,7 @@ export async function deleteItem(id) {
     );
     const json = await res.json();
   } catch (error) {
-    alert("제품 삭제에 실패하였습니다.");
+    console.log("제품 삭제에 실패하였습니다.");
   }
 }
 
@@ -239,7 +239,7 @@ export async function getDetailItem(id) {
     const json = await res.json();
     return json;
   } catch (error) {
-    alert("제품 정보를 불러오는데 실패하였습니다.");
+    console.log("제품 정보를 불러오는데 실패하였습니다.");
   }
 }
 
@@ -260,7 +260,7 @@ export async function getAllPurchases() {
     );
     const json = await res.json();
   } catch (error) {
-    alert("전체 거래 내역을 불러오는데 실패하였습니다.");
+    console.log("전체 거래 내역을 불러오는데 실패하였습니다.");
   }
 }
 
@@ -284,7 +284,7 @@ export async function editItemStatus(id, sold = true) {
     );
     const json = await res.json();
   } catch (error) {
-    alert("제품 상태 변경에 실패하였습니다.");
+    console.log("제품 상태 변경에 실패하였습니다.");
   }
 }
 
@@ -309,7 +309,7 @@ export async function searchItem(name) {
     const json = await res.json();
     return json;
   } catch (error) {
-    alert("제품 검색에 실패하였습니다.");
+    console.log("제품 검색에 실패하였습니다.");
   }
 }
 
@@ -365,7 +365,7 @@ export async function getAccounts() {
     console.log(json);
     return json.accounts;
   } catch (error) {
-    alert("전체 계좌 목록을 불러오는데 실패하였습니다.");
+    console.log("전체 계좌 목록을 불러오는데 실패하였습니다.");
   }
 }
 
@@ -414,7 +414,7 @@ export async function getQnA() {
     const json = await res.json();
     return json;
   } catch (error) {
-    alert("Q&A정보를 불러오는데 실패하였습니다.");
+    console.log("Q&A정보를 불러오는데 실패하였습니다.");
   }
 }
 
@@ -437,7 +437,7 @@ export async function postQna(title) {
     const json = await res.json();
     return json;
   } catch (error) {
-    alert("Q&A 글 작성에 실패하였습니다.");
+    console.log("Q&A 글 작성에 실패하였습니다.");
   }
 }
 
@@ -458,7 +458,7 @@ export async function deleteQna(id) {
     const json = await res.json();
     return json;
   } catch (error) {
-    alert("Q&A 삭제에 실패하였습니다.");
+    console.log("Q&A 삭제에 실패하였습니다.");
   }
 }
 
@@ -486,6 +486,6 @@ export async function purchaseItems(accountId, productId) {
     const json = await res.json();
     return json;
   } catch (error) {
-    alert("제품 구매에 실패하였습니다.");
+    console.log("제품 구매에 실패하였습니다.");
   }
 }

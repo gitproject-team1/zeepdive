@@ -133,7 +133,6 @@ export async function renderUserAccount() {
     createAccountList(1, 1, 1, 1, false);
   } else {
     accountInfo.forEach((element) => {
-      console.log(element);
       const accountId = element.id;
       const accountName = element.bankName;
       const accountNum = element.accountNumber;
