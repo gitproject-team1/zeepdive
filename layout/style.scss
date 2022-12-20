@@ -99,7 +99,8 @@ header {
               }
             }
           }
-          &:last-child {
+          &:last-child,
+          &:nth-child(5) {
             a {
               font-size: 16px;
               font-weight: 700;

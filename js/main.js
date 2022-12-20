@@ -17,6 +17,7 @@ import {
   renderCartPages,
   renderQnA,
   routerInit,
+  renderReceiptPage,
 } from "./render.js";
 import {
   searchForm,
@@ -169,6 +170,10 @@ async function router() {
     routerInit();
     await renderQnA();
     pageEl.qnaPgEl.style.display = "block";
+  } else if (routePath.includes("#/receipt")) {
+    routerInit();
+    await renderReceiptPage();
+    pageEl.receiptPgEl.style.display = "block";
   }
 }
 
