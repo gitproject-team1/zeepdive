@@ -182,9 +182,14 @@
       button{
         border: 2px solid #fb3f4c;
         &:hover{
-          background-color: #a32931;
+          border: 2px solid #a32931;
+          background-color: #fb3f4c;
+          color: #fff;
         }
       }
     }
   }
+}
+.bank-add-input{
+  display: none;
 }

@@ -3,6 +3,7 @@
    License: none (public domain)
 */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 /* @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css); */
 /* font-family: 'Noto Sans KR', sans-serif; */
 html,
@@ -98,6 +99,7 @@ video {
   font-family: "Noto Sans KR", sans-serif;
   font-weight: 500;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -112,13 +114,16 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -126,6 +131,7 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;

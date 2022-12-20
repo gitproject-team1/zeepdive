@@ -46,6 +46,7 @@ import {
   bankSelelectEvent,
   accountAddSubmit,
   removeAccountFnc,
+  clearAccount
 } from "./account.js";
 import { cartIconClick } from "./cart.js";
 import { renderRecent, recentItemSet } from "./recent";
@@ -237,31 +238,36 @@ async function router() {
 }
 
 // user-info창에서 은행을 선택하면 생기는 이벤트
+renderUserAccount();
+
 bankSelectEl.addEventListener("change", (event) => {
-  bankSelelectEvent(event.target.value);
   event.preventDefault();
+  bankSelelectEvent(event.target.value);
 });
 
 const accountAddForm = document.querySelector('.add-form')
 bankSubmitBtn.addEventListener("click", async (event) => {
+  event.preventDefault();
   await accountAddSubmit();
   await renderUserAccount();
-  event.preventDefault();
   accountAddForm.style.display = "none";
   backGround.style.visibility = "hidden";
 });
+
 const addAccountBtn = document.querySelector('.add-account')
-addAccountBtn.addEventListener('click',()=>{
+addAccountBtn.addEventListener('click',(event)=>{
+  event.preventDefault();
   accountAddForm.style.display = "flex";
   backGround.style.visibility = "visible";
 })
+
 const closeBtn = document.querySelector('.bank-close-btn')
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
   accountAddForm.style.display = "none";
   backGround.style.visibility = "hidden";
+  clearAccount()
 })
-renderUserAccount();
 
 
 const removeAccountBtn = document.querySelector(".remove-account");

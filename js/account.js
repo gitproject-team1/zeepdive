@@ -6,8 +6,6 @@ import {
   removeAccount
 } from "./requests"
 import {
-  userModal,
-  userModalContent,
   bankSelectEl,
   accountListUl,
 } from "./store.js"
@@ -20,8 +18,7 @@ const inputBankEl4 = document.querySelector(".bank-add-4");
 const allInputBankEl = document.querySelectorAll(".bank-add-input");
 const bankPhoneNumEl = document.getElementById("bank-phone-num");
 const bankSignatureEl = document.getElementById("account-signature");
-const addSection = document.querySelector(".bank-add-section");
-const removeSection = document.querySelector(".bank-remove-section");
+
 
 
 let accountNumber = ''
@@ -115,9 +112,6 @@ export async function accountAddSubmit() {
   });
   if (!Number(accountNumber)) {
     alertModal("계좌번호는 숫자만 입력해주세요");
-    allInputBankEl.forEach((e) => {
-      e.value = "";
-    });
   } else {
     if (!Number(bankPhoneNumEl.value)) {
       alertModal("전화번호는 숫자만 입력해주세요");
@@ -126,15 +120,21 @@ export async function accountAddSubmit() {
     } else {
       console.log(accountNumber)
       await addAccount(bankCode, accountNumber, bankPhoneNumEl.value, bankSignatureEl.checked)
-      accountNumber = ''
-      bankPhoneNumEl.value = ''
-      bankSignatureEl.checked = false
-      bankSelectEl.value = 'none'
-      inputDisplay('none');
     }
   }
+  clearAccount()
 }
 
+export function clearAccount () {
+  accountNumber = ''
+  bankPhoneNumEl.value = ''
+  bankSignatureEl.checked = false
+  bankSelectEl.value = 'none'
+  allInputBankEl.forEach((e) => {
+    e.value = "";
+  });
+  document.getElementsByName('bank-select').checekd = false
+}
 export async function renderUserAccount() {
   const accountInfo = await getAccounts();
   accountListUl.innerHTML = "";
