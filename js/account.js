@@ -1,6 +1,5 @@
 import { alertModal } from "./main";
 import { addAccount, getAccounts, removeAccount } from "./requests";
-import { addAccount, getAccounts, removeAccount } from "./requests";
 import { bankSelectEl, accountListUl } from "./store.js";
 // bank elements
 
@@ -134,7 +133,6 @@ export async function renderUserAccount() {
     createAccountList(1, 1, 1, 1, false);
   } else {
     accountInfo.forEach((element) => {
-      console.log(element);
       const accountId = element.id;
       const accountName = element.bankName;
       const accountNum = element.accountNumber;
