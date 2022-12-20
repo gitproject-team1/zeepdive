@@ -22,9 +22,15 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
     />
     <!-- swiper css -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+    />
     <!-- Swiper js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
+    />
     <!-- style -->
     <link rel="stylesheet" href="./layout/style.scss" />
     <!--postal code js-->
@@ -40,9 +46,7 @@
       <div class="header-container">
         <nav>
           <h1>
-            <a href="/"
-              ><img src="https://cdn.ggumim.co.kr/storage/202204051459171AgPRwqnvh.png" alt="logo"
-            /></a>
+            <a href="/"><img src="./img/main-image.png" alt="logo" /></a>
           </h1>
           <ul class="nav-1depth">
             <li>
@@ -62,7 +66,11 @@
                 <button type="submit">
                   <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-                <input type="text" id="search-main" placeholder="인테리어 정보, 상품 검색" />
+                <input
+                  type="text"
+                  id="search-main"
+                  placeholder="인테리어 정보, 상품 검색"
+                />
               </form>
             </li>
             <li>
@@ -86,12 +94,24 @@
       <article class="main-page">
         <div class="swiper mySwiper1">
           <ul class="swiper-wrapper">
-            <li class="swiper-slide"><img src="img/banner1.png" alt="" /></li>
-            <li class="swiper-slide"><img src="img/banner2.png" alt="" /></li>
-            <li class="swiper-slide"><img src="img/banner3.png" alt="" /></li>
-            <li class="swiper-slide"><img src="img/banner4.png" alt="" /></li>
-            <li class="swiper-slide"><img src="img/banner5.png" alt="" /></li>
-            <li class="swiper-slide"><img src="img/banner6.png" alt="" /></li>
+            <a class="swiper-slide">
+              <img src="img/banner1.png" alt="신규회원 웰컴쿠폰 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/christmas">
+              <img src="img/banner2.png" alt="크리스마스 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/drawer">
+              <img src="img/banner3.png" alt="베스트 수납 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/drawer">
+              <img src="img/banner4.png" alt="인테리어 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/digital">
+              <img src="img/banner5.png" alt="쿠쿠 브랜드위크 배너" />
+            </a>
+            <a class="swiper-slide">
+              <img src="img/banner6.png" alt="플랜테리어 배너" />
+            </a>
           </ul>
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
@@ -108,7 +128,12 @@
               <h3>회원정보</h3>
               <p class="user-info-name-box">
                 <label for="user-info-name">이름</label>
-                <input type="text" name="name" id="user-info-name" autocomplete="new-password" />
+                <input
+                  type="text"
+                  name="name"
+                  id="user-info-name"
+                  autocomplete="new-password"
+                />
                 <button class="name-change-btn">변경</button>
               </p>
               <!-- user-info-name-box -->
@@ -171,10 +196,26 @@
                   <h5 class="select-bank">은행을 선택해주세요</h5>
                   <p class="bank-account-num">계좌번호</p>
                   <p class="account-box">
-                    <input type="text" pattern="[0-9]+" class="bank-add-1 bank-add-input" />
-                    <input type="text" pattern="[0-9]+" class="bank-add-2 bank-add-input" />
-                    <input type="text" pattern="[0-9]+" class="bank-add-3 bank-add-input" />
-                    <input type="text" pattern="[0-9]+" class="bank-add-4 bank-add-input" />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-1 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-2 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-3 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-4 bank-add-input"
+                    />
                   </p>
                   <!-- /.account-box -->
                 </fieldset>
@@ -364,9 +405,16 @@
         <form id="login-form">
           <div class="id-box">
             <i class="fa-solid fa-user"></i>
-            <input type="email" class="login-id" placeholder="아이디" autocomplete="new-password" />
+            <input
+              type="email"
+              class="login-id"
+              placeholder="아이디"
+              autocomplete="new-password"
+            />
           </div>
-          <span class="id-error-msg">규칙에 맞는 이메일 주소를 입력해주세요.</span>
+          <span class="id-error-msg"
+            >규칙에 맞는 이메일 주소를 입력해주세요.</span
+          >
           <div class="pw-box">
             <i class="fa-solid fa-key"></i>
             <input
@@ -392,9 +440,16 @@
       <form id="frm">
         <p class="signup-email-box">
           <label for="signup-email">이메일</label>
-          <input type="email" name="email" id="signup-email" placeholder="이메일을 적어주세요" />
+          <input
+            type="email"
+            name="email"
+            id="signup-email"
+            placeholder="이메일을 적어주세요"
+          />
         </p>
-        <span class="email-error-msg">규칙에 맞는 이메일 주소를 입력해주세요.</span>
+        <span class="email-error-msg"
+          >규칙에 맞는 이메일 주소를 입력해주세요.</span
+        >
         <div class="email-alert"></div>
         <p class="signup-pw-box">
           <label for="signup-pw">비밀번호</label>
@@ -416,7 +471,9 @@
             placeholder="비밀번호를 다시한번 입력해주세요"
           />
         </p>
-        <span class="pw-error-msg">비밀번호와 비밀번호 확인이 일치하지 않습니다.</span>
+        <span class="pw-error-msg"
+          >비밀번호와 비밀번호 확인이 일치하지 않습니다.</span
+        >
         <p class="signup-name-box">
           <label for="signup-name">사용자 이름</label>
           <input
@@ -428,8 +485,12 @@
           />
         </p>
         <input type="submit" value="전송" class="signup-button" />
-        <div class="login-error-box signup-error-box">회원가입 정보를 정확히 입력해주세요.</div>
-        <div class="login-error-box email-overlap-error">이미 가입된 이메일입니다</div>
+        <div class="login-error-box signup-error-box">
+          회원가입 정보를 정확히 입력해주세요.
+        </div>
+        <div class="login-error-box email-overlap-error">
+          이미 가입된 이메일입니다
+        </div>
       </form>
       <button class="close-signup close">
         <i class="fa-solid fa-circle-xmark"></i>
@@ -441,18 +502,21 @@
       <div class="copyright-container">
         <div class="left-container">
           <div class="copyright-title">
-            <a href="javascript:void(0)">집꾸미기</a>
+            <a href="javascript:void(0)">집다이브</a>
             <div class="divider"></div>
             <a href="javascript:void(0)" class="text">개인정보취급방침</a>
             <div class="divider"></div>
             <a href="javascript:void(0)" class="text">이용약관</a>
           </div>
           <div class="copyright-description">
-            <span>(주)집꾸미기 | 대표자: 노준영 | 사업자번호: 499-81-00612 사업자 정보 확인</span>
+            <span
+              >(주)집다이브 | 대표자: 노준영 | 사업자번호: 499-81-00612 사업자
+              정보 확인</span
+            >
             <br />
             <span
-              >통신판매업: 2018-성남분당B-0062 | 개인정보보호책임자: 노준영 | 이메일:
-              ghgt1@naver.com</span
+              >통신판매업: 2018-성남분당B-0062 | 개인정보보호책임자: 노준영 |
+              이메일: ghgt1@naver.com</span
             >
             <br /><span>주소: 서울 강남구 강남대로 364 미왕빌딩 11D</span>
           </div>
@@ -461,20 +525,18 @@
           </div>
         </div>
         <div class="right-container">
-          <a href="https://post.naver.com/mdl87" target="_blank"><i class="text">N</i></a>
-          <a href="https://band.us/band/56666078" target="_blank"><i class="text">B</i></a>
-          <a href="https://www.instagram.com/ggumigi/" target="_blank"
-            ><i class="fab fa-instagram"></i
-          ></a>
-          <a href="https://www.youtube.com/channel/UChmUHlBjbIquOygkGNReCoA" target="_blank"
-            ><i class="fab fa-youtube"></i
-          ></a>
-          <a href="https://ko-kr.facebook.com/ggumim2013" target="_blank"
-            ><i class="fab fa-facebook-f"></i
-          ></a>
-          <!-- <a href="https://twitter.com/inflearn" target="_blank"
-            ><i class="fa-brands fa-twitter"></i
-          ></a> -->
+          <a href="https://github.com/ghgt1" target="_blank"
+            ><i class="text">N</i></a
+          >
+          <a href="https://github.com/hoheesu" target="_blank"
+            ><i class="text">Y</i></a
+          >
+          <a href="https://github.com/1myeji" target="_blank"
+            ><i class="text">I</i></a
+          >
+          <a href="https://github.com/hyorimcho" target="_blank"
+            ><i class="text">C</i></a
+          >
         </div>
       </div>
     </footer>
