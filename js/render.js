@@ -83,7 +83,8 @@ export async function renderMainItems() {
     "/#/furniture/digital",
     "/#/furniture/drawer",
   ];
-
+  const saleslistWrapper = document.querySelector(".saleslist-wrap");
+  saleslistWrapper.innerHTML = "";
   //반복문을 돌면서 tags 별로 아이템 넣어주기
   for (let i = 0; i < 4; i++) {
     const saleslistContainer = document.createElement("section");
@@ -123,8 +124,10 @@ export async function renderMainItems() {
 			`;
       itemList.appendChild(itemListContainer);
     }
-    pageEl.mainPgEl.append(saleslistContainer);
+    saleslistWrapper.append(saleslistContainer);
+    // pageEl.mainPgEl.append(saleslistContainer);
   }
+  pageEl.mainPgEl.append(saleslistWrapper);
 }
 
 //category별 페이지 렌더링
