@@ -1,4 +1,4 @@
-import { alertModal, mainPgEl } from "./main.js";
+import { alertModal } from "./main.js";
 import {
   getItem,
   getDetailItem,
@@ -8,14 +8,10 @@ import {
   postQna,
   deleteQna,
   purchaseItems,
+  editItemStatus,
+  searchItem,
 } from "./requests.js";
-import {
-  detailContainer,
-  cartItems,
-  singlePrice,
-  deliveryPrice,
-  totalPrice,
-} from "./store.js";
+import { detailContainer, cartEl, pageEl } from "./store.js";
 import kbank from "../img/kbank.png";
 import hana from "../img/hana.png";
 import kakao from "../img/kakao.png";
@@ -53,11 +49,8 @@ async function filterCategories(search = "") {
   const planteriorItem = items.filter((item) => item.tags[0] === "플랜테리어");
   const cookooItem = items.filter((item) => item.tags[0] === "쿠쿠");
   const drawerItem = items.filter((item) => item.tags[0] === "수납");
-  // console.log(search);
-  const searchItem = items.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
-  return [christmasItem, planteriorItem, cookooItem, drawerItem, searchItem];
+  const searchRes = await searchItem(search);
+  return [christmasItem, planteriorItem, cookooItem, drawerItem, searchRes];
 }
 
 //메인 페이지 아이템 렌더링
@@ -87,7 +80,8 @@ export async function renderMainItems() {
     "/#/furniture/digital",
     "/#/furniture/drawer",
   ];
-
+  const saleslistWrapper = document.querySelector(".saleslist-wrap");
+  saleslistWrapper.innerHTML = "";
   //반복문을 돌면서 tags 별로 아이템 넣어주기
   for (let i = 0; i < 4; i++) {
     const saleslistContainer = document.createElement("section");
@@ -127,16 +121,18 @@ export async function renderMainItems() {
 			`;
       itemList.appendChild(itemListContainer);
     }
-    mainPgEl.append(saleslistContainer);
+    saleslistWrapper.append(saleslistContainer);
+    // pageEl.mainPgEl.append(saleslistContainer);
   }
+  pageEl.mainPgEl.append(saleslistWrapper);
 }
 
 //category별 페이지 렌더링
-export async function renderCategoryPages(category, search = "") {
+export async function renderCategoryPages(category, search = "", sort = "new") {
   const noItemImg = document.querySelector(".no-result");
   noItemImg.style.display = "none";
   const categoryMap = { christmas: 0, plant: 1, digital: 2, drawer: 3, all: 4 };
-  const filteredItems = await filterCategories(search);
+  let filteredItems = await filterCategories(search);
   // 검색을 이용하면 전체 카테고리에서 검색.
   if (category !== "all") {
     document.querySelector(".category-title").textContent =
@@ -144,32 +140,45 @@ export async function renderCategoryPages(category, search = "") {
   } else {
     document.querySelector(".category-title").textContent = "전체";
   }
+
+  // sort option 따라 순서 정해줘야함.
+  let sortedItems = [...filteredItems[categoryMap[category]]];
+  if (sort === "low-price") {
+    sortedItems.sort((a, b) => {
+      if (a.price > b.price) return 1;
+      if (a.price < b.price) return -1;
+      return 0;
+    });
+  } else if (sort === "high-price") {
+    sortedItems.sort((a, b) => {
+      if (a.price > b.price) return -1;
+      if (a.price < b.price) return 1;
+      return 0;
+    });
+  }
+
   const itemList = document.querySelector(".category-itemlist > .itemlist");
   itemList.innerHTML = "";
   // 검색결과 없을때 이미지 띄우기
-  if (filteredItems[categoryMap[category]].length === 0) {
+  if (sortedItems.length === 0) {
     noItemImg.style.display = "flex";
     return;
   }
-  for (let j = 0; j < filteredItems[categoryMap[category]].length; j++) {
+  for (let j = 0; j < sortedItems.length; j++) {
     const itemListContainer = document.createElement("div");
     itemListContainer.classList.add("itemlist-container");
     itemListContainer.innerHTML = /* html */ `
-    <a href="#/detail/${filteredItems[categoryMap[category]][j].id}">
+    <a href="#/detail/${sortedItems[j].id}">
       <div class="itemlist-image">
           <img
-            src=${filteredItems[categoryMap[category]][j].thumbnail}
-            alt=${filteredItems[categoryMap[category]][j].tags}이미지
+            src=${sortedItems[j].thumbnail}
+            alt=${sortedItems[j].tags}이미지
           />
       </div>
       <div class="itemlist-detail">
-        <div class="itemlist-tag">${
-          filteredItems[categoryMap[category]][j].tags
-        }</div>
-        <div class="itemlist-title">${
-          filteredItems[categoryMap[category]][j].title
-        }</div>
-        <div class="itemlist-price">${filteredItems[categoryMap[category]][
+        <div class="itemlist-tag">${sortedItems[j].tags}</div>
+        <div class="itemlist-title">${sortedItems[j].title}</div>
+        <div class="itemlist-price">${sortedItems[
           j
         ].price.toLocaleString()}원</div>
       </div>
@@ -179,10 +188,10 @@ export async function renderCategoryPages(category, search = "") {
     itemList.appendChild(itemListContainer);
   }
 }
+
 //상세페이지
 export async function renderDetailPages(itemId) {
   const detailItem = await getDetailItem(itemId);
-  console.log(detailItem);
   detailContainer.innerHTML = /* html */ `
   <div class="detail-view">
     <div class="thumnail">
@@ -257,9 +266,20 @@ export async function renderDetailPages(itemId) {
 
   `;
 
+  // 제품 품절이면 품절띄워야함
+  const buyBtn = document.querySelector(".buying-button");
+  if (detailItem.isSoldOut) {
+    buyBtn.innerHTML = /* html */ `
+        <div>
+          <button type="button" class="option-cart option-buynow" style="width:400px"; >상품이 품절되었습니다</button>
+        </div>
+    `;
+    document.querySelector(".option-cart").style.filter = "grayscale(100%)";
+    document.querySelector(".option-cart").style.pointerEvents = "none";
+  }
   const qnaSubmitRequestBtn = document.querySelector(".qna-submit-request-btn");
   qnaSubmitRequestBtn.addEventListener("click", () => {
-    window.location = "#/qna";
+    location.href = "#/qna";
   });
 
   const optionBtn = document.querySelector(".option-cart");
@@ -276,7 +296,7 @@ export async function renderDetailPages(itemId) {
     const token = localStorage.getItem("token");
     if (!token) {
       alertModal(`로그인을 해주세요.`);
-    } else window.location = `#/purchase/${detailItem.id}`;
+    } else location.href = `#/purchase/${detailItem.id}`;
   });
 
   // 배송/환불/교환 관련 사진으로 바로 보내줌
@@ -568,6 +588,11 @@ export async function renderPurchasePages(items) {
     if (curAccountBal >= totalPrice) {
       for (const item of detailItems) {
         await purchaseItems(bankId, item.id);
+        await editItemStatus(item.id, true);
+      }
+      if (location.hash === "#/purchase/cart") {
+        const email = await authLogin();
+        localStorage.removeItem(`cartId-${email}`);
       }
       localStorage.setItem("purchase", "true");
       alertModal(`거래가 정상적으로 이루어졌습니다.`);
@@ -637,7 +662,6 @@ let itemsPrice = 0;
 export async function renderCartPages() {
   const email = await authLogin();
   const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
-  console.log(cartIdArr);
   if (cartIdArr.length === 0) {
     emptyCart();
     return;
@@ -672,7 +696,7 @@ export async function renderCartPages() {
         />
           `;
     itemsPrice += item.price;
-    cartItems.appendChild(element);
+    cartEl.cartItems.appendChild(element);
     const cartDelete = element.querySelector(".cart-delete");
     cartDelete.addEventListener("click", (event) => {
       deleteCartItems(event);
@@ -683,12 +707,12 @@ export async function renderCartPages() {
 
 function renderPrice() {
   let deliveryFee = 3500;
-  singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
+  cartEl.singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
   if (itemsPrice >= 100000) {
     deliveryFee = 0;
-    deliveryPrice.textContent = `${deliveryFee}원`;
-  } else deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
-  totalPrice.textContent =
+    cartEl.deliveryPrice.textContent = `${deliveryFee}원`;
+  } else cartEl.deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
+  cartEl.totalPrice.textContent =
     (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
 }
 
@@ -697,7 +721,7 @@ async function deleteCartItems(event) {
   const incartPrice = event.currentTarget.previousElementSibling.innerHTML;
   const num = /[^0-9]/g;
   itemsPrice = itemsPrice - incartPrice.replace(num, "");
-  cartItems.removeChild(incartItem);
+  cartEl.cartItems.removeChild(incartItem);
   const email = await authLogin();
   const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
   const arr = cartIdArr.filter((cartIdEl) => {
@@ -713,12 +737,12 @@ async function deleteCartItems(event) {
 }
 
 function emptyCart() {
-  cartItems.innerHTML = /* html */ `
+  cartEl.cartItems.innerHTML = /* html */ `
   <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
   `;
-  singlePrice.textContent = "0원";
-  deliveryPrice.textContent = "0원";
-  totalPrice.textContent = "0원";
+  cartEl.singlePrice.textContent = "0원";
+  cartEl.deliveryPrice.textContent = "0원";
+  cartEl.totalPrice.textContent = "0원";
 }
 
 //QnA 페이지
@@ -728,6 +752,8 @@ const qnaModal = document.querySelector(".qna-modal");
 const backgroundFilter = document.querySelector(".back-ground");
 const qnaSubmitBtnEl = document.querySelector(".qna-submit-btn");
 const qnaInputEl = document.querySelector(".qna-content");
+const selectOptionBtn = document.querySelector(".selected-option");
+const qnaErrorMsg = document.querySelector(".select-error-msg");
 
 requsetBtnEl.addEventListener("click", qnaModalOpen);
 qnaSubmitBtnEl.addEventListener("click", addQna);
@@ -769,6 +795,10 @@ export const renderQnA = async () => {
 async function addQna(event) {
   event.preventDefault();
   const qnaTitle = qnaInputEl.value.trim();
+  if (selectOptionBtn.value === "selected" || qnaInputEl.value === "") {
+    alertModal("내용을 모두 기입 해주세요");
+    return;
+  }
   const qnaItem = await postQna(qnaTitle);
   const { title, createdAt, id } = qnaItem;
   renderQnA();
@@ -792,4 +822,11 @@ async function renderQnaList() {
   qnaItems.forEach((qnaItem) =>
     renderQnA(qnaItem.title, qnaItem.createdAt, qnaItem.id)
   );
+}
+
+// main.js에서 라우터 조절하는 function
+export function routerInit() {
+  for (let page in pageEl) {
+    pageEl[page].style.display = "none";
+  }
 }

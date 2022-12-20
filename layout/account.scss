@@ -1,144 +1,138 @@
-
-.bank-add-section{
-  strong{
-    display: block;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  ul.account-lists{
+.bank-add-section {
+  margin-top: 20px;
+  ul.account-lists {
     box-shadow: inset 3px 5px 2px #ddd;
     padding: 10px;
-    width: 100%; 
+    width: 100%;
     background-color: #efefef;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 5px;
-    li{
+    li {
       display: flex;
       align-items: center;
       justify-content: space-around;
       width: 500px;
-      background-color: #fff;;
+      background-color: #fff;
       height: 40px;
       // border: 2px solid #555;
       box-shadow: 3px 5px 2px #ddd;
       border-radius: 5px;
       margin: 5px 0;
-      &:nth-child(1){
+      &:nth-child(1) {
         margin-top: 10px;
       }
-      &:nth-last-child(1){
+      &:nth-last-child(1) {
         margin-bottom: 10px;
       }
-      .bank-name{
+      .bank-name {
         width: 100px;
       }
-      .acount-number{
+      .acount-number {
         width: 200px;
       }
-      .account-balance{
+      .account-balance {
         width: 100px;
       }
     }
   }
-  .remove-check-button-box{
+  .remove-check-button-box {
     margin-top: 20px;
-    width: 100%; 
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 20px;
   }
-  button{
+  button {
     width: max-content;
     padding: 5px;
     background-color: #fff;
     cursor: pointer;
     border-radius: 5px;
-    &.remove-account{
+    &.remove-account {
       background-color: #fb3f4c;
       color: #fff;
       border: transparent;
-      &:hover{
+      &:hover {
         background-color: #a32931;
       }
     }
-    &.add-account{
-    border: 2px solid #fb3f4c;
-    margin: 0 auto;
-    display: block;
-    margin-top: 30px;
-    &:hover{
+    &.add-account {
+      border: 2px solid #fb3f4c;
+      margin: 0 auto;
+      display: block;
+      margin-top: 30px;
+      &:hover {
         border: 2px solid #a32931;
       }
     }
   }
-    .add-form{
-      display: none;
+  .add-form {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: 700px;
+    height: 500px;
+    position: fixed;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    fieldset.add-account-box {
+      width: 100%;
+      display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-around;
-      width: 700px;
-      height: 500px;
-      position: fixed;
-      z-index: 100;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      border-radius: 5px;
-      overflow: hidden;
-      fieldset.add-account-box{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      input{
-        height: 25px;
-        line-height: 25px;
-      }
-      .add-top-head{
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        height: 30px;
-        background-color: #333;
-        li{
-          &>button{
-            background-color: transparent;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            &:hover{
-              &>i{
-                color: #f00;
-              }
-            }
-            &>i{
-              font-size: 20px;
-              color: #fff;
-             
+    }
+    input {
+      height: 25px;
+      line-height: 25px;
+    }
+    .add-top-head {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 30px;
+      background-color: #333;
+      li {
+        & > button {
+          background-color: transparent;
+          border: none;
+          color: #fff;
+          cursor: pointer;
+          &:hover {
+            & > i {
+              color: #f00;
             }
           }
-          &>h4{
-            font-size: 18px;
+          & > i {
+            font-size: 20px;
             color: #fff;
           }
         }
+        & > h4 {
+          font-size: 18px;
+          color: #fff;
+        }
       }
-      .bank-list{
+    }
+    .bank-list {
       display: flex;
       justify-content: space-between;
       align-items: center;
       width: 500px;
       padding-top: 30px;
-       input{
+      input {
         -webkit-appearance: none;
         border: none;
         width: 50px;
@@ -147,19 +141,19 @@
         position: relative;
         @for $i from 1 through 7 {
           &:nth-child(#{$i}) {
-            background: url("/img/bank"+$i+".svg") left center no-repeat;
+            background: url("/img/bank" + $i + ".svg") left center no-repeat;
             background-size: 50px;
           }
         }
-        &:checked{
+        &:checked {
           filter: grayscale(100%);
         }
-        &:hover{
+        &:hover {
           filter: grayscale(70%);
         }
-       }
+      }
     }
-    .select-bank{
+    .select-bank {
       background-color: #333;
       border-radius: 5px;
       padding: 5px;
@@ -169,27 +163,34 @@
       margin: 0 auto;
       margin-bottom: 5px;
     }
-    .bank-account-num{
-      text-align: center; 
+    .bank-account-num {
+      text-align: center;
       margin-bottom: 20px;
     }
-    .signature-box{
+    .account-box {
+      input {
+        border: 1px solid;
+        width: 100px;
+      }
+    }
+    .phone-box {
+      input {
+        width: 180px;
+        border: 1px solid;
+      }
+    }
+    .signature-box {
       display: flex;
       align-items: center;
-      #account-signature{
+      #account-signature {
         margin-right: 20px;
       }
-      button{
+      button {
         border: 2px solid #fb3f4c;
-        &:hover{
-          border: 2px solid #a32931;
-          background-color: #fb3f4c;
-          color: #fff;
+        &:hover {
+          background-color: #a32931;
         }
       }
     }
   }
-}
-.bank-add-input{
-  display: none;
 }
