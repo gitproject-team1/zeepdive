@@ -1,6 +1,12 @@
 import { alertModal } from "./main.js";
 import { setItemWithExpireTime, showErrorBox } from "./signup.js";
-import { signupEl, loginEl, loginModalEl, userInfoEl } from "./store.js";
+import {
+  signupEl,
+  loginEl,
+  loginModalEl,
+  userInfoEl,
+  loadEl,
+} from "./store.js";
 
 const API_KEY = `FcKdtJs202209`;
 const USER_NAME = `imyeji`;
@@ -182,6 +188,7 @@ export async function addItem({
 // 상품 정보 갖고오기
 export async function getItem() {
   try {
+    loadEl.classList.remove("loader-hidden");
     const res = await fetch(
       "https://asia-northeast3-heropy-api.cloudfunctions.net/api/products",
       {
@@ -198,6 +205,8 @@ export async function getItem() {
     return json;
   } catch (error) {
     console.log("제품 불러오기에 실패하였습니다.");
+  } finally {
+    loadEl.classList.add("loader-hidden");
   }
 }
 
@@ -474,6 +483,7 @@ export async function getAllPurchases() {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
   try {
+    loadEl.classList.remove("loader-hidden");
     const res = await fetch(
       `https://asia-northeast3-heropy-api.cloudfunctions.net/api/products/transactions/details`,
       {
@@ -490,6 +500,8 @@ export async function getAllPurchases() {
     return json;
   } catch (error) {
     console.log("전체 거래 내역을 불러오는데 실패하였습니다.");
+  } finally {
+    loadEl.classList.add("loader-hidden");
   }
 }
 

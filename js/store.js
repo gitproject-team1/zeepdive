@@ -102,3 +102,6 @@ export const cartEl = {
   totalPrice: document.querySelector(".total-price"),
   cartOrderBtn: document.querySelector(".cart-order-btn"),
 };
+
+// 로딩 el
+export const loadEl = document.querySelector(".loader");

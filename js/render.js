@@ -14,7 +14,7 @@ import {
   confirmPurchase,
   cancelPurchase,
 } from "./requests.js";
-import { detailContainer, cartEl, pageEl } from "./store.js";
+import { detailContainer, cartEl, pageEl, loadEl } from "./store.js";
 import kbank from "../img/kbank.png";
 import hana from "../img/hana.png";
 import kakao from "../img/kakao.png";
@@ -671,6 +671,7 @@ export async function renderCartPages() {
     emptyCart();
     return;
   }
+  loadEl.classList.remove("loader-hidden");
   const promises = [];
   for (const id of cartIdArr) {
     promises.push(getDetailItem(id));
@@ -708,6 +709,7 @@ export async function renderCartPages() {
     });
   }
   renderPrice();
+  loadEl.classList.add("loader-hidden");
 }
 
 function renderPrice() {
