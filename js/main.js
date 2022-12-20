@@ -45,6 +45,17 @@ let cartIdArr = "";
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const categorySort = document.querySelector(".selector");
 const footerEl = document.querySelector("footer");
+const receiptBtn = document.querySelector(".receipt-info-btn");
+
+// 구매내역 창 로그인 검사
+receiptBtn.addEventListener("click", () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alertModal(`로그인을 해주세요.`);
+  } else {
+    location.href = "#/receipt";
+  }
+});
 
 // 검색창
 searchForm.addEventListener("submit", (event) => {

@@ -160,7 +160,8 @@ header {
               background-color: #2e3236;
             }
           }
-          a.user-info-btn {
+          a.user-info-btn,
+          a.receipt-info-btn {
             cursor: pointer;
           }
         }
@@ -467,7 +468,7 @@ main {
               font-size: 8px !important;
               width: 80px !important;
             }
-            a.user-info-btn {
+            a.user-info-btn a.receipt-info-btn {
               font-size: 12px !important;
               width: 90px;
             }
