@@ -6,6 +6,8 @@
 
 **집다이브에 깊이 빠져보아요!**
 
+<img src="https://user-images.githubusercontent.com/35508595/208907794-53d73c85-e38d-48da-9c9b-66fb9db09f5c.png" width="40%" height="40%"/>
+
 - 배포 링크 : [집다이브](https://zeepdive.netlify.app/)
 - 참조 사이트 and 제품출처 : [집꾸미기](https://www.ggumim.co.kr/)
 <br/>
