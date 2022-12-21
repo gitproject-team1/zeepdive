@@ -45,10 +45,12 @@
           margin-bottom: 16px;
         }
         .furniture-title {
+          line-height: 1.3;
           font-size: 20px;
           font-weight: 500;
           word-break: break-all;
           margin: 0px 0px 16px;
+          max-width: 410px;
         }
         .furniture-price {
           font-size: 30px;

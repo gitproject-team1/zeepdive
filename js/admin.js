@@ -19,7 +19,6 @@ export async function createItemEvent(base64Thumbnail, base64Img) {
     thumbnail: base64Thumbnail,
     img: base64Img,
   };
-  console.log(state);
   await addItem(state);
   // location.reload();
 }

@@ -348,7 +348,6 @@ export async function renderPurchasePages(items) {
     detailItems.push(getDetailItem(item));
   }
   detailItems = await Promise.all(detailItems);
-  console.log(detailItems);
   const purchaseContainer = document.querySelector(".purchase-inner");
   // 배송비는 총 가격이 10만이상이면 무료 아니면 3500원
   let shippingFee = 3500;
@@ -800,7 +799,6 @@ export const renderQnA = async () => {
       qnaItems.removeChild(content);
     });
     contentIdEl.forEach(async (id) => {
-      console.log("id", id.textContent);
       await deleteQna(id.textContent);
     });
   }
@@ -843,7 +841,6 @@ export async function renderReceiptPage() {
   `;
   const receiptDetail = document.querySelector(".receipt-detail");
   for (let receipt of allPurchase) {
-    console.log(receipt);
     const itemContainer = document.createElement("div");
     itemContainer.classList.add("receipt-container");
     itemContainer.innerHTML = /* html */ `
