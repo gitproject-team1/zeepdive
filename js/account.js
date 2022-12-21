@@ -121,7 +121,6 @@ export async function accountAddSubmit() {
       inputDisplay("none");
     }
   }
-  clearAccount()
 }
 
 export function clearAccount () {
@@ -134,6 +133,7 @@ export function clearAccount () {
   });
   document.getElementsByName('bank-select').checekd = false
 }
+
 export async function renderUserAccount() {
   loadEl.classList.remove("loader-hidden");
   const accountInfo = await getAccounts();

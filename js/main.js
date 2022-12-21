@@ -218,6 +218,7 @@ addAccountBtn.addEventListener("click", () => {
 const closeBtn = document.querySelector(".bank-close-btn");
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
+  clearAccount()
   accountAddForm.style.display = "none";
   loginModalEl.backGround.style.visibility = "hidden";
 });
