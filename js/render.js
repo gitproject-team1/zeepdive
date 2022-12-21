@@ -879,6 +879,8 @@ export async function renderReceiptPage() {
       });
       cancelPurchaseBtn.addEventListener("click", async () => {
         await cancelPurchase(receipt.detailId);
+        console.log(receipt.product.id);
+        await editItemStatus(receipt.product.productId, false);
         localStorage.setItem("receipt", "true");
       });
 
