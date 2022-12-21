@@ -1,15 +1,21 @@
-# 🏡 집다이브 🏡
+# 🏡 인테리어의 시작, 집다이브 🏡
+
+###### 패스트캠퍼스에서 진행한 주어진 API를 분석하여 핀테크 서비스 만들기 프로젝트입니다.
+
+**Javascript와 REST api를 활용한 인테리어 용품 쇼핑몰 집다이브**
+
+**집다이브에 깊이 빠져보아요!**
 
 - 배포 링크 : [집다이브](https://zeepdive.netlify.app/)
-- 참조 사이트 : [집꾸미기](https://www.ggumim.co.kr/)
+- 참조 사이트 and 제품출처 : [집꾸미기](https://www.ggumim.co.kr/)
 <br/>
 
-## 📅개발 기간
+## 📅 개발 기간
 
 - 2022/12/06 ~ 2022/12/21
 <br/>
 
-## ⚙사용기술
+## ⚙ 사용기술
 
 - Programming
 
@@ -25,7 +31,7 @@
 
 <br/>
 
-## 🧑‍🤝‍🧑 팀원소개 && 역할
+## 🧑‍🤝‍🧑 팀원소개 and 역할
 
 <table>
 <thead>
@@ -77,12 +83,12 @@
 
 <br/>
 
-## 💻 주요 기능 
+## 💻 주요 기능 and 시연 
 
 ### 사용자
 <hr>
 
-- 회원가입 
+- 회원가입
 <img src="https://user-images.githubusercontent.com/35508595/208892977-8b5fe7ec-859c-4d47-b267-2a4665ff4187.gif" width="50%" height="50%"/>
 
 - 로그인 
@@ -133,3 +139,7 @@
 - 최근 본 상품
 <img src="https://user-images.githubusercontent.com/35508595/208895716-73a6d687-9a3c-469c-a1b1-17c2a1e9ca77.gif" width="70%" height="70%"/>
 
+
+## 📌 상세 WIKI
+
+- 개발과정과 상세한 설명을 담은 Wiki를 추후에 올리겠습니다.
