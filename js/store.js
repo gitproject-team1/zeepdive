@@ -14,6 +14,7 @@ export const pageEl = {
   purchasepgEl: document.querySelector(".purchase-page"),
   cartPgEl: document.querySelector(".cart-page"),
   qnaPgEl: document.querySelector(".qna-container-page"),
+  receiptPgEl: document.querySelector(".receipt-page"),
 };
 
 // signup elements
@@ -101,3 +102,6 @@ export const cartEl = {
   totalPrice: document.querySelector(".total-price"),
   cartOrderBtn: document.querySelector(".cart-order-btn"),
 };
+
+// 로딩 el
+export const loadEl = document.querySelector(".loader");

@@ -99,7 +99,8 @@ header {
               }
             }
           }
-          &:last-child {
+          &:last-child,
+          &:nth-child(5) {
             a {
               font-size: 16px;
               font-weight: 700;
@@ -159,7 +160,8 @@ header {
               background-color: #2e3236;
             }
           }
-          a.user-info-btn {
+          a.user-info-btn,
+          a.receipt-info-btn {
             cursor: pointer;
           }
         }
@@ -466,7 +468,7 @@ main {
               font-size: 8px !important;
               width: 80px !important;
             }
-            a.user-info-btn {
+            a.user-info-btn a.receipt-info-btn {
               font-size: 12px !important;
               width: 90px;
             }
@@ -517,5 +519,58 @@ main {
         }
       }
     }
+  }
+}
+
+// 로딩 애니메이션
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 50px;
+    height: 50px;
+    color: #f37e80;
+    animation: progress-circular-rotate 1.4s linear infinite;
+    circle {
+      stroke-width: 5px;
+      animation: progress-circular-dash 1.4s ease-in-out infinite;
+      fill: transparent;
+      stroke-linecap: round;
+      stroke-dasharray: 80, 200;
+      stroke-dashoffset: 0px;
+      stroke: currentColor;
+    }
+  }
+}
+
+.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+}
+
+@keyframes progress-circular-rotate {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@keyframes progress-circular-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0px;
+  }
+  50% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -15px;
+  }
+  to {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -124px;
   }
 }

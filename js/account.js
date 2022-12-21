@@ -1,6 +1,6 @@
 import { alertModal } from "./main";
 import { addAccount, getAccounts, removeAccount } from "./requests";
-import { bankSelectEl, accountListUl } from "./store.js";
+import { bankSelectEl, accountListUl, loadEl } from "./store.js";
 // bank elements
 
 const inputBankEl1 = document.querySelector(".bank-add-1");
@@ -135,13 +135,13 @@ export function clearAccount () {
   document.getElementsByName('bank-select').checekd = false
 }
 export async function renderUserAccount() {
+  loadEl.classList.remove("loader-hidden");
   const accountInfo = await getAccounts();
   accountListUl.innerHTML = "";
   if (!accountInfo.length) {
     createAccountList(1, 1, 1, 1, false);
   } else {
     accountInfo.forEach((element) => {
-      console.log(element);
       const accountId = element.id;
       const accountName = element.bankName;
       const accountNum = element.accountNumber;
@@ -149,6 +149,7 @@ export async function renderUserAccount() {
       createAccountList(accountId, accountName, accountNum, accountBal, true);
     });
   }
+  loadEl.classList.add("loader-hidden");
 }
 
 function createAccountList(acId, acName, acNum, acBalance, isAccount) {
