@@ -36,7 +36,7 @@ import {
   bankSelelectEvent,
   accountAddSubmit,
   removeAccountFnc,
-  clearAccount
+  clearAccount,
 } from "./account.js";
 import { cartIconClick } from "./cart.js";
 import { renderRecent, recentItemSet } from "./recent";
@@ -123,6 +123,56 @@ router();
 window.addEventListener("hashchange", router);
 
 // 라우팅
+if (location.hash === "") {
+  console.log(
+    "%c\n" +
+      "                                                                        ,,\n" +
+      "                                                                       /  ,\n" +
+      "                                                                      /   /\n" +
+      "                                                                     /   /\n" +
+      "                                                                    /   /\n" +
+      "     __________________________                                    /   /\n" +
+      "    ⎢                         ⎥                                   /   /\n" +
+      "    ⎢ 집다이브에 깊이 빠져보아요!⎥                                  /   /\n" +
+      "    ⎢____    _________________⎥                                 /   /\n" +
+      "          \\/    ,      ,,                                      /   /\n" +
+      "               /" +
+      "%c@" +
+      "%c\\____/" +
+      "%c@" +
+      "%c \\                                ____/   /\n" +
+      "              /           \\                         _____/        /__\n" +
+      '        /" \\ / •    •      \\                     __/             /  ' +
+      "%c@@" +
+      '%c"\\\n' +
+      "        \\    " +
+      "%c@@" +
+      "%c  ㅅ  " +
+      "%c@@" +
+      "%c     /___             ___/                /    _/\n" +
+      '       /" \\   \\                 \\__________/                    |__/ "\\\n' +
+      "       \\   \\                                                   /      /\n" +
+      "        \\    \\  __                                                  _/\n" +
+      "         \\                                                       __/\n" +
+      "           \\_                                             ______/\n" +
+      "              \\ ___                                    __/\n" +
+      "                    \\__                             __/\n" +
+      "                        \\_____                _____/\n" +
+      "                              \\______________/\n" +
+      "\n",
+    "font-weight: bold;",
+    "font-weight: bold; color: #ff7777",
+    "font-weight: bold;",
+    "font-weight: bold; color: #ff7777",
+    "font-weight: bold;",
+    "font-weight: bold; color: #ff7777",
+    "font-weight: bold;",
+    "font-weight: bold; color: #ff7777",
+    "font-weight: bold;",
+    "font-weight: bold; color: #ff7777",
+    "font-weight: bold;"
+  );
+}
 async function router() {
   const routePath = location.hash;
   // 초기화면
@@ -207,7 +257,7 @@ bankSubmitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   await accountAddSubmit();
   await renderUserAccount();
-  clearAccount()
+  clearAccount();
   accountAddForm.style.display = "none";
   loginModalEl.backGround.style.visibility = "hidden";
 });
@@ -219,7 +269,7 @@ addAccountBtn.addEventListener("click", () => {
 const closeBtn = document.querySelector(".bank-close-btn");
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
-  clearAccount()
+  clearAccount();
   accountAddForm.style.display = "none";
   loginModalEl.backGround.style.visibility = "hidden";
 });
