@@ -101,9 +101,6 @@ export async function accountAddSubmit() {
   });
   if (!Number(accountNumber)) {
     alertModal("계좌번호는 숫자만 입력해주세요");
-    allInputBankEl.forEach((e) => {
-      e.value = "";
-    });
   } else {
     if (!Number(bankPhoneNumEl.value)) {
       alertModal("전화번호는 숫자만 입력해주세요");
@@ -122,6 +119,17 @@ export async function accountAddSubmit() {
       inputDisplay("none");
     }
   }
+}
+
+export function clearAccount () {
+  accountNumber = ''
+  bankPhoneNumEl.value = ''
+  bankSignatureEl.checked = false
+  bankSelectEl.value = 'none'
+  allInputBankEl.forEach((e) => {
+    e.value = "";
+  });
+  document.getElementsByName('bank-select').checekd = false
 }
 
 export async function renderUserAccount() {

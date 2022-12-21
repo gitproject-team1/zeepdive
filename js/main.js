@@ -36,6 +36,7 @@ import {
   bankSelelectEvent,
   accountAddSubmit,
   removeAccountFnc,
+  clearAccount
 } from "./account.js";
 import { cartIconClick } from "./cart.js";
 import { renderRecent, recentItemSet } from "./recent";
@@ -194,6 +195,8 @@ async function router() {
 }
 
 // user-info창에서 은행을 선택하면 생기는 이벤트
+renderUserAccount();
+
 bankSelectEl.addEventListener("change", (event) => {
   event.preventDefault();
   bankSelelectEvent(event.target.value);
@@ -215,6 +218,7 @@ addAccountBtn.addEventListener("click", () => {
 const closeBtn = document.querySelector(".bank-close-btn");
 closeBtn.addEventListener("click", (event) => {
   event.preventDefault();
+  clearAccount()
   accountAddForm.style.display = "none";
   loginModalEl.backGround.style.visibility = "hidden";
 });
