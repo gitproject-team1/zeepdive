@@ -9,6 +9,7 @@ import {
 } from "./store.js";
 
 const API_KEY = process.env.API_KEY;
+// console.log(API_KEY);
 const USER_NAME = `imyeji`;
 
 // ========== 인증 관련 api ==========
@@ -306,7 +307,7 @@ export async function searchItem(name) {
 export async function addAccount(code, accN, phoneN, sign) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
-  let json = {}
+  let json = {};
   try {
     const res = await fetch(
       "https://asia-northeast3-heropy-api.cloudfunctions.net/api/account",
@@ -360,7 +361,7 @@ export async function getAccounts() {
 export async function removeAccount(accId, sign) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
-  let json = {}
+  let json = {};
   try {
     const res = await fetch(
       "https://asia-northeast3-heropy-api.cloudfunctions.net/api/account",
