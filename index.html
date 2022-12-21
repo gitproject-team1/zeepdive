@@ -109,6 +109,7 @@
           <div class="swiper-button-prev"></div>
           <div class="swiper-pagination"></div>
         </div>
+        <div class="saleslist-wrap"></div>
       </article>
 
       <!-- 회원정보 페이지 -->
@@ -149,7 +150,6 @@
             <section class="bank-add-section">
               <h3>계좌 관리</h3>
               <!-- bank-add-section -->
-              <strong>연결된 계좌</strong>
               <ul class="account-lists"></ul>
               <div class="remove-check-button-box">
                 <span>
@@ -161,18 +161,22 @@
               <button class="add-account">계좌 연결</button>
               <form class="add-form">
                 <ul class="add-top-head">
-                  <li><button class="bank-close-btn"><i class="fa-solid fa-circle-xmark"></i></button></li>
+                  <li>
+                    <button class="bank-close-btn">
+                      <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                  </li>
                   <li><h4>계좌 연결</h4></li>
                   <li></li>
                 </ul>
                 <fieldset class="bank-list">
-                  <input type="radio" name="bank-select" value="국민은행">
-                  <input type="radio" name="bank-select" value="우리은행">
-                  <input type="radio" name="bank-select" value="신한은행">
-                  <input type="radio" name="bank-select" value="농협은행">
-                  <input type="radio" name="bank-select" value="케이뱅크">
-                  <input type="radio" name="bank-select" value="카카오뱅크">
-                  <input type="radio" name="bank-select" value="하나은행">
+                  <input type="radio" name="bank-select" value="국민은행" />
+                  <input type="radio" name="bank-select" value="우리은행" />
+                  <input type="radio" name="bank-select" value="신한은행" />
+                  <input type="radio" name="bank-select" value="농협은행" />
+                  <input type="radio" name="bank-select" value="케이뱅크" />
+                  <input type="radio" name="bank-select" value="카카오뱅크" />
+                  <input type="radio" name="bank-select" value="하나은행" />
                 </fieldset>
                 <fieldset class="add-account-box">
                   <h5 class="select-bank">은행을 선택해주세요</h5>
@@ -221,7 +225,7 @@
               </form>
               <!-- bank-add-section -->
             </section>
-            <!-- bank-add-section -->
+            <!-- /.add-bank -->
           </div>
           <!-- /.bank-info -->
         </div>
@@ -333,7 +337,7 @@
 
     <!--QnA페이지-->
     <section class="qna-page">
-      <div class="qna-container">
+      <div class="qna-container qna-container-page">
         <div class="qna-container-title">
           <div class="qna-title">무엇이든 물어보세요</div>
           <button type="button" class="qna-requset-button">질문 남기기</button>
@@ -363,19 +367,17 @@
                 <option value="3">기타문의</option>
               </select>
             </div>
-            <span class="select-error-msg">유형을 선택해 주세요.</span>
-
             <div class="qna-select-content">
-              <input
+              <textarea
                 class="qna-content"
-                placeholder="내용을 입력해 주세요(최대 1,000자)"
-              />
+                placeholder="내용을 입력해 주세요 (최대 1,000자)"
+                maxlength="1000"
+              ></textarea>
             </div>
-            <span class="select-error-msg">내용을 작성해 주세요.</span>
-
-            <button type="submit" class="qna-submit-btn">등록하기</button>
-            <button type="button" class="qna-close-btn">취소하기</button>
-            <div class="qna-error-box">내용을 작성 해 주세요.</div>
+            <div class="qna-button-container">
+              <button type="submit" class="qna-submit-btn">등록하기</button>
+              <button type="button" class="qna-close-btn">취소하기</button>
+            </div>
           </form>
         </article>
       </div>

@@ -40,9 +40,9 @@ export async function renderRecent() {
     for (const recentId of recentIdArr) {
       console.log(recentId);
       const recentItem = await getDetailItem(recentId);
-      const itemTitle = await recentItem.title;
-      const itemPrice = await recentItem.price;
-      const itemImg = await recentItem.thumbnail;
+      const itemTitle = recentItem.title;
+      const itemPrice = recentItem.price;
+      const itemImg = recentItem.thumbnail;
       await createRecent(recentId, itemTitle, itemPrice, itemImg);
     }
     recentlyViewUlEl.innerHTML = localRecentList;
