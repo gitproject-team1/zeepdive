@@ -194,6 +194,7 @@ export async function renderCategoryPages(category, search = "", sort = "new") {
 
 //상세페이지
 export async function renderDetailPages(itemId) {
+  loadEl.classList.remove("loader-hidden");
   const detailItem = await getDetailItem(itemId);
   detailContainer.innerHTML = /* html */ `
   <div class="detail-view">
@@ -332,10 +333,12 @@ export async function renderDetailPages(itemId) {
     cartEl.cartOrderBtn.style.filter = "grayscale(0%)";
     cartEl.cartOrderBtn.style.pointerEvents = "auto";
   });
+  loadEl.classList.add("loader-hidden");
 }
 
 // 구매 페이지
 export async function renderPurchasePages(items) {
+  loadEl.classList.remove("loader-hidden");
   // 결제 가능카드 불러오기
   const availableAccounts = await getAccounts();
   // 첫번째 카드 가능한지 아닌지 -> swiper에서는 onslide에서만 감지하므로..
@@ -660,6 +663,8 @@ export async function renderPurchasePages(items) {
       },
     }).open();
   });
+
+  loadEl.classList.add("loader-hidden");
 }
 
 // 장바구니 페이지
