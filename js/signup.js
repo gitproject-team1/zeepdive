@@ -1,11 +1,5 @@
 import { signup, login } from "./requests.js";
-import {
-  signupEl,
-  loginEl,
-  loginModalEl,
-  validationEl,
-  userInfoEl,
-} from "./store.js";
+import { signupEl, loginEl, loginModalEl, validationEl, userInfoEl } from "./store.js";
 import { editUser, authLogin } from "./requests.js";
 import { alertModal } from "./main.js";
 import { logout } from "./requests.js";
@@ -24,12 +18,7 @@ export async function renderLoginModal() {
     document.querySelector(".close-login").addEventListener("click", () => {
       loginModalEl.backGround.style.visibility = "hidden";
       loginModalEl.loginModal.style.visibility = "hidden";
-      validationStyle(
-        validationEl.idErrorMsg,
-        "remove",
-        loginEl.idboxEl,
-        "#999"
-      );
+      validationStyle(validationEl.idErrorMsg, "remove", loginEl.idboxEl, "#999");
       loginEl.loginId.value = "";
       loginEl.loginPw.value = "";
     });
@@ -39,30 +28,10 @@ export async function renderLoginModal() {
       document.querySelector(".close-signup").addEventListener("click", () => {
         loginModalEl.backGround.style.visibility = "hidden";
         loginModalEl.signupModal.style.visibility = "hidden";
-        validationStyle(
-          validationEl.idErrorMsg,
-          "remove",
-          loginEl.idboxEl,
-          "#999"
-        );
-        validationStyle(
-          validationEl.emailErrorMsg,
-          "remove",
-          validationEl.signupEmailBox,
-          "#333"
-        );
-        validationStyle(
-          validationEl.pwLengthMsg,
-          "remove",
-          validationEl.signupPwBox,
-          "#333"
-        );
-        validationStyle(
-          validationEl.pwErrorMsg,
-          "remove",
-          validationEl.signupRepwBox,
-          "#333"
-        );
+        validationStyle(validationEl.idErrorMsg, "remove", loginEl.idboxEl, "#999");
+        validationStyle(validationEl.emailErrorMsg, "remove", validationEl.signupEmailBox, "#333");
+        validationStyle(validationEl.pwLengthMsg, "remove", validationEl.signupPwBox, "#333");
+        validationStyle(validationEl.pwErrorMsg, "remove", validationEl.signupRepwBox, "#333");
         loginEl.loginId.value = "";
         loginEl.loginPw.value = "";
         signupEl.emailInputEl.value = "";
@@ -112,67 +81,24 @@ async function validationStyle(errormsg, type, element, color) {
 
 // 회원가입 유효성 검사
 // 이메일
-signupEl.emailInputEl.addEventListener("focusout", () => {
-  if (
-    signupEl.emailInputEl.value &&
-    !validationEl.exptext.test(signupEl.emailInputEl.value)
-  ) {
-    validationStyle(
-      validationEl.emailErrorMsg,
-      "add",
-      validationEl.signupEmailBox,
-      "#ed234b"
-    );
-  }
+signupEl.emailInputEl.addEventListener("input", () => {
+  if (signupEl.emailInputEl.value && !validationEl.exptext.test(signupEl.emailInputEl.value)) {
+    validationStyle(validationEl.emailErrorMsg, "add", validationEl.signupEmailBox, "#ed234b");
+  } else validationStyle(validationEl.emailErrorMsg, "remove", validationEl.signupEmailBox, "#333");
 });
-signupEl.emailInputEl.addEventListener("focusin", () => {
-  validationStyle(
-    validationEl.emailErrorMsg,
-    "remove",
-    validationEl.signupEmailBox,
-    "#333"
-  );
-});
+
 // 비밀번호 8자리 이상
-signupEl.passwordInputEl.addEventListener("focusout", () => {
-  if (
-    signupEl.passwordInputEl.value &&
-    signupEl.passwordInputEl.value.length < 8
-  ) {
-    validationStyle(
-      validationEl.pwLengthMsg,
-      "add",
-      validationEl.signupPwBox,
-      "#ed234b"
-    );
-  }
+signupEl.passwordInputEl.addEventListener("input", () => {
+  if (signupEl.passwordInputEl.value && signupEl.passwordInputEl.value.length < 8) {
+    validationStyle(validationEl.pwLengthMsg, "add", validationEl.signupPwBox, "#ed234b");
+  } else validationStyle(validationEl.pwLengthMsg, "remove", validationEl.signupPwBox, "#333");
 });
-signupEl.passwordInputEl.addEventListener("focusin", () => {
-  validationStyle(
-    validationEl.pwLengthMsg,
-    "remove",
-    validationEl.signupPwBox,
-    "#333"
-  );
-});
+
 // 비밀번호 확인
-signupEl.passwordcheckEl.addEventListener("focusout", () => {
+signupEl.passwordcheckEl.addEventListener("input", () => {
   if (signupEl.passwordInputEl.value !== signupEl.passwordcheckEl.value) {
-    validationStyle(
-      validationEl.pwErrorMsg,
-      "add",
-      validationEl.signupRepwBox,
-      "#ed234b"
-    );
-  }
-});
-signupEl.passwordcheckEl.addEventListener("focusin", () => {
-  validationStyle(
-    validationEl.pwErrorMsg,
-    "remove",
-    validationEl.signupRepwBox,
-    "#333"
-  );
+    validationStyle(validationEl.pwErrorMsg, "add", validationEl.signupRepwBox, "#ed234b");
+  } else validationStyle(validationEl.pwErrorMsg, "remove", validationEl.signupRepwBox, "#333");
 });
 
 // 로그인
@@ -180,10 +106,7 @@ export async function createLoginEvent(event) {
   event.preventDefault();
   state.email = loginEl.loginId.value;
   state.password = loginEl.loginPw.value;
-  if (
-    validationEl.exptext.test(loginEl.loginId.value) &&
-    loginEl.loginPw.value.length >= 8
-  )
+  if (validationEl.exptext.test(loginEl.loginId.value) && loginEl.loginPw.value.length >= 8)
     await login(state.email, state.password);
   else showErrorBox(loginEl.loginErrorBox);
 }
@@ -197,16 +120,10 @@ export function showErrorBox(errorbox) {
 }
 
 // 로그인 시 유효성 검사
-loginEl.loginId.addEventListener("focusout", () => {
-  if (
-    loginEl.loginId.value &&
-    !validationEl.exptext.test(loginEl.loginId.value)
-  ) {
+loginEl.loginId.addEventListener("input", () => {
+  if (loginEl.loginId.value && !validationEl.exptext.test(loginEl.loginId.value)) {
     validationStyle(validationEl.idErrorMsg, "add", loginEl.idboxEl, "#ed234b");
-  }
-});
-loginEl.loginId.addEventListener("focusin", () => {
-  validationStyle(validationEl.idErrorMsg, "remove", loginEl.idboxEl, "#999");
+  } else validationStyle(validationEl.idErrorMsg, "remove", loginEl.idboxEl, "#999");
 });
 
 // 로컬에 로그인 데이터 있는지 확인.
