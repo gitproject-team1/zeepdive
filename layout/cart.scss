@@ -1,0 +1,119 @@
+.cart-page {
+  display: none;
+}
+
+section.cart-inner {
+  width: 1500px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+  h2 {
+    height: 35px;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    color: #333;
+    font-size: 28px;
+    margin-left: 515px;
+  }
+  div.cart-container {
+    height: 942px;
+    display: flex;
+    justify-content: center;
+    .cart-left {
+      width: 900px;
+      margin-right: 30px;
+    }
+    ul.cart-items {
+      border-top: 1px solid #333;
+      p.cart-empty {
+        padding: 115px 0px;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: rgb(181, 181, 181);
+      }
+      li.cart-item {
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        position: relative;
+        height: 78px;
+        padding: 15px 20px;
+        text-align: center;
+        img.cart-img {
+          width: 78px;
+          height: 78px;
+          margin-right: 20px;
+          border-radius: 8px;
+        }
+        p.cart-title {
+          cursor: pointer;
+          width: 450px;
+          line-height: 25px;
+          text-align: left;
+          margin-right: 8px;
+        }
+        p.cart-count {
+          width: 60px;
+        }
+        p.cart-price {
+          font-weight: 700;
+          width: 180px;
+        }
+        img.cart-delete {
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .cart-right {
+    width: 300px;
+    padding: 18px;
+    padding-top: 5px;
+    border: 1px solid #f2f2f2;
+    background-color: #fafafa;
+    height: 230px;
+    div.item-price {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 18px;
+      padding-bottom: 10px;
+      p {
+        letter-spacing: -0.5px;
+      }
+      span {
+        font-size: 18px;
+      }
+      span.total-price {
+        font-size: 20px;
+        font-weight: 700;
+      }
+    }
+    div.item-price:nth-child(2) {
+      padding-bottom: 20px;
+    }
+    div.item-price:nth-child(3) {
+      border-top: 1px solid #ddd;
+    }
+    button.cart-order-btn {
+      margin-top: 20px;
+      padding: 0 10px;
+      text-align: center;
+      width: 100%;
+      height: 56px;
+      border-radius: 8px;
+      color: #fff;
+      background: linear-gradient(
+        37deg,
+        rgb(255, 116, 115) 20%,
+        rgb(255, 88, 93) 40%,
+        rgb(255, 116, 115)
+      );
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+}

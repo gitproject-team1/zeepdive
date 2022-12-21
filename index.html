@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>인테리어의 시작, 집꾸미기</title>
-    <link rel="favicon" href="./img/favicon.ico" />
+    <title>인테리어의 시작, 집다이브</title>
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
     <!-- reset css -->
     <link rel="stylesheet" href="./reset.css" />
     <!-- FontAwesome CDN -->
@@ -16,126 +16,514 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <!-- Swiper CDN -->
+    <!--google icons-->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <!-- swiper css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"
+    />
+    <!-- Swiper js -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
     />
     <!-- style -->
-    <link rel="stylesheet" href="./style.scss" />
+    <link rel="stylesheet" href="./layout/style.scss" />
+    <!--postal code js-->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <!--day.js CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js"></script>
     <!-- main.js -->
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script type="module" defer src="./js/main.js"></script>
   </head>
   <body>
     <header>
-      <div class="container">
+      <div class="header-container">
         <nav>
           <h1>
-            <a href="/"
-              ><img
-                src="https://cdn.ggumim.co.kr/storage/202204051459171AgPRwqnvh.png"
-                alt="logo"
-            /></a>
+            <a href="/"><img src="./img/main-image.png" alt="logo" /></a>
           </h1>
           <ul class="nav-1depth">
             <li>
-              <a href="javascript:void(0)"
+              <a id="category" href="javascript:void(0)"
                 ><i class="fa-solid fa-bars"></i>카테고리</a
               >
               <div class="hover-box"></div>
               <ul class="nav-2depth">
-                <li><a href="javascript:void(0)">cate1</a></li>
-                <li><a href="javascript:void(0)">cate2</a></li>
-                <li><a href="javascript:void(0)">cate3</a></li>
-                <li><a href="javascript:void(0)">cate4</a></li>
+                <li><a href="/#/furniture/christmas">🎅 크리스마스 용품</a></li>
+                <li><a href="/#/furniture/plant">🌿 원예/식물</a></li>
+                <li><a href="/#/furniture/digital">🔌 가전/디지털</a></li>
+                <li><a href="/#/furniture/drawer">📦 수납/정리</a></li>
               </ul>
             </li>
             <li>
-              <div class="search-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
+              <form class="search-box">
+                <button type="submit">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
                 <input
-                  type="search"
-                  name=""
+                  type="text"
                   id="search-main"
-                  placeholder="인테리어 상품 검색"
+                  placeholder="인테리어 정보, 상품 검색"
                 />
-              </div>
-              <!-- /.search-box -->
+              </form>
             </li>
             <li>
               <a href="javascript:void(0)"
                 ><img
+                  class="cart-icon"
                   src="	https://cdn.ggumim.co.kr/storage/20220405154434B4uwWl2qr6.png"
-                  alt="cart-img"
+                  alt="cart-icon"
               /></a>
             </li>
             <li><button type="button" class="login"></button></li>
-            <li><a href="javascript:void(0)">고객센터</a></li>
+            <li><a class="user-info-btn">회원정보</a></li>
+            <li><a class="receipt-info-btn">구매내역</a></li>
           </ul>
         </nav>
       </div>
       <!-- /.container -->
     </header>
-    <main>
-      <div class="swiper mySwiper1">
-        <ul class="swiper-wrapper">
-          <li class="swiper-slide"><img src="img/banner1.png" alt="" /></li>
-          <li class="swiper-slide"><img src="img/banner2.png" alt="" /></li>
-          <li class="swiper-slide"><img src="img/banner3.png" alt="" /></li>
-          <li class="swiper-slide"><img src="img/banner4.png" alt="" /></li>
-          <li class="swiper-slide"><img src="img/banner5.png" alt="" /></li>
-          <li class="swiper-slide"><img src="img/banner6.png" alt="" /></li>
-        </ul>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-      </div>
-    </main>
-    <footer></footer>
-    <div class="back-ground"></div>
 
+    <main>
+      <!-- 메인페이지 -->
+      <article class="main-page">
+        <div class="swiper mySwiper1">
+          <ul class="swiper-wrapper">
+            <a class="swiper-slide">
+              <img src="img/banner1.png" alt="신규회원 웰컴쿠폰 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/christmas">
+              <img src="img/banner2.png" alt="크리스마스 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/drawer">
+              <img src="img/banner3.png" alt="베스트 수납 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/drawer">
+              <img src="img/banner4.png" alt="인테리어 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/digital">
+              <img src="img/banner5.png" alt="쿠쿠 브랜드위크 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/plant">
+              <img src="img/banner6.png" alt="플랜테리어 배너" />
+            </a>
+          </ul>
+          <!-- <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div> -->
+          <div class="swiper-pagination"></div>
+        </div>
+        <div class="saleslist-wrap"></div>
+      </article>
+
+      <!-- 회원정보 페이지 -->
+      <article class="user-page">
+        <div class="user-container">
+          <div class="user-info">
+            <form class="change-form">
+              <h3>회원정보</h3>
+              <p class="user-info-name-box">
+                <label for="user-info-name">이름</label>
+                <input style="display: none" aria-hidden="true" />
+                <input
+                  type="password"
+                  style="display: none"
+                  aria-hidden="true"
+                />
+                <input
+                  type="text"
+                  name="name"
+                  id="user-info-name"
+                  autocomplete="new-password"
+                />
+                <button class="name-change-btn">변경</button>
+              </p>
+              <!-- user-info-name-box -->
+              <p class="user-info-pwd-box">
+                <label for="user-info-pwd">비밀번호</label>
+                <input style="display: none" aria-hidden="true" />
+                <input
+                  type="password"
+                  style="display: none"
+                  aria-hidden="true"
+                />
+                <input
+                  type="password"
+                  id="user-info-pwd"
+                  placeholder="기존 비밀번호를 입력하세요"
+                  autocomplete="new-password"
+                />
+                <span class="change-pw-box">
+                  <input
+                    type="password"
+                    id="user-info-new-pwd"
+                    placeholder="변경할 비밀번호를 입력하세요"
+                  />
+                  <button class="pw-change-btn">변경</button> </span
+                ><!-- /.change-pw-box -->
+              </p>
+            </form>
+            <!-- /.user-info-pwd-box -->
+          </div>
+          <!-- /.user-info -->
+
+          <div class="bank-info">
+            <!-- /.bank-info -->
+            <section class="bank-add-section">
+              <h3>계좌 관리</h3>
+              <!-- bank-add-section -->
+              <ul class="account-lists"></ul>
+              <div class="remove-check-button-box">
+                <span>
+                  <label for="remove-sign">삭제 동의</label>
+                  <input type="checkbox" id="account-remove-sign" />
+                </span>
+                <button class="remove-account">선택계좌 해지하기</button>
+              </div>
+              <button class="add-account">계좌 연결</button>
+              <form class="add-form">
+                <ul class="add-top-head">
+                  <li>
+                    <button class="bank-close-btn">
+                      <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                  </li>
+                  <li><h4>계좌 연결</h4></li>
+                  <li></li>
+                </ul>
+                <fieldset class="bank-list">
+                  <input
+                    type="radio"
+                    name="bank-select"
+                    value="국민은행"
+                    class="bank-radio-btn"
+                  />
+                  <input
+                    type="radio"
+                    name="bank-select"
+                    value="우리은행"
+                    class="bank-radio-btn"
+                  />
+                  <input
+                    type="radio"
+                    name="bank-select"
+                    value="신한은행"
+                    class="bank-radio-btn"
+                  />
+                  <input
+                    type="radio"
+                    name="bank-select"
+                    value="농협은행"
+                    class="bank-radio-btn"
+                  />
+                  <input
+                    type="radio"
+                    name="bank-select"
+                    value="케이뱅크"
+                    class="bank-radio-btn"
+                  />
+                  <input
+                    type="radio"
+                    name="bank-select"
+                    value="카카오뱅크"
+                    class="bank-radio-btn"
+                  />
+                  <input
+                    type="radio"
+                    name="bank-select"
+                    value="하나은행"
+                    class="bank-radio-btn"
+                  />
+                </fieldset>
+                <fieldset class="add-account-box">
+                  <h5 class="select-bank">은행을 선택해주세요</h5>
+                  <!-- <p class="bank-account-num">계좌번호</p> -->
+                  <p class="account-box">
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-1 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-2 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-3 bank-add-input"
+                    />
+                    <input
+                      type="text"
+                      pattern="[0-9]+"
+                      class="bank-add-4 bank-add-input"
+                    />
+                  </p>
+                  <!-- /.account-box -->
+                </fieldset>
+                <p class="phone-box">
+                  <label for="bank-phone-num">휴대폰 번호</label>
+                  <input
+                    type="text"
+                    pattern="[0-9]+"
+                    maxlength="11"
+                    id="bank-phone-num"
+                    placeholder="' - ' 를 제외하고 입력해주세요"
+                  />
+                </p>
+                <!-- /.phone-box -->
+                <p class="signature-box">
+                  <label for="account-signature">약관 동의</label>
+                  <input type="checkbox" id="account-signature" />
+                  <button class="bank-add-btn">계좌 연결</button>
+                </p>
+                <!-- /.signature-box -->
+              </form>
+              <!-- bank-add-section -->
+            </section>
+            <!-- /.add-bank -->
+          </div>
+          <!-- /.bank-info -->
+        </div>
+        <!-- /.container -->
+        <!-- </div> -->
+      </article>
+      <!-- /.user-page -->
+      <!-- 관리자 페이지 -->
+      <article class="admin-page">
+        <div class="admin-container">
+          <form class="add-item" action="">
+            <h3>제품 추가</h3>
+            <p class="add-item-name">
+              <label for="add-name">제품 이름</label>
+              <input type="text" name="name" id="admin-info-name" />
+            </p>
+            <p class="add-item-name">
+              <label for="add-price">제품 가격</label>
+              <input type="text" name="price" id="admin-info-price" />
+            </p>
+            <p class="add-item-name">
+              <label for="add-description">제품 설명</label>
+              <input type="text" name="tag" id="admin-info-description" />
+            </p>
+            <p class="add-item-name">
+              <label for="add-tag">제품 태그</label>
+              <input type="text" name="tag" id="admin-info-tag" />
+            </p>
+            <p class="add-item-name">
+              <label for="add-thumbnail">썸네일</label>
+              <input type="file" name="thumbnail" id="admin-info-thumbnail" />
+            </p>
+            <p class="add-item-name">
+              <label for="add-img">상세 사진</label>
+              <input type="file" name="img" id="admin-info-img" />
+            </p>
+            <button class="submit-item" type="submit">추가</button>
+          </form>
+          <div class="total-items">
+            <h3>모든 제품 조회</h3>
+            <div class="item-container"></div>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <!--카테고리 페이지-->
+    <article class="category-page">
+      <section class="category-container">
+        <div class="category-header">
+          <h3 class="category-title">&nbsp</h3>
+          <select class="selector" name="sort">
+            <option value="new" selected="">최신순</option>
+            <option value="low-price">낮은 가격 순</option>
+            <option value="high-price">높은 가격 순</option>
+          </select>
+        </div>
+        <div class="category-itemlist">
+          <div class="itemlist"></div>
+          <div class="no-result">
+            <img src="./img/no-search-data.png" alt="검색결과없음" />
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <!--상세 페이지-->
+    <article class="detail-page">
+      <section class="detail-container"></section>
+    </article>
+    <!--./상세페이지-->
+
+    <!--구매페이지-->
+    <article class="purchase-page">
+      <section class="purchase-container">
+        <div class="purchase-inner"></div>
+      </section>
+    </article>
+    <!--./구매 페이지-->
+
+    <!-- 장바구니 -->
+    <article class="cart-page">
+      <section class="cart-inner">
+        <h2>장바구니</h2>
+        <div class="cart-container">
+          <div class="cart-left">
+            <ul class="cart-items">
+              <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
+            </ul>
+          </div>
+          <div class="cart-right">
+            <div class="item-price">
+              <p>상품금액</p>
+              <span class="single-price">0원</span>
+            </div>
+            <div class="item-price">
+              <p>배송비</p>
+              <span class="delivery-price">0원</span>
+            </div>
+            <div class="item-price">
+              <p>결제예정금액</p>
+              <span class="total-price">0원</span>
+            </div>
+            <button class="cart-order-btn">주문하기</button>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <!--QnA페이지-->
+    <section class="qna-page">
+      <div class="qna-container qna-container-page">
+        <div class="qna-container-title">
+          <div class="qna-title">무엇이든 물어보세요</div>
+          <button type="button" class="qna-requset-button">질문 남기기</button>
+        </div>
+        <button class="clear-all-btn">모두 삭제</button>
+        <div class="qna-table">
+          <div class="qna-table-head">
+            <div class="head-numbering">답변</div>
+            <div class="head-subject">내용</div>
+            <div class="head-date">작성일</div>
+          </div>
+          <div class="qna-table-content"></div>
+        </div>
+      </div>
+      <!--QnA 입력 모달-->
+      <div class="qna-back-ground">배경 필터</div>
+      <div class="qna-modal">
+        <h3>질문을 남겨주세요</h3>
+        <p>확인하고 빠르게 답변을 남겨드릴게요</p>
+        <article class="qna-box">
+          <form id="qna-form">
+            <div class="qna-select-list">
+              <select class="selected-option">
+                <option value="selected">선택해주세요</option>
+                <option value="1">배송문의</option>
+                <option value="2">상품문의</option>
+                <option value="3">기타문의</option>
+              </select>
+            </div>
+            <div class="qna-select-content">
+              <textarea
+                class="qna-content"
+                placeholder="내용을 입력해 주세요 (최대 1,000자)"
+                maxlength="1000"
+              ></textarea>
+            </div>
+            <div class="qna-button-container">
+              <button type="submit" class="qna-submit-btn">등록하기</button>
+              <button type="button" class="qna-close-btn">취소하기</button>
+            </div>
+          </form>
+        </article>
+      </div>
+    </section>
+    <!--./QnA페이지-->
+
+    <!-- 구매내역 페이지 -->
+    <article class="receipt-page">
+      <section class="receipt-container">
+        <div class="receipt-inner"></div>
+      </section>
+    </article>
+
+    <div class="back-ground">배경 필터</div>
     <section class="login-modal">
       <h3>LOGIN</h3>
       <article class="login-box">
-        <div class="id-box">
-          <i class="fa-solid fa-user"></i>
-          <input type="text" class="login-id" placeholder="아이디" />
-        </div>
-        <div class="pw-box">
-          <i class="fa-solid fa-key"></i>
-          <input type="password" class="login-pw" placeholder="비밀번호" />
-        </div>
-        <div class="login-error-box"></div>
-        <button class="login-btn">로그인</button>
-        <button class="signup" type="button">회원가입</button>
+        <form id="login-form">
+          <div class="id-box">
+            <i class="fa-solid fa-user"></i>
+            <input style="display: none" aria-hidden="true" />
+            <input type="password" style="display: none" aria-hidden="true" />
+            <input
+              type="email"
+              class="login-id"
+              placeholder="아이디"
+              autocomplete="new-password"
+            />
+          </div>
+          <span class="id-error-msg"
+            >규칙에 맞는 이메일 주소를 입력해주세요.</span
+          >
+          <div class="pw-box">
+            <i class="fa-solid fa-key"></i>
+            <input style="display: none" aria-hidden="true" />
+            <input type="password" style="display: none" aria-hidden="true" />
+            <input
+              type="password"
+              class="login-pw"
+              placeholder="비밀번호"
+              autocomplete="new-password"
+            />
+          </div>
+          <button type="submit" class="login-btn">로그인</button>
+          <button class="signup" type="button">회원가입</button>
+          <div class="login-error-box">로그인정보가 일치하지 않습니다.</div>
+        </form>
       </article>
       <button class="close-login close">
         <i class="fa-solid fa-circle-xmark"></i>
       </button>
     </section>
+    <!-- /.login-modal -->
+
     <section class="signup-modal">
       <h3>SIGN UP</h3>
       <form id="frm">
-        <p>
+        <p class="signup-email-box">
           <label for="signup-email">이메일</label>
           <input
-            type="text"
+            type="email"
             name="email"
             id="signup-email"
             placeholder="이메일을 적어주세요"
           />
         </p>
-        <p>
+        <span class="email-error-msg"
+          >규칙에 맞는 이메일 주소를 입력해주세요.</span
+        >
+        <div class="email-alert"></div>
+        <p class="signup-pw-box">
           <label for="signup-pw">비밀번호</label>
+          <input style="display: none" aria-hidden="true" />
+          <input type="password" style="display: none" aria-hidden="true" />
           <input
             type="password"
             name="pw"
             id="signup-pw"
             placeholder="숫자와 영어 소문자 입력해주세요"
+            autocomplete="new-password"
           />
         </p>
-        <p>
+        <span class="pw-length-msg">8자리 이상 입력해주세요</span>
+        <p class="signup-repw-box">
           <label for="signup-repw">비밀번호 확인</label>
           <input
             type="password"
@@ -144,20 +532,108 @@
             placeholder="비밀번호를 다시한번 입력해주세요"
           />
         </p>
-        <p>
+        <span class="pw-error-msg"
+          >비밀번호와 비밀번호 확인이 일치하지 않습니다.</span
+        >
+        <p class="signup-name-box">
           <label for="signup-name">사용자 이름</label>
+          <input style="display: none" aria-hidden="true" />
+          <input type="password" style="display: none" aria-hidden="true" />
           <input
             type="text"
             name="name"
             id="signup-name"
             placeholder="사용자 이름을 입력해주세요"
+            autocomplete="new-password"
           />
         </p>
         <input type="submit" value="전송" class="signup-button" />
+        <div class="login-error-box signup-error-box">
+          회원가입 정보를 정확히 입력해주세요.
+        </div>
+        <div class="login-error-box email-overlap-error">
+          이미 가입된 이메일입니다
+        </div>
       </form>
       <button class="close-signup close">
         <i class="fa-solid fa-circle-xmark"></i>
       </button>
     </section>
+    <!-- /.signup-modal -->
+    <!-- footer -->
+    <footer>
+      <div class="copyright-container">
+        <div class="left-container">
+          <div class="copyright-title">
+            <a href="javascript:void(0)">집다이브</a>
+            <div class="divider"></div>
+            <a href="javascript:void(0)" class="text">개인정보취급방침</a>
+            <div class="divider"></div>
+            <a href="javascript:void(0)" class="text">이용약관</a>
+            <div class="divider"></div>
+            <a href="#/qna" class="text">고객센터</a>
+          </div>
+          <div class="copyright-description">
+            <span
+              >(주)집다이브 | 대표자: 노준영 | 사업자번호: 499-81-00612 사업자
+              정보 확인</span
+            >
+            <br />
+            <span
+              >통신판매업: 2018-성남분당B-0062 | 개인정보보호책임자: 노준영 |
+              이메일: ghgt1@naver.com</span
+            >
+            <br /><span>주소: 서울 강남구 강남대로 364 미왕빌딩 11D</span>
+          </div>
+          <div class="copyright-reserved">
+            <span> ©Zeepdive. ALL RIGHTS RESERVED </span>
+          </div>
+        </div>
+        <div class="right-container">
+          <a href="https://github.com/ghgt1" target="_blank"
+            ><i class="text">R</i></a
+          >
+          <a href="https://github.com/hoheesu" target="_blank"
+            ><i class="text">Y</i></a
+          >
+          <a href="https://github.com/1myeji" target="_blank"
+            ><i class="text">I</i></a
+          >
+          <a href="https://github.com/hyorimcho" target="_blank"
+            ><i class="text">C</i></a
+          >
+        </div>
+      </div>
+    </footer>
+    <aside class="recently-view">
+      <h4>최근 본 상품</h4>
+      <ul class="recently-view-list"></ul>
+    </aside>
+
+    <!-- Alert 모달창 -->
+    <section class="user-modal">
+      <div class="user-modal-box">
+        <p class="user-modal-content"></p>
+        <div class="modal-btn-box">
+          <button class="user-modal-btn">확인</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 로딩 el -->
+    <div class="loader loader-hidden">
+      <svg
+        viewBox="22.857142857142858 22.857142857142858 45.714285714285715 45.714285714285715"
+      >
+        <circle
+          cx="45.714285714285715"
+          cy="45.714285714285715"
+          r="20"
+          stroke-width="5.714285714285714"
+          stroke-dasharray="125.664"
+          stroke-dashoffset="125.66370614359172px"
+        ></circle>
+      </svg>
+    </div>
   </body>
 </html>

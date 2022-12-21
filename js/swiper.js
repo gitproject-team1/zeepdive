@@ -1,12 +1,12 @@
 export const swiper = new Swiper(".mySwiper1", {
   autoplay: {
-    delay: 2500,
+    delay: 5000,
     disableOnInteraction: false,
   },
-  loop: 'ture',
+  loop: "true",
   pagination: {
     el: ".swiper-pagination",
-    type: "fraction",
+    clickable: true,
   },
   navigation: {
     nextEl: ".swiper-button-next",
