@@ -207,6 +207,7 @@ bankSubmitBtn.addEventListener("click", async (event) => {
   event.preventDefault();
   await accountAddSubmit();
   await renderUserAccount();
+  clearAccount()
   accountAddForm.style.display = "none";
   loginModalEl.backGround.style.visibility = "hidden";
 });
