@@ -31,13 +31,10 @@ export async function renderRecent() {
   if (recentIdArr === null) {
     recentlyViewUlEl.innerHTML =
       ' <li class="none-recent">최근 본 상품이 없습니다!</li>';
-    console.log("없음", localRecentList);
   } else {
-    console.log("있음", localRecentList);
     recentlyViewUlEl.innerHTML = "";
     localRecentList = "";
     for (const recentId of recentIdArr) {
-      console.log(recentId);
       const recentItem = await getDetailItem(recentId);
       const itemTitle = recentItem.title;
       const itemPrice = recentItem.price;

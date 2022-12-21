@@ -108,9 +108,7 @@ export async function accountAddSubmit() {
     if (!Number(bankPhoneNumEl.value)) {
       alertModal("전화번호는 숫자만 입력해주세요");
       bankPhoneNumEl.value = "";
-      console.log(accountNumber);
     } else {
-      console.log(accountNumber);
       await addAccount(
         bankCode,
         accountNumber,

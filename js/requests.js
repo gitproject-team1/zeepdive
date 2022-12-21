@@ -350,7 +350,6 @@ export async function getAccounts() {
       }
     );
     const json = await res.json();
-    console.log(json);
     return json.accounts;
   } catch (error) {
     console.log("전체 계좌 목록을 불러오는데 실패하였습니다.");
