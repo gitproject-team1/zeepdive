@@ -306,6 +306,7 @@ export async function searchItem(name) {
 export async function addAccount(code, accN, phoneN, sign) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
+  let json = {}
   try {
     const res = await fetch(
       "https://asia-northeast3-heropy-api.cloudfunctions.net/api/account",
@@ -325,7 +326,7 @@ export async function addAccount(code, accN, phoneN, sign) {
         }),
       }
     );
-    const json = await res.json();
+    json = await res.json();
     if (!res.ok) throw new Error("Request failed");
     alertModal("계좌가 연결되었습니다.");
   } catch (error) {
@@ -360,6 +361,7 @@ export async function getAccounts() {
 export async function removeAccount(accId, sign) {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
+  let json = {}
   try {
     const res = await fetch(
       "https://asia-northeast3-heropy-api.cloudfunctions.net/api/account",
@@ -377,7 +379,7 @@ export async function removeAccount(accId, sign) {
         }),
       }
     );
-    const json = await res.json();
+    json = await res.json();
     if (!res.ok) throw new Error("Request failed");
     alertModal("삭제되었습니다.");
   } catch (error) {

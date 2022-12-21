@@ -10,6 +10,9 @@ const inputBankEl4 = document.querySelector(".bank-add-4");
 const allInputBankEl = document.querySelectorAll(".bank-add-input");
 const bankPhoneNumEl = document.getElementById("bank-phone-num");
 const bankSignatureEl = document.getElementById("account-signature");
+const bankRadioBtn = document.querySelectorAll('.bank-radio-btn')
+const bankAccountN = document.querySelector(".select-bank");
+const bankText  = document.getElementById('.bank-account-num')
 
 let accountNumber = "";
 let bankCode = "";
@@ -53,7 +56,6 @@ export function bankSelelectEvent(bankValue) {
       inputDisplay("inline");
       break;
   }
-  const bankAccountN = document.querySelector(".select-bank");
   bankAccountN.innerHTML = `${bankValue}`;
 
   inputBankEl1.value = "";
@@ -88,9 +90,9 @@ export function bankSelelectEvent(bankValue) {
   });
 }
 
-function inputDisplay(display) {
+function inputDisplay(show) {
   allInputBankEl.forEach((e) => {
-    e.style.display = display;
+    e.style.display = show;
   });
 }
 
@@ -105,9 +107,8 @@ export async function accountAddSubmit() {
     if (!Number(bankPhoneNumEl.value)) {
       alertModal("전화번호는 숫자만 입력해주세요");
       bankPhoneNumEl.value = "";
-      console.log(accountNumber);
+      console.log(bankPhoneNumEl.value);
     } else {
-      console.log(accountNumber);
       await addAccount(
         bankCode,
         accountNumber,
@@ -126,12 +127,12 @@ export async function accountAddSubmit() {
 export function clearAccount () {
   accountNumber = ''
   bankPhoneNumEl.value = ''
+  bankAccountN.innerHTML = '은행을 선택해주세요'
   bankSignatureEl.checked = false
-  bankSelectEl.value = 'none'
-  allInputBankEl.forEach((e) => {
-    e.value = "";
-  });
-  document.getElementsByName('bank-select').checekd = false
+  bankRadioBtn.forEach(btn => {
+    btn.checked = false
+  })
+  inputDisplay("none");
 }
 
 export async function renderUserAccount() {
