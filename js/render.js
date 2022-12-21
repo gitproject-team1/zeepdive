@@ -341,8 +341,13 @@ export async function renderPurchasePages(items) {
   loadEl.classList.remove("loader-hidden");
   // 결제 가능카드 불러오기
   const availableAccounts = await getAccounts();
+  console.log(availableAccounts);
   // 첫번째 카드 가능한지 아닌지 -> swiper에서는 onslide에서만 감지하므로..
-  const availableFirst = availableAccounts.includes(0) ? "가능" : "불가능";
+  let availableFirst = "불가능";
+  availableAccounts.forEach((account) => {
+    if (account.bankName === "케이뱅크") availableFirst = "가능";
+  });
+  console.log(availableFirst);
   let detailItems = [];
   for (const item of items) {
     detailItems.push(getDetailItem(item));
