@@ -39,8 +39,10 @@ import {
 } from "./account.js";
 import { cartIconClick } from "./cart.js";
 import { renderRecent, recentItemSet } from "./recent";
-// 관리자 이메일 -> 추후 .env넣어야함.
-const ADMIN_EMAIL = `hyochofriend@naver.com`;
+// 관리자 이메일
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+require("dotenv").config();
+
 let cartIdArr = "";
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const categorySort = document.querySelector(".selector");

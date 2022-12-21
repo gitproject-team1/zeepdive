@@ -8,7 +8,7 @@ import {
   loadEl,
 } from "./store.js";
 
-const API_KEY = `FcKdtJs202209`;
+const API_KEY = process.env.API_KEY;
 const USER_NAME = `imyeji`;
 
 // ========== 인증 관련 api ==========
@@ -389,12 +389,12 @@ export async function removeAccount(accId, sign) {
 export async function getQnA() {
   try {
     const res = await fetch(
-      "https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos?apikey=FcKdtJs202209&username=KDT3-Tanaka",
+      "https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos",
       {
         method: "GET",
         headers: {
           "content-type": "application/json",
-          apikey: "FcKdtJs202209",
+          apikey: API_KEY,
           username: "KDT3_Tanaka",
         },
       }
@@ -414,7 +414,7 @@ export async function postQna(title) {
         method: "POST",
         headers: {
           "content-type": "application/json",
-          apikey: "FcKdtJs202209",
+          apikey: API_KEY,
           username: "KDT3_Tanaka",
         },
         body: JSON.stringify({
@@ -438,7 +438,7 @@ export async function deleteQna(id) {
         method: "DELETE",
         headers: {
           "content-type": "application/json",
-          apikey: "FcKdtJs202209",
+          apikey: API_KEY,
           username: "KDT3_Tanaka",
         },
       }
