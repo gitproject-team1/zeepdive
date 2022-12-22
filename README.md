@@ -144,4 +144,4 @@
 
 ## 📌 상세 WIKI
 
-- 개발과정과 상세한 설명을 담은 Wiki를 추후에 올리겠습니다.
+- [노준영 WIKI](https://github.com/gitproject-team1/zeepdive/wiki/%EB%85%B8%EC%A4%80%EC%98%81:-%EC%A7%91%EB%8B%A4%EC%9D%B4%EB%B8%8C-Wiki)
