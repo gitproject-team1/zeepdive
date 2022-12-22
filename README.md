@@ -145,3 +145,5 @@
 ## 📌 상세 WIKI and 궁금한점
 
 ### [노준영 WIKI](https://github.com/gitproject-team1/zeepdive/wiki/%EB%85%B8%EC%A4%80%EC%98%81:-%EC%A7%91%EB%8B%A4%EC%9D%B4%EB%B8%8C-Wiki)
+### [임예지 WIKI](https://github.com/gitproject-team1/zeepdive/wiki/%EC%9E%84%EC%98%88%EC%A7%80:-%EC%A7%91%EB%8B%A4%EC%9D%B4%EB%B8%8C-Wiki)
+### [조효림 WIKI](https://github.com/gitproject-team1/zeepdive/wiki/%EC%A1%B0%ED%9A%A8%EB%A6%BC:-%EC%A7%91%EB%8B%A4%EC%9D%B4%EB%B8%8C-Wiki)
