@@ -142,6 +142,6 @@
 <img src="https://user-images.githubusercontent.com/35508595/208895716-73a6d687-9a3c-469c-a1b1-17c2a1e9ca77.gif" width="70%" height="70%"/>
 
 
-## 📌 상세 WIKI
+## 📌 상세 WIKI and 
 
-- [노준영 WIKI](https://github.com/gitproject-team1/zeepdive/wiki/%EB%85%B8%EC%A4%80%EC%98%81:-%EC%A7%91%EB%8B%A4%EC%9D%B4%EB%B8%8C-Wiki)
+### [노준영 WIKI](https://github.com/gitproject-team1/zeepdive/wiki/%EB%85%B8%EC%A4%80%EC%98%81:-%EC%A7%91%EB%8B%A4%EC%9D%B4%EB%B8%8C-Wiki)
