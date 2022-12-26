@@ -9,8 +9,8 @@ export async function recentItemSet() {
     localStorage.setItem("recentId", JSON.stringify([tmpId]));
   } else {
     const recentIdArr = JSON.parse(localStorage.getItem("recentId"));
-    for (const x of recentIdArr) {
-      if (x === tmpId) {
+    for (const recentId of recentIdArr) {
+      if (recentId === tmpId) {
         ++cnt;
         break;
       }
@@ -39,12 +39,12 @@ export async function renderRecent() {
       const itemTitle = recentItem.title;
       const itemPrice = recentItem.price;
       const itemImg = recentItem.thumbnail;
-      await createRecent(recentId, itemTitle, itemPrice, itemImg);
+      createRecent(recentId, itemTitle, itemPrice, itemImg);
     }
     recentlyViewUlEl.innerHTML = localRecentList;
   }
 }
-async function createRecent(recentId, recentTitle, recentPr, recentImg) {
+function createRecent(recentId, recentTitle, recentPr, recentImg) {
   localRecentList += `
   <li class="parent">
     <a href="#/detail/${recentId}">

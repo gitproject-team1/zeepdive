@@ -1,16 +1,9 @@
 import { alertModal } from "./main.js";
 import { setItemWithExpireTime, showErrorBox } from "./signup.js";
-import {
-  signupEl,
-  loginEl,
-  loginModalEl,
-  userInfoEl,
-  loadEl,
-} from "./store.js";
+import { signupEl, loginEl, loginModalEl, loadEl } from "./store.js";
 
 const API_KEY = process.env.API_KEY;
-// console.log(API_KEY);
-const USER_NAME = `imyeji`;
+const USER_NAME = process.env.USER_NAME;
 
 // ========== 인증 관련 api ==========
 // 회원가입 api
@@ -112,8 +105,6 @@ export async function authLogin() {
         }
       );
       const json = await res.json();
-      // 로그인할 때 회원정보에 이름 들어가도록 만들기
-      userInfoEl.userInfoName.value = json.displayName;
       return json.email;
     } catch (error) {
       console.log("자동 로그인에 실패하였습니다.");
