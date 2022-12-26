@@ -638,22 +638,7 @@ export async function renderPurchasePage(items) {
     centeredSlides: true,
     spaceBetween: 30,
     on: {
-      slideChange: function () {
-        const currentPayment = document.querySelector(".payment-selected");
-        const available = availableIndex.includes(this.realIndex)
-          ? "가능"
-          : "불가능";
-        currentPayment.textContent = `선택된 계좌: ${
-          bankMatch[this.realIndex]
-        } (${available})`;
-        if (available === "가능") {
-          purchaseBtn.style.filter = "grayscale(0%)";
-          purchaseBtn.style.pointerEvents = "auto";
-        } else {
-          purchaseBtn.style.filter = "grayscale(100%)";
-          purchaseBtn.style.pointerEvents = "none";
-        }
-      },
+      slideChange: slideChange,
     },
   });
   // 구매버튼 로직
@@ -917,8 +902,6 @@ export async function renderCartPages() {
 
 function renderPrice(cartEl) {
   let deliveryFee = 3500;
-  console.log(itemsPrice);
-  console.log(cartEl);
   cartEl.singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
   if (itemsPrice >= 100000) {
     deliveryFee = 0;
@@ -1019,7 +1002,6 @@ export async function renderQnaPage() {
   qnaSubmitBtnEl.addEventListener("click", addQna);
 
   const qnaItems = await getQnA();
-  console.log(qnaItems);
   qnaTableContent.innerHTML = "";
   qnaItems.forEach((qnaItem) => {
     const createdTime = dayjs(qnaItem.createdAt).format("YYYY년 MM월 DD일");
@@ -1079,4 +1061,20 @@ function qnaModalOpen() {
     backgroundFilter.style.visibility = "hidden";
     qnaModal.style.visibility = "hidden";
   });
+}
+
+function slideChange() {
+  const purchaseBtn = document.querySelector(".payment-cfm-btn button");
+  const currentPayment = document.querySelector(".payment-selected");
+  const available = availableIndex.includes(this.realIndex) ? "가능" : "불가능";
+  currentPayment.textContent = `선택된 계좌: ${
+    bankMatch[this.realIndex]
+  } (${available})`;
+  if (available === "가능") {
+    purchaseBtn.style.filter = "grayscale(0%)";
+    purchaseBtn.style.pointerEvents = "auto";
+  } else {
+    purchaseBtn.style.filter = "grayscale(100%)";
+    purchaseBtn.style.pointerEvents = "none";
+  }
 }
