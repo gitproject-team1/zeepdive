@@ -3,8 +3,7 @@ import { setItemWithExpireTime, showErrorBox } from "./signup.js";
 import { signupEl, loginEl, loginModalEl, loadEl } from "./store.js";
 
 const API_KEY = process.env.API_KEY;
-// console.log(API_KEY);
-const USER_NAME = `imyeji`;
+const USER_NAME = process.env.USER_NAME;
 
 // ========== 인증 관련 api ==========
 // 회원가입 api
@@ -91,7 +90,6 @@ export async function logout() {
 export async function authLogin() {
   const tokenValue = localStorage.getItem("token");
   const token = JSON.parse(tokenValue).value;
-  console.log(token);
   if (token) {
     try {
       const res = await fetch(

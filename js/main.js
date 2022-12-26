@@ -32,7 +32,7 @@ import { renderRecent, recentItemSet } from "./recent";
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 require("dotenv").config();
 
-let cartIdArr = "";
+let cartIdArr = [];
 const firstNav = document.querySelector("ul.nav-1depth > li:first-child");
 const footerEl = document.querySelector("footer");
 const receiptBtn = document.querySelector(".receipt-info-btn");
@@ -153,6 +153,7 @@ if (location.hash === "") {
   );
 }
 async function router() {
+  window.scrollTo(0, 0);
   const routePath = location.hash;
   // 초기화면
   if (routePath === "") {

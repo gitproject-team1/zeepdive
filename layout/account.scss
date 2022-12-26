@@ -26,14 +26,12 @@
       &:nth-last-child(1) {
         margin-bottom: 10px;
       }
-      .bank-name {
+      .bank-name,
+      .account-balance {
         width: 100px;
       }
       .acount-number {
         width: 200px;
-      }
-      .account-balance {
-        width: 100px;
       }
     }
   }
@@ -167,7 +165,7 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    .bank-add-input{
+    .bank-add-input {
       display: none;
     }
     .account-box {

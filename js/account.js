@@ -3,7 +3,6 @@ import { addAccount, getAccounts, removeAccount } from "./requests";
 import { loadEl, loginModalEl } from "./store.js";
 // bank elements
 
-let accountNumber = "";
 let bankCode = "";
 const mainAppEl = document.querySelector(".app");
 
@@ -209,7 +208,6 @@ export async function renderUserAccount() {
                   </button>
                 </li>
                 <li><h4>계좌 연결</h4></li>
-                <li></li>
               </ul>
               <fieldset class="bank-list">
                 <input
