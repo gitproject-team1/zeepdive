@@ -4,9 +4,21 @@ export const itemTagsEls = document.querySelectorAll(".itemlist-tag");
 export const itemTitleEls = document.querySelectorAll(".itemlist-title");
 export const itemPriceEls = document.querySelectorAll(".itemlist-price");
 
+export const userInfoEl = {
+  userInfoName: document.getElementById("user-info-name"),
+  nameChangeBtn: document.querySelector(".name-change-btn"),
+  userInfoPw: document.getElementById("user-info-pwd"),
+  userInfoNewPw: document.getElementById("user-info-new-pwd"),
+  pwChangeBtn: document.querySelector(".pw-change-btn"),
+  userModal: document.querySelector(".user-modal"),
+  userModalBtn: document.querySelector(".user-modal-btn"),
+  userModalContent: document.querySelector(".user-modal-content"),
+  userInfoBtn: document.querySelector(".user-info-btn"),
+};
+
 // page elements
 export const pageEl = {
-  detailPageEl: document.querySelector(".detail-container"),
+  detailPageEl: document.querySelector(".detail-page"),
   mainPgEl: document.querySelector(".main-page"),
   adminPgEl: document.querySelector(".admin-page"),
   userPgEl: document.querySelector(".user-page"),
@@ -57,29 +69,6 @@ export const validationEl = {
   exptext: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/,
 };
 
-// user Info elements
-export const userInfoEl = {
-  userInfoName: document.getElementById("user-info-name"),
-  nameChangeBtn: document.querySelector(".name-change-btn"),
-  userInfoPw: document.getElementById("user-info-pwd"),
-  userInfoNewPw: document.getElementById("user-info-new-pwd"),
-  pwChangeBtn: document.querySelector(".pw-change-btn"),
-  userModal: document.querySelector(".user-modal"),
-  userModalBtn: document.querySelector(".user-modal-btn"),
-  userModalContent: document.querySelector(".user-modal-content"),
-  userInfoBtn: document.querySelector(".user-info-btn"),
-};
-
-//관리자페이지
-export const adminThumbnailFile = document.getElementById(
-  "admin-info-thumbnail"
-);
-export const adminImgFile = document.getElementById("admin-info-img");
-export const addItemBtn = document.querySelector(".submit-item");
-export const adminItemsEl = document.querySelector(
-  ".total-items > .item-container"
-);
-
 //상세페이지
 export const detailContainer = document.querySelector(".detail-container");
 
@@ -87,21 +76,6 @@ export const detailContainer = document.querySelector(".detail-container");
 //search elements
 export const searchForm = document.querySelector(".search-box");
 export const searchInput = document.getElementById("search-main");
-
-// 계좌 관련 elements
-export const bankSubmitBtn = document.querySelector(".bank-add-btn");
-export const bankSelectEl = document.querySelector(".bank-list");
-export const accountListUl = document.querySelector(".account-lists");
-
-// 장바구니
-export const cartEl = {
-  cartItems: document.querySelector(".cart-items"),
-  cartIcon: document.querySelector(".cart-icon"),
-  singlePrice: document.querySelector(".single-price"),
-  deliveryPrice: document.querySelector(".delivery-price"),
-  totalPrice: document.querySelector(".total-price"),
-  cartOrderBtn: document.querySelector(".cart-order-btn"),
-};
 
 // 로딩 el
 export const loadEl = document.querySelector(".loader");

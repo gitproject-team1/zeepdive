@@ -1,5 +1,5 @@
 import { signup, login } from "./requests.js";
-import { signupEl, loginEl, loginModalEl, validationEl, userInfoEl } from "./store.js";
+import { signupEl, loginEl, loginModalEl, validationEl } from "./store.js";
 import { editUser, authLogin } from "./requests.js";
 import { alertModal } from "./main.js";
 import { logout } from "./requests.js";
@@ -10,6 +10,30 @@ const state = {
   displayName: "",
 };
 
+export async function initUserInfo() {
+  // user Info elements
+  const userInfoEl = {
+    userInfoName: document.getElementById("user-info-name"),
+    nameChangeBtn: document.querySelector(".name-change-btn"),
+    userInfoPw: document.getElementById("user-info-pwd"),
+    userInfoNewPw: document.getElementById("user-info-new-pwd"),
+    pwChangeBtn: document.querySelector(".pw-change-btn"),
+    userModal: document.querySelector(".user-modal"),
+    userModalBtn: document.querySelector(".user-modal-btn"),
+    userModalContent: document.querySelector(".user-modal-content"),
+    userInfoBtn: document.querySelector(".user-info-btn"),
+  };
+  // ============ 인증 관련 : 회원정보 페이지 ============
+  // 이름 변경
+  userInfoEl.nameChangeBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+    if (userInfoEl.userInfoName.value)
+      await editUser("이름", userInfoEl.userInfoName.value);
+  });
+  // 비밀번호 변경
+  userInfoEl.pwChangeBtn.addEventListener("click", pwchange);
+}
+
 // 로그인/회원가입 모달 visibility 조정
 export async function renderLoginModal() {
   if (loginModalEl.loginBtnEl.textContent === "로그인/가입") {
@@ -18,7 +42,12 @@ export async function renderLoginModal() {
     document.querySelector(".close-login").addEventListener("click", () => {
       loginModalEl.backGround.style.visibility = "hidden";
       loginModalEl.loginModal.style.visibility = "hidden";
-      validationStyle(validationEl.idErrorMsg, "remove", loginEl.idboxEl, "#999");
+      validationStyle(
+        validationEl.idErrorMsg,
+        "remove",
+        loginEl.idboxEl,
+        "#999"
+      );
       loginEl.loginId.value = "";
       loginEl.loginPw.value = "";
     });
@@ -28,10 +57,30 @@ export async function renderLoginModal() {
       document.querySelector(".close-signup").addEventListener("click", () => {
         loginModalEl.backGround.style.visibility = "hidden";
         loginModalEl.signupModal.style.visibility = "hidden";
-        validationStyle(validationEl.idErrorMsg, "remove", loginEl.idboxEl, "#999");
-        validationStyle(validationEl.emailErrorMsg, "remove", validationEl.signupEmailBox, "#333");
-        validationStyle(validationEl.pwLengthMsg, "remove", validationEl.signupPwBox, "#333");
-        validationStyle(validationEl.pwErrorMsg, "remove", validationEl.signupRepwBox, "#333");
+        validationStyle(
+          validationEl.idErrorMsg,
+          "remove",
+          loginEl.idboxEl,
+          "#999"
+        );
+        validationStyle(
+          validationEl.emailErrorMsg,
+          "remove",
+          validationEl.signupEmailBox,
+          "#333"
+        );
+        validationStyle(
+          validationEl.pwLengthMsg,
+          "remove",
+          validationEl.signupPwBox,
+          "#333"
+        );
+        validationStyle(
+          validationEl.pwErrorMsg,
+          "remove",
+          validationEl.signupRepwBox,
+          "#333"
+        );
         loginEl.loginId.value = "";
         loginEl.loginPw.value = "";
         signupEl.emailInputEl.value = "";
@@ -82,23 +131,62 @@ async function validationStyle(errormsg, type, element, color) {
 // 회원가입 유효성 검사
 // 이메일
 signupEl.emailInputEl.addEventListener("input", () => {
-  if (signupEl.emailInputEl.value && !validationEl.exptext.test(signupEl.emailInputEl.value)) {
-    validationStyle(validationEl.emailErrorMsg, "add", validationEl.signupEmailBox, "#ed234b");
-  } else validationStyle(validationEl.emailErrorMsg, "remove", validationEl.signupEmailBox, "#333");
+  if (
+    signupEl.emailInputEl.value &&
+    !validationEl.exptext.test(signupEl.emailInputEl.value)
+  ) {
+    validationStyle(
+      validationEl.emailErrorMsg,
+      "add",
+      validationEl.signupEmailBox,
+      "#ed234b"
+    );
+  } else
+    validationStyle(
+      validationEl.emailErrorMsg,
+      "remove",
+      validationEl.signupEmailBox,
+      "#333"
+    );
 });
 
 // 비밀번호 8자리 이상
 signupEl.passwordInputEl.addEventListener("input", () => {
-  if (signupEl.passwordInputEl.value && signupEl.passwordInputEl.value.length < 8) {
-    validationStyle(validationEl.pwLengthMsg, "add", validationEl.signupPwBox, "#ed234b");
-  } else validationStyle(validationEl.pwLengthMsg, "remove", validationEl.signupPwBox, "#333");
+  if (
+    signupEl.passwordInputEl.value &&
+    signupEl.passwordInputEl.value.length < 8
+  ) {
+    validationStyle(
+      validationEl.pwLengthMsg,
+      "add",
+      validationEl.signupPwBox,
+      "#ed234b"
+    );
+  } else
+    validationStyle(
+      validationEl.pwLengthMsg,
+      "remove",
+      validationEl.signupPwBox,
+      "#333"
+    );
 });
 
 // 비밀번호 확인
 signupEl.passwordcheckEl.addEventListener("input", () => {
   if (signupEl.passwordInputEl.value !== signupEl.passwordcheckEl.value) {
-    validationStyle(validationEl.pwErrorMsg, "add", validationEl.signupRepwBox, "#ed234b");
-  } else validationStyle(validationEl.pwErrorMsg, "remove", validationEl.signupRepwBox, "#333");
+    validationStyle(
+      validationEl.pwErrorMsg,
+      "add",
+      validationEl.signupRepwBox,
+      "#ed234b"
+    );
+  } else
+    validationStyle(
+      validationEl.pwErrorMsg,
+      "remove",
+      validationEl.signupRepwBox,
+      "#333"
+    );
 });
 
 // 로그인
@@ -106,7 +194,10 @@ export async function createLoginEvent(event) {
   event.preventDefault();
   state.email = loginEl.loginId.value;
   state.password = loginEl.loginPw.value;
-  if (validationEl.exptext.test(loginEl.loginId.value) && loginEl.loginPw.value.length >= 8)
+  if (
+    validationEl.exptext.test(loginEl.loginId.value) &&
+    loginEl.loginPw.value.length >= 8
+  )
     await login(state.email, state.password);
   else showErrorBox(loginEl.loginErrorBox);
 }
@@ -121,9 +212,13 @@ export function showErrorBox(errorbox) {
 
 // 로그인 시 유효성 검사
 loginEl.loginId.addEventListener("input", () => {
-  if (loginEl.loginId.value && !validationEl.exptext.test(loginEl.loginId.value)) {
+  if (
+    loginEl.loginId.value &&
+    !validationEl.exptext.test(loginEl.loginId.value)
+  ) {
     validationStyle(validationEl.idErrorMsg, "add", loginEl.idboxEl, "#ed234b");
-  } else validationStyle(validationEl.idErrorMsg, "remove", loginEl.idboxEl, "#999");
+  } else
+    validationStyle(validationEl.idErrorMsg, "remove", loginEl.idboxEl, "#999");
 });
 
 // 로컬에 로그인 데이터 있는지 확인.
@@ -139,19 +234,21 @@ export async function autoLogin() {
   getItemWithExpireTime("token");
 }
 
-// 회원정보 클릭
-export async function userinfoClick() {
-  const token = localStorage.getItem("token");
-  if (token) {
-    location.href = "#/user";
-  } else {
-    alertModal(`로그인을 해주세요.`);
-  }
-}
-
 // 비밀번호 변경
 export async function pwchange(event) {
   event.preventDefault();
+  // user Info elements
+  const userInfoEl = {
+    userInfoName: document.getElementById("user-info-name"),
+    nameChangeBtn: document.querySelector(".name-change-btn"),
+    userInfoPw: document.getElementById("user-info-pwd"),
+    userInfoNewPw: document.getElementById("user-info-new-pwd"),
+    pwChangeBtn: document.querySelector(".pw-change-btn"),
+    userModal: document.querySelector(".user-modal"),
+    userModalBtn: document.querySelector(".user-modal-btn"),
+    userModalContent: document.querySelector(".user-modal-content"),
+    userInfoBtn: document.querySelector(".user-info-btn"),
+  };
   if (!userInfoEl.userInfoPw.value || !userInfoEl.userInfoNewPw.value) {
     alertModal(`비밀번호를 입력해주세요.`);
     return;

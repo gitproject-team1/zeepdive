@@ -14,7 +14,7 @@ import {
   confirmPurchase,
   cancelPurchase,
 } from "./requests.js";
-import { detailContainer, cartEl, pageEl, loadEl } from "./store.js";
+import { loadEl } from "./store.js";
 import kbank from "../img/kbank.png";
 import hana from "../img/hana.png";
 import kakao from "../img/kakao.png";
@@ -22,6 +22,13 @@ import nong from "../img/nong.png";
 import shinhan from "../img/shinhan.png";
 import woori from "../img/woori.png";
 import kb from "../img/kb.png";
+import slide1 from "../img/banner1.png";
+import slide2 from "../img/banner2.png";
+import slide3 from "../img/banner3.png";
+import slide4 from "../img/banner4.png";
+import slide5 from "../img/banner5.png";
+import slide6 from "../img/banner6.png";
+import noImgEl from "../img/no-search-data.png";
 
 export const availableIndex = [];
 
@@ -45,6 +52,8 @@ const bankMatch = {
   6: "KB국민은행",
 };
 
+const mainAppEl = document.querySelector(".app");
+
 //tags 별로 분류
 async function filterCategories(search = "") {
   const items = await getItem();
@@ -56,8 +65,53 @@ async function filterCategories(search = "") {
   return [christmasItem, planteriorItem, cookooItem, drawerItem, searchRes];
 }
 
-//메인 페이지 아이템 렌더링
-export async function renderMainItems() {
+export async function renderMainPage() {
+  mainAppEl.innerHTML = /* html */ `
+    <article>
+      <!-- 메인페이지 -->
+      <section class="main-page">
+        <div class="swiper mySwiper1">
+          <ul class="swiper-wrapper">
+            <a class="swiper-slide">
+              <img src=${slide1} alt="신규회원 웰컴쿠폰 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/christmas">
+              <img src=${slide2} alt="크리스마스 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/drawer">
+              <img src=${slide3} alt="베스트 수납 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/drawer">
+              <img src=${slide4} alt="인테리어 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/digital">
+              <img src=${slide5} alt="쿠쿠 브랜드위크 배너" />
+            </a>
+            <a class="swiper-slide" href="#/furniture/plant">
+              <img src=${slide6} alt="플랜테리어 배너" />
+            </a>
+          </ul>
+          <div class="swiper-pagination"></div>
+        </div>
+        <div class="saleslist-wrap"></div>
+      </section>
+  `;
+  const swiper = new Swiper(".mySwiper1", {
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    loop: "true",
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+
   const filteredItems = await filterCategories();
   const tagsEl = [
     filteredItems[0],
@@ -83,7 +137,7 @@ export async function renderMainItems() {
     "/#/furniture/digital",
     "/#/furniture/drawer",
   ];
-  const saleslistWrapper = document.querySelector(".saleslist-wrap");
+  const saleslistWrapper = mainAppEl.querySelector(".saleslist-wrap");
   saleslistWrapper.innerHTML = "";
   //반복문을 돌면서 tags 별로 아이템 넣어주기
   for (let i = 0; i < 4; i++) {
@@ -125,13 +179,35 @@ export async function renderMainItems() {
       itemList.appendChild(itemListContainer);
     }
     saleslistWrapper.append(saleslistContainer);
-    // pageEl.mainPgEl.append(saleslistContainer);
   }
-  pageEl.mainPgEl.append(saleslistWrapper);
 }
 
-//category별 페이지 렌더링
-export async function renderCategoryPages(category, search = "", sort = "new") {
+export function initCategoryPage() {
+  mainAppEl.innerHTML = /* html */ `
+  <!--카테고리 페이지-->
+    <article class="category-page">
+      <section class="category-container">
+        <div class="category-header">
+          <h3 class="category-title">&nbsp</h3>
+          <select class="selector" name="sort">
+            <option value="new" >최신순</option>
+            <option value="low-price">낮은 가격 순</option>
+            <option value="high-price">높은 가격 순</option>
+          </select>
+        </div>
+        <div class="category-itemlist">
+          <div class="itemlist"></div>
+          <div class="no-result">
+            <img src=${noImgEl} alt="검색결과없음" />
+          </div>
+        </div>
+      </section>
+    </article>
+  `;
+}
+
+// 카테고리페이지 라우터 렌더링
+export async function renderCategoryPage(category, search = "", sort = "new") {
   const noItemImg = document.querySelector(".no-result");
   noItemImg.style.display = "none";
   const categoryMap = { christmas: 0, plant: 1, digital: 2, drawer: 3, all: 4 };
@@ -147,17 +223,9 @@ export async function renderCategoryPages(category, search = "", sort = "new") {
   // sort option 따라 순서 정해줘야함.
   let sortedItems = [...filteredItems[categoryMap[category]]];
   if (sort === "low-price") {
-    sortedItems.sort((a, b) => {
-      if (a.price > b.price) return 1;
-      if (a.price < b.price) return -1;
-      return 0;
-    });
+    sortedItems.sort((a, b) => a.price - b.price);
   } else if (sort === "high-price") {
-    sortedItems.sort((a, b) => {
-      if (a.price > b.price) return -1;
-      if (a.price < b.price) return 1;
-      return 0;
-    });
+    sortedItems.sort((a, b) => b.price - a.price);
   }
 
   const itemList = document.querySelector(".category-itemlist > .itemlist");
@@ -192,92 +260,99 @@ export async function renderCategoryPages(category, search = "", sort = "new") {
   }
 }
 
-//상세페이지
-export async function renderDetailPages(itemId) {
+// 상세페이지 렌더링
+export async function renderDetailPage(itemId) {
   loadEl.classList.remove("loader-hidden");
+  mainAppEl.innerHTML = /* html */ `
+    <!--상세 페이지-->
+    <article class="detail-page">
+      <section class="detail-container"></section>
+    </article>
+    <!--./상세페이지-->
+  `;
   const detailItem = await getDetailItem(itemId);
+  const detailContainer = document.querySelector(".detail-container");
   detailContainer.innerHTML = /* html */ `
-  <div class="detail-view">
-    <div class="thumnail">
+    <div class="detail-view">
+      <div class="thumnail">
+        <img
+          src=${detailItem.thumbnail}
+          alt="${detailItem.title}상품 상세 사진"
+        />
+      </div>
+      <div class="funiture-summary">
+        <div class="furniture-tag">${detailItem.tags}</div>
+        <div class="furniture-title">${detailItem.title}</div>
+        <div class="furniture-price">${detailItem.price.toLocaleString()}원</div>
+        <div class="item-addinfo">
+          <div class="add-info-title">혜택</div>
+          <div class="add-info-content">최대 ${
+            Number(detailItem.price) * 0.01
+          }P 적립 (회원 1% 적용)</div>
+        </div>
+        <div class="item-addinfo">
+          <div class="add-info-title">배송비</div>
+          <div class="add-info-content">3,500원 (100,000원 이상 구매하면 배송비 무료!)</div>
+        </div>
+        <div class="item-addinfo">
+          <div class="add-info-title">교환/반품</div>
+          <div class="add-del-info-content">
+            배송/교환/반품 안내 자세히 보기
+            <span class="material-symbols-outlined"> chevron_right </span>
+          </div>
+        </div>
+        <div class="border-line"></div>
+        <div class="buying-option">
+          <p>옵션 선택</p>
+          <select class="product-selector" type="button">
+            <option value="default">기본</option>
+            <option value="single-item">단품</option>
+          </select>
+        </div>
+        <div class="buying-button">
+          <div>
+            <button type="button" class="option-cart">장바구니 담기</button>
+          </div>
+          <div>
+            <button type="button" class="option-buynow">바로 구매</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="furniture-container">
+      <div class="furniture-detail-view">
+        <h2>제품 설명</h2>
+      </div>
+    </div>
+    <div class="furniture-detail-img">
       <img
-        src=${detailItem.thumbnail}
-        alt="${detailItem.title}상품 상세 사진"
+        src=${detailItem.photo}
+        alt="${detailItem.title}제품 상세 사진"
       />
     </div>
-    <div class="funiture-summary">
-      <div class="furniture-tag">${detailItem.tags}</div>
-      <div class="furniture-title">${detailItem.title}</div>
-      <div class="furniture-price">${detailItem.price.toLocaleString()}원</div>
-      <div class="item-addinfo">
-        <div class="add-info-title">혜택</div>
-        <div class="add-info-content">최대 ${
-          Number(detailItem.price) * 0.01
-        }P 적립 (회원 1% 적용)</div>
-      </div>
-      <div class="item-addinfo">
-        <div class="add-info-title">배송비</div>
-        <div class="add-info-content">3,500원 (100,000원 이상 구매하면 배송비 무료!)</div>
-      </div>
-      <div class="item-addinfo">
-        <div class="add-info-title">교환/반품</div>
-        <div class="add-del-info-content">
-          배송/교환/반품 안내 자세히 보기
-          <span class="material-symbols-outlined"> chevron_right </span>
-        </div>
-      </div>
-      <div class="border-line"></div>
-      <div class="buying-option">
-        <p>옵션 선택</p>
-        <select class="product-selector" type="button">
-          <option value="default">기본</option>
-          <option value="single-item">단품</option>
-        </select>
-      </div>
-      <div class="buying-button">
-        <div>
-          <button type="button" class="option-cart">장바구니 담기</button>
-        </div>
-        <div>
-          <button type="button" class="option-buynow">바로 구매</button>
-        </div>
-      </div>
+    <div class="return-policy">
+      <img
+        src="https://image.ggumim.co.kr/proxy/20200916100508sKzPhMHtvd.jpeg/aHR0cDovL2ptczgxNS5jYWZlMjQuY29tL2ltZy9kZXRhaWwvY3VtYW1hX2FzLmpwZw"
+        alt="반품 사진"
+      />
     </div>
-  </div>
-  <div class="furniture-container">
-    <div class="furniture-detail-view">
-      <h2>제품 설명</h2>
+    <div class="qna-container">
+      <div class="qna-title">
+        <h2>Q & A 상품 문의</h2>
+        <button class="qna-submit-request-btn" type="button">Q&A 작성하기</button>
+      </div>
+      <div class="qna-content">작성된 Q & A가 없습니다</div>
     </div>
-  </div>
-  <div class="furniture-detail-img">
-    <img
-      src=${detailItem.photo}
-      alt="${detailItem.title}제품 상세 사진"
-    />
-  </div>
-  <div class="return-policy">
-    <img
-      src="https://image.ggumim.co.kr/proxy/20200916100508sKzPhMHtvd.jpeg/aHR0cDovL2ptczgxNS5jYWZlMjQuY29tL2ltZy9kZXRhaWwvY3VtYW1hX2FzLmpwZw"
-      alt="반품 사진"
-    />
-  </div>
-  <div class="qna-container">
-    <div class="qna-title">
-      <h2>Q & A 상품 문의</h2>
-      <button class="qna-submit-request-btn" type="button">Q&A 작성하기</button>
-    </div>
-    <div class="qna-content">작성된 Q & A가 없습니다</div>
-  </div>
-
-  `;
+`;
 
   // 제품 품절이면 품절띄워야함
   const buyBtn = document.querySelector(".buying-button");
   if (detailItem.isSoldOut) {
     buyBtn.innerHTML = /* html */ `
-        <div>
-          <button type="button" class="option-cart option-buynow" style="width:400px"; >상품이 품절되었습니다</button>
-        </div>
-    `;
+      <div>
+        <button type="button" class="option-cart option-buynow" style="width:400px"; >상품이 품절되었습니다</button>
+      </div>
+  `;
     document.querySelector(".option-cart").style.filter = "grayscale(100%)";
     document.querySelector(".option-cart").style.pointerEvents = "none";
   }
@@ -330,15 +405,22 @@ export async function renderDetailPages(itemId) {
     cartIdArr.push(detailItem.id);
     localStorage.setItem(`cartId-${email}`, JSON.stringify(cartIdArr));
     alertModal(`장바구니에 상품을 담았습니다.`);
-    cartEl.cartOrderBtn.style.filter = "grayscale(0%)";
-    cartEl.cartOrderBtn.style.pointerEvents = "auto";
   });
   loadEl.classList.add("loader-hidden");
 }
 
-// 구매 페이지
-export async function renderPurchasePages(items) {
+// 구매 페이지 라우터 렌더링
+export async function renderPurchasePage(items) {
   loadEl.classList.remove("loader-hidden");
+  mainAppEl.innerHTML = /* html */ `
+    <!--구매페이지-->
+    <article class="purchase-page">
+      <section class="purchase-container">
+        <div class="purchase-inner"></div>
+      </section>
+    </article>
+    <!--./구매 페이지-->
+    `;
   // 결제 가능카드 불러오기
   const availableAccounts = await getAccounts();
   // 첫번째 카드 가능한지 아닌지 -> swiper에서는 onslide에서만 감지하므로..
@@ -669,197 +751,43 @@ export async function renderPurchasePages(items) {
   loadEl.classList.add("loader-hidden");
 }
 
-// 장바구니 페이지
-let itemsPrice = 0;
-export async function renderCartPages() {
-  const email = await authLogin();
-  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
-  if (cartIdArr.length === 0) {
-    emptyCart();
-    return;
-  }
-  loadEl.classList.remove("loader-hidden");
-  const promises = [];
-  for (const id of cartIdArr) {
-    promises.push(getDetailItem(id));
-  }
-  let promiseItems = await Promise.all(promises);
-  itemsPrice = 0;
-  for (const item of promiseItems) {
-    const element = document.createElement("li");
-    element.classList.add("cart-item");
-    const attr = document.createAttribute("data-id");
-    attr.value = item.id;
-    element.setAttributeNode(attr);
-    element.innerHTML = /* html */ `
-        <img
-          class="cart-img"
-          src=${item.thumbnail}
-          alt="cart-img"
-        />
-        <a href = "#/detail/${item.id}">
-          <p class="cart-title">${item.title}</p>
-        </a>
-        <p class="cart-count">1</p>
-        <p class="cart-price">${item.price.toLocaleString()}원</p>
-        <img
-          class="cart-delete"
-          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yMSA5Ljc2MiAyMC4yMzggOSAxNSAxNC4yMzggOS43NjIgOSA5IDkuNzYyIDE0LjIzOCAxNSA5IDIwLjIzOGwuNzYyLjc2MkwxNSAxNS43NjIgMjAuMjM4IDIxbC43NjItLjc2MkwxNS43NjIgMTV6IiBmaWxsPSIjQ0NDIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KPC9zdmc+Cg=="
-          alt="cart-delete"
-        />
-          `;
-    itemsPrice += item.price;
-    cartEl.cartItems.appendChild(element);
-    const cartDelete = element.querySelector(".cart-delete");
-    cartDelete.addEventListener("click", (event) => {
-      deleteCartItems(event);
-    });
-  }
-  renderPrice();
-  loadEl.classList.add("loader-hidden");
-}
-
-function renderPrice() {
-  let deliveryFee = 3500;
-  cartEl.singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
-  if (itemsPrice >= 100000) {
-    deliveryFee = 0;
-    cartEl.deliveryPrice.textContent = `${deliveryFee}원`;
-  } else cartEl.deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
-  cartEl.totalPrice.textContent =
-    (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
-}
-
-async function deleteCartItems(event) {
-  const incartItem = event.currentTarget.closest(".cart-item");
-  const incartPrice = event.currentTarget.previousElementSibling.innerHTML;
-  const num = /[^0-9]/g;
-  itemsPrice = itemsPrice - incartPrice.replace(num, "");
-  cartEl.cartItems.removeChild(incartItem);
-  const email = await authLogin();
-  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
-  const arr = cartIdArr.filter((cartIdEl) => {
-    return incartItem.dataset.id !== cartIdEl;
-  });
-  if (arr.length === 0) {
-    emptyCart();
-    localStorage.removeItem(`cartId-${email}`);
-    return;
-  }
-  localStorage.setItem(`cartId-${email}`, JSON.stringify(arr));
-  renderPrice();
-}
-
-function emptyCart() {
-  cartEl.cartItems.innerHTML = /* html */ `
-  <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
-  `;
-  cartEl.singlePrice.textContent = "0원";
-  cartEl.deliveryPrice.textContent = "0원";
-  cartEl.totalPrice.textContent = "0원";
-  cartEl.cartOrderBtn.style.filter = "grayscale(100%)";
-  cartEl.cartOrderBtn.style.pointerEvents = "none";
-}
-
-//QnA 페이지
-const qnaTableContent = document.querySelector(".qna-table-content");
-const requsetBtnEl = document.querySelector(".qna-requset-button");
-const qnaModal = document.querySelector(".qna-modal");
-const backgroundFilter = document.querySelector(".back-ground");
-const qnaSubmitBtnEl = document.querySelector(".qna-submit-btn");
-const qnaInputEl = document.querySelector(".qna-content");
-const selectOptionBtn = document.querySelector(".selected-option");
-const qnaErrorMsg = document.querySelector(".select-error-msg");
-
-requsetBtnEl.addEventListener("click", qnaModalOpen);
-qnaSubmitBtnEl.addEventListener("click", addQna);
-
-export const renderQnA = async () => {
-  const qnaItems = await getQnA();
-  qnaTableContent.innerHTML = "";
-  qnaItems.forEach((qnaItem) => {
-    const createdTime = dayjs(qnaItem.createdAt).format("YYYY년 MM월 DD일");
-    qnaTableContent.innerHTML += /* html */ `
-    <ul class="qna-table-content-ul">
-      <div class="qna-table-content-inner">
-        <div class="content-numbering">대기중</div>
-        <div class="content-subject">${qnaItem.title}</div>
-        <div class="content-date">${createdTime}</div>
-        <div class="content-id" style="display:none">${qnaItem.id}</div>
-      </div>
-    </ul>
-  `;
-  });
-  const qnaTableContentUl = document.querySelectorAll(".qna-table-content-ul");
-  const clearBtnEl = document.querySelector(".clear-all-btn");
-  const contentIdEl = document.querySelectorAll(".content-id");
-
-  clearBtnEl.addEventListener("click", deleteAll);
-
-  async function deleteAll() {
-    const qnaItems = document.querySelector(".qna-table-content");
-    qnaTableContentUl.forEach(async (content) => {
-      qnaItems.removeChild(content);
-    });
-    contentIdEl.forEach(async (id) => {
-      await deleteQna(id.textContent);
-    });
-  }
-};
-
-async function addQna(event) {
-  event.preventDefault();
-  const qnaTitle = qnaInputEl.value.trim();
-  if (selectOptionBtn.value === "selected" || qnaInputEl.value === "") {
-    alertModal("내용을 모두 기입 해주세요");
-    return;
-  }
-  const qnaItem = await postQna(qnaTitle);
-  const { title, createdAt, id } = qnaItem;
-  await renderQnA();
-  qnaModal.style.visibility = "hidden";
-  backgroundFilter.style.visibility = "hidden";
-  qnaInputEl.value = "";
-}
-
-function qnaModalOpen() {
-  backgroundFilter.style.visibility = "visible";
-  qnaModal.style.visibility = "visible";
-  document.querySelector(".qna-close-btn").addEventListener("click", () => {
-    backgroundFilter.style.visibility = "hidden";
-    qnaModal.style.visibility = "hidden";
-  });
-}
-
-// 구매내역 페이지 렌더링
 export async function renderReceiptPage() {
+  mainAppEl.innerHTML = /* html */ `
+    <!-- 구매내역 페이지 -->
+    <article class="receipt-page">
+      <section class="receipt-container">
+        <div class="receipt-inner"></div>
+      </section>
+    </article>
+  `;
+
   const allPurchase = await getAllPurchases();
   const receiptContainer = document.querySelector(".receipt-inner");
   receiptContainer.innerHTML = /* html */ `
-  <div class="receipt">
-    <div class="receipt-main">구매내역 ${allPurchase.length}개</div>
-    <div class="receipt-detail">
-    </div>
+<div class="receipt">
+  <div class="receipt-main">구매내역 ${allPurchase.length}개</div>
+  <div class="receipt-detail">
   </div>
-  `;
+</div>
+`;
   const receiptDetail = document.querySelector(".receipt-detail");
   for (let receipt of allPurchase) {
     const itemContainer = document.createElement("div");
     itemContainer.classList.add("receipt-container");
     itemContainer.innerHTML = /* html */ `
-      <div class="left-container">
-        <img src=${
-          receipt.product.thumbnail
-        } width="100px" height="100px" alt="썸네일">
-        <div class="receipt-description">
-          <div class="receipt-title">${receipt.product.title}</div>
-          <div class="receipt-option">기본/1개</div>
-          <div class="receipt-price">${receipt.product.price.toLocaleString()}원</div>
-        </div>
+    <div class="left-container">
+      <img src=${
+        receipt.product.thumbnail
+      } width="100px" height="100px" alt="썸네일">
+      <div class="receipt-description">
+        <div class="receipt-title">${receipt.product.title}</div>
+        <div class="receipt-option">기본/1개</div>
+        <div class="receipt-price">${receipt.product.price.toLocaleString()}원</div>
       </div>
-      <div class="btn-container">
-      </div>
-    `;
+    </div>
+    <div class="btn-container">
+    </div>
+  `;
 
     if (receipt.done || receipt.isCanceled) {
       const doneBtn = document.createElement("button");
@@ -894,9 +822,261 @@ export async function renderReceiptPage() {
   }
 }
 
-// main.js에서 라우터 조절하는 function
-export function routerInit() {
-  for (let page in pageEl) {
-    pageEl[page].style.display = "none";
+// 장바구니 페이지
+let itemsPrice = 0;
+export async function renderCartPages() {
+  loadEl.classList.remove("loader-hidden");
+  mainAppEl.innerHTML = /* html */ `
+    <!-- 장바구니 -->
+    <article class="cart-page">
+      <section class="cart-inner">
+        <h2>장바구니</h2>
+        <div class="cart-container">
+          <div class="cart-left">
+            <ul class="cart-items">
+              <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
+            </ul>
+          </div>
+          <div class="cart-right">
+            <div class="item-price">
+              <p>상품금액</p>
+              <span class="single-price">0원</span>
+            </div>
+            <div class="item-price">
+              <p>배송비</p>
+              <span class="delivery-price">0원</span>
+            </div>
+            <div class="item-price">
+              <p>결제예정금액</p>
+              <span class="total-price">0원</span>
+            </div>
+            <button class="cart-order-btn">주문하기</button>
+          </div>
+        </div>
+      </section>
+    </article>
+  `;
+  // 장바구니 아이템들
+  const cartEl = {
+    cartItems: document.querySelector(".cart-items"),
+    cartIcon: document.querySelector(".cart-icon"),
+    singlePrice: document.querySelector(".single-price"),
+    deliveryPrice: document.querySelector(".delivery-price"),
+    totalPrice: document.querySelector(".total-price"),
+    cartOrderBtn: document.querySelector(".cart-order-btn"),
+  };
+
+  cartEl.cartItems.innerHTML = "";
+
+  const email = await authLogin();
+  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`)) || [];
+  if (cartIdArr.length === 0) {
+    emptyCart(cartEl);
+    loadEl.classList.add("loader-hidden");
+    return;
   }
+  const promises = [];
+  for (const id of cartIdArr) {
+    promises.push(getDetailItem(id));
+  }
+  let promiseItems = await Promise.all(promises);
+  itemsPrice = 0;
+  for (const item of promiseItems) {
+    const element = document.createElement("li");
+    element.classList.add("cart-item");
+    const attr = document.createAttribute("data-id");
+    attr.value = item.id;
+    element.setAttributeNode(attr);
+    element.innerHTML = /* html */ `
+      <img
+        class="cart-img"
+        src=${item.thumbnail}
+        alt="cart-img"
+      />
+      <a href = "#/detail/${item.id}">
+        <p class="cart-title">${item.title}</p>
+      </a>
+      <p class="cart-count">1</p>
+      <p class="cart-price">${item.price.toLocaleString()}원</p>
+      <img
+        class="cart-delete"
+        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yMSA5Ljc2MiAyMC4yMzggOSAxNSAxNC4yMzggOS43NjIgOSA5IDkuNzYyIDE0LjIzOCAxNSA5IDIwLjIzOGwuNzYyLjc2MkwxNSAxNS43NjIgMjAuMjM4IDIxbC43NjItLjc2MkwxNS43NjIgMTV6IiBmaWxsPSIjQ0NDIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz4KPC9zdmc+Cg=="
+        alt="cart-delete"
+      />
+        `;
+    itemsPrice += item.price;
+    cartEl.cartItems.appendChild(element);
+    const cartDelete = element.querySelector(".cart-delete");
+    cartDelete.addEventListener("click", (event) => {
+      deleteCartItems(event, cartEl);
+    });
+  }
+  renderPrice(cartEl);
+  loadEl.classList.add("loader-hidden");
+}
+
+function renderPrice(cartEl) {
+  let deliveryFee = 3500;
+  console.log(itemsPrice);
+  console.log(cartEl);
+  cartEl.singlePrice.textContent = `${itemsPrice.toLocaleString()}원`;
+  if (itemsPrice >= 100000) {
+    deliveryFee = 0;
+    cartEl.deliveryPrice.textContent = `${deliveryFee}원`;
+  } else cartEl.deliveryPrice.textContent = `${deliveryFee.toLocaleString()}원`;
+  cartEl.totalPrice.textContent =
+    (parseInt(itemsPrice) + parseInt(deliveryFee)).toLocaleString() + "원";
+}
+
+async function deleteCartItems(event, cartEl) {
+  const incartItem = event.currentTarget.closest(".cart-item");
+  const incartPrice = event.currentTarget.previousElementSibling.innerHTML;
+  const num = /[^0-9]/g;
+  itemsPrice = itemsPrice - incartPrice.replace(num, "");
+  cartEl.cartItems.removeChild(incartItem);
+  const email = await authLogin();
+  const cartIdArr = JSON.parse(localStorage.getItem(`cartId-${email}`));
+  const arr = cartIdArr.filter((cartIdEl) => {
+    return incartItem.dataset.id !== cartIdEl;
+  });
+  if (arr.length === 0) {
+    emptyCart(cartEl);
+    localStorage.removeItem(`cartId-${email}`);
+    return;
+  }
+  localStorage.setItem(`cartId-${email}`, JSON.stringify(arr));
+  renderPrice(cartEl);
+}
+
+function emptyCart(cartEl) {
+  cartEl.cartItems.innerHTML = /* html */ `
+  <p class="cart-empty">장바구니에 담긴 상품이 없습니다</p>
+  `;
+  cartEl.singlePrice.textContent = "0원";
+  cartEl.deliveryPrice.textContent = "0원";
+  cartEl.totalPrice.textContent = "0원";
+  cartEl.cartOrderBtn.style.filter = "grayscale(100%)";
+  cartEl.cartOrderBtn.style.pointerEvents = "none";
+}
+
+export async function renderQnaPage() {
+  mainAppEl.innerHTML = /* html */ `
+    <!--QnA페이지-->
+    <section class="qna-page">
+      <div class="qna-container qna-container-page">
+        <div class="qna-container-title">
+          <div class="qna-title">무엇이든 물어보세요</div>
+          <button type="button" class="qna-requset-button">질문 남기기</button>
+        </div>
+        <button class="clear-all-btn">모두 삭제</button>
+        <div class="qna-table">
+          <div class="qna-table-head">
+            <div class="head-numbering">답변</div>
+            <div class="head-subject">내용</div>
+            <div class="head-date">작성일</div>
+          </div>
+          <div class="qna-table-content"></div>
+        </div>
+      </div>
+      <!--QnA 입력 모달-->
+      <div class="qna-back-ground">배경 필터</div>
+      <div class="qna-modal">
+        <h3>질문을 남겨주세요</h3>
+        <p>확인하고 빠르게 답변을 남겨드릴게요</p>
+        <article class="qna-box">
+          <form id="qna-form">
+            <div class="qna-select-list">
+              <select class="selected-option">
+                <option value="selected">선택해주세요</option>
+                <option value="1">배송문의</option>
+                <option value="2">상품문의</option>
+                <option value="3">기타문의</option>
+              </select>
+            </div>
+            <div class="qna-select-content">
+              <textarea
+                class="qna-content"
+                placeholder="내용을 입력해 주세요 (최대 1,000자)"
+                maxlength="1000"
+              ></textarea>
+            </div>
+            <div class="qna-button-container">
+              <button type="submit" class="qna-submit-btn">등록하기</button>
+              <button type="button" class="qna-close-btn">취소하기</button>
+            </div>
+          </form>
+        </article>
+      </div>
+    </section>
+    <!--./QnA페이지-->
+  `;
+  //QnA 페이지
+  const qnaTableContent = document.querySelector(".qna-table-content");
+  const requsetBtnEl = document.querySelector(".qna-requset-button");
+  const qnaSubmitBtnEl = document.querySelector(".qna-submit-btn");
+
+  requsetBtnEl.addEventListener("click", qnaModalOpen);
+  qnaSubmitBtnEl.addEventListener("click", addQna);
+
+  const qnaItems = await getQnA();
+  console.log(qnaItems);
+  qnaTableContent.innerHTML = "";
+  qnaItems.forEach((qnaItem) => {
+    const createdTime = dayjs(qnaItem.createdAt).format("YYYY년 MM월 DD일");
+    qnaTableContent.innerHTML += /* html */ `
+    <ul class="qna-table-content-ul">
+      <div class="qna-table-content-inner">
+        <div class="content-numbering">대기중</div>
+        <div class="content-subject">${qnaItem.title}</div>
+        <div class="content-date">${createdTime}</div>
+        <div class="content-id" style="display:none">${qnaItem.id}</div>
+      </div>
+    </ul>
+  `;
+  });
+  const qnaTableContentUl = document.querySelectorAll(".qna-table-content-ul");
+  const clearBtnEl = document.querySelector(".clear-all-btn");
+  const contentIdEl = document.querySelectorAll(".content-id");
+
+  clearBtnEl.addEventListener("click", deleteAll);
+
+  async function deleteAll() {
+    const qnaItems = document.querySelector(".qna-table-content");
+    qnaTableContentUl.forEach(async (content) => {
+      qnaItems.removeChild(content);
+    });
+    contentIdEl.forEach(async (id) => {
+      await deleteQna(id.textContent);
+    });
+  }
+}
+
+async function addQna(event) {
+  const selectOptionBtn = document.querySelector(".selected-option");
+  const qnaInputEl = document.querySelector(".qna-content");
+  const qnaModal = document.querySelector(".qna-modal");
+  const backgroundFilter = document.querySelector(".back-ground");
+  event.preventDefault();
+  const qnaTitle = qnaInputEl.value.trim();
+  if (selectOptionBtn.value === "selected" || qnaInputEl.value === "") {
+    alertModal("내용을 모두 기입 해주세요");
+    return;
+  }
+  const qnaItem = await postQna(qnaTitle);
+  const { title, createdAt, id } = qnaItem;
+  await renderQnaPage();
+  qnaModal.style.visibility = "hidden";
+  backgroundFilter.style.visibility = "hidden";
+  qnaInputEl.value = "";
+}
+
+function qnaModalOpen() {
+  const qnaModal = document.querySelector(".qna-modal");
+  const backgroundFilter = document.querySelector(".back-ground");
+  backgroundFilter.style.visibility = "visible";
+  qnaModal.style.visibility = "visible";
+  document.querySelector(".qna-close-btn").addEventListener("click", () => {
+    backgroundFilter.style.visibility = "hidden";
+    qnaModal.style.visibility = "hidden";
+  });
 }
