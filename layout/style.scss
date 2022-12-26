@@ -6,7 +6,7 @@
 @import "cart.scss";
 @import "recent.scss";
 @import "qna.scss";
-
+@import "adminuser.scss";
 header {
   width: 100%;
   // max-width: 100vw;
@@ -169,8 +169,8 @@ header {
     }
   }
 }
-main {
-  article.main-page {
+article {
+  section.main-page {
     display: block;
     .mySwiper1 {
       width: 100%;
@@ -299,115 +299,6 @@ main {
         text-align: inherit;
         white-space: initial;
         letter-spacing: initial;
-      }
-    }
-  }
-  article.user-page,
-  article.admin-page {
-    display: none;
-    h2 {
-      font-size: 40px;
-      margin-top: 50px;
-    }
-    .user-container,
-    .admin-container {
-      width: 730px;
-      box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 16px 0px;
-      margin: 50px auto 100px;
-      padding: 50px;
-      box-sizing: border-box;
-      h3 {
-        font-size: 20px;
-        text-align: center;
-        line-height: 50px;
-        border-bottom: 2px solid #333;
-        margin: 0 auto;
-        margin-bottom: 20px;
-        width: max-content;
-      }
-      .user-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border-bottom: 1px dotted;
-        p {
-          margin-bottom: 40px;
-          label {
-            display: inline-block;
-            width: 80px;
-            font-size: 20px;
-          }
-          .change-pw-box {
-            display: block;
-            margin: {
-              left: 83px;
-              top: 20px;
-            }
-          }
-          input {
-            width: 350px;
-            height: 35px;
-            box-sizing: border-box;
-            padding-left: 10px;
-            font-size: 18px;
-            margin-right: 10px;
-            &:focus {
-              outline: none;
-            }
-          }
-          button {
-            width: 70px;
-            height: 35px;
-            background-color: #fb3f4c;
-            color: #fff;
-            font-size: 17px;
-            border: transparent;
-            cursor: pointer;
-            border-radius: 5px;
-            &:hover {
-              background-color: #a32931;
-            }
-          }
-        }
-      }
-      .add-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .add-item-name {
-          margin-bottom: 20px;
-          label {
-            display: inline-block;
-            width: 80px;
-            font-size: 16px;
-          }
-          input {
-            width: 350px;
-            height: 25px;
-          }
-        }
-      }
-      .total-items {
-        margin-top: 50px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .item-container {
-          .items {
-            margin-bottom: 20px;
-            width: 430px;
-            display: flex;
-            justify-content: space-between;
-            .delete-btn {
-              cursor: pointer;
-              background: transparent;
-              border-color: transparent;
-              i {
-                color: hsl(360, 71%, 66%);
-              }
-            }
-          }
-        }
       }
     }
   }
